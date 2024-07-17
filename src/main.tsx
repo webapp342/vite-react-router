@@ -6,7 +6,8 @@ import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Home } from "./pages/Home.tsx";
 import { Contact } from "./pages/Contact.tsx";
-import UserProfilePage from "./pages/UserDetails.tsx";
+import UserDetails from "./pages/UserDetails.tsx";
+import UserProfilePage from "./pages/UserProfilePage.tsx";
 
 
 
@@ -24,7 +25,11 @@ const router = createBrowserRouter([
         element: <Contact />,
       },
       {
-        path: "/vite-react-router/user",
+        path: "/vite-react-router/user-details",
+        element: <UserDetails />,
+      },
+      {
+        path: "/vite-react-router/user-profile-page",
         element: <UserProfilePage />,
       },
     ],

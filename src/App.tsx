@@ -4,9 +4,8 @@ import WebApp from '@twa-dev/sdk';
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { saveUserData } from '../src/pages/firestoreUtils.tsx';
-
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { ExtendedWebAppUser } from '../src/pages/types'; // Kullanıcı tipi için gerekli olan import
+import { ExtendedWebAppUser } from '../src/pages/types'; 
 
 function App() {
   const [username, setUsername] = useState('');
@@ -45,7 +44,7 @@ function App() {
         {" | "}
         <Link to="/vite-react-router/contact">Contact</Link>
         {" | "}
-        <Link to="/vite-react-router/user">User Profile</Link>
+        <Link to="/vite-react-router/user-details">User Profile</Link>
       </nav>
 
       <Outlet />
