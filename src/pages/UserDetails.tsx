@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import WebApp from '@twa-dev/sdk';
 import { ExtendedWebAppUser } from './types'; // Kullanıcı tipi için gerekli olan import
 
-const UserDetails: React.FC = () => {
+const UserProfilePage: React.FC = () => {
   const [userData, setUserData] = useState<ExtendedWebAppUser | null>(null);
 
   useEffect(() => {
@@ -38,4 +38,4 @@ const UserDetails: React.FC = () => {
   );
 };
 
-export default UserDetails;
+export default UserProfilePage;
