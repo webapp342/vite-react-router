@@ -1,31 +1,10 @@
 import reactLogo from "./assets/react.svg";
-import { useEffect, useState } from 'react';
-import WebApp from '@twa-dev/sdk';
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { saveUserData } from '../src/pages/firestoreUtils.tsx';
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { ExtendedWebAppUser } from '../src/pages/types'; 
+import { Link, Outlet } from "react-router-dom";
 
 function App() {
-  const [username, setUsername] = useState('');
-  const [userId, setUserId] = useState<number>(0);
-  const [photoUrl, setPhotoUrl] = useState('');
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const user = WebApp.initDataUnsafe?.user as ExtendedWebAppUser;
-      if (user) {
-        setUsername(user.username || 'Kullanıcı adı yok');
-        setUserId(user.id);
-        setPhotoUrl(user.photo ? user.photo.big_file_id : 'default-profile-pic.png');
-        await saveUserData(user);
-      }
-    };
-
-    fetchData();
-  }, []);
+  
 
   return (
     <>
