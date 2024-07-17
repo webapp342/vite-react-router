@@ -46,7 +46,7 @@ function App() {
         <Link to="/vite-react-router/contact">Contact</Link>
         {" | "}
         <Link 
-          to="/vite-react-router/user"
+          to="#"
           onClick={() => navigate('/vite-react-router/user', {
             state: { username, userId, photoUrl }
           })}

@@ -1,6 +1,6 @@
 import React from 'react';
 import Profile from './Profile';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface UserProfilePageProps {
   username: string;
@@ -10,7 +10,16 @@ interface UserProfilePageProps {
 
 const UserProfilePage: React.FC = () => {
   const location = useLocation();
-  const { username, userId, photoUrl } = location.state as UserProfilePageProps;
+  const navigate = useNavigate();
+  const state = location.state as UserProfilePageProps | null;
+
+  if (!state) {
+    // If state is null, redirect to home or handle the case as needed
+    navigate('/vite-react-router/', { replace: true });
+    return null;
+  }
+
+  const { username, userId, photoUrl } = state;
 
   return (
     <div>
