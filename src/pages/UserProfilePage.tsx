@@ -56,16 +56,8 @@ const UserProfilePage: React.FC = () => {
   return (
     <div>
       <h2>User Details</h2>
-      {userData && (
-        <>
-          <p><strong>Username:</strong> {userData.username || 'No username available'}</p>
-          <p><strong>ID:</strong> {userData.id}</p>
-          <p><strong>First Name:</strong> {userData.first_name}</p>
-          <p><strong>Last Name:</strong> {userData.last_name || 'No last name available'}</p>
-          <p><strong>Language Code:</strong> {userData.language_code}</p>
-        </>
-      )}
-      {firestoreData && (
+ 
+      {userData && firestoreData && (
         <>
           <h3>Firestore Data</h3>
           <p><strong>Invite Link:</strong> {firestoreData.invite_link}</p>
