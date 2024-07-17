@@ -5,7 +5,7 @@ import "./index.css";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Home } from "./pages/Home.tsx";
-import { Contact } from "./pages/Contact.tsx";
+import  FarmComponent  from "./pages/FarmComponent.tsx";
 import UserDetails from "./pages/UserDetails.tsx";
 import UserProfilePage from "./pages/UserProfilePage.tsx";
 
@@ -21,8 +21,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/vite-react-router/contact",
-        element: <Contact />,
+        path: "/vite-react-router/farm",
+        element: <FarmComponent />,
       },
       {
         path: "/vite-react-router/user-details",

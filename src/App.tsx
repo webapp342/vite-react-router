@@ -21,7 +21,7 @@ function App() {
       <nav>
         <Link to="/vite-react-router/">Home</Link>
         {" | "}
-        <Link to="/vite-react-router/contact">Contact</Link>
+        <Link to="/vite-react-router/farm">Farm</Link>
         {" | "}
         <Link to="/vite-react-router/user-details">User Profile</Link>
         {" | "}
