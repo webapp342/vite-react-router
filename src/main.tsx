@@ -6,7 +6,7 @@ import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Home } from "./pages/Home.tsx";
 import { Contact } from "./pages/Contact.tsx";
-import UserProfilePage from "./pages/UserProfilePage.tsx";
+import UserProfilePage from "./pages/UserDetails.tsx";
 
 
 

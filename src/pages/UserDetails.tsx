@@ -29,7 +29,7 @@ const UserDetails: React.FC = () => {
       <p>
         <strong>Profile Photo:</strong><br />
         {userData.photo ? (
-          <img src={`https://api.telegram.org/file/bot<YOUR_BOT_TOKEN>/${userData.photo.big_file_id}`} alt="Profile" />
+          <img src={`https://api.telegram.org/file/bot<7496280457:AAHsgPHPCHQoNXDx7SZvMQgw2cmYUjXo44w>/${userData.photo.big_file_id}`} alt="Profile" />
         ) : (
           'No photo available'
         )}
