@@ -11,12 +11,13 @@ const FarmComponent: React.FC = () => {
     if (isFarming && countdown > 0) {
       timer = window.setTimeout(() => {
         setCountdown(countdown - 1);
+        setLastFarmedAmount((60 - countdown) * (100 / 60)); // Her saniye için farm edilen miktar
       }, 1000);
     } else if (isFarming && countdown === 0) {
       setIsFarming(false);
       const newFarmedAmount = farmedAmount + 100;
       setFarmedAmount(newFarmedAmount);
-      setLastFarmedAmount(100); // Her farm işleminde eklenen miktar 100
+      setLastFarmedAmount(100); // Son farm işleminde eklenen miktar 100
     }
 
     return () => window.clearTimeout(timer);
@@ -25,6 +26,7 @@ const FarmComponent: React.FC = () => {
   const handleFarm = () => {
     setIsFarming(true);
     setCountdown(60);
+    setLastFarmedAmount(0); // Yeni farm işlemi başlarken sıfırla
   };
 
   return (
@@ -33,10 +35,10 @@ const FarmComponent: React.FC = () => {
         Total Farmed Amount: {farmedAmount}
       </div>
       <div>
-        Last Farmed Amount: {lastFarmedAmount}
+        Last Farmed Amount: {Math.round(lastFarmedAmount)} / 100
       </div>
       <button onClick={handleFarm} disabled={isFarming}>
-        {isFarming ? `Time remaining: ${countdown}s` : 'Farm'}
+        {isFarming ? `Farming ${Math.round(lastFarmedAmount)} / 100 - Time remaining: ${countdown}s` : 'Farm'}
       </button>
     </div>
   );
