@@ -9,11 +9,13 @@
   position: fixed;
   bottom: 0;
   left: 0;
+  right: 0; /* Sağ ve sola yapıştırmak için */
   width: 100%;
-  background-color: white;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+  background-color: white; /* İstediğin arka plan rengini ayarla */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Gölgelendirme eklemek için */
   z-index: 1000;
 }
+
 
 
 .logo {

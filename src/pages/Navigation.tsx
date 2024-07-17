@@ -35,6 +35,7 @@ export default function SimpleBottomNavigation() {
       value={value}
       onChange={(_, newValue) => handleNavigationChange(newValue)}
       showLabels
+      className="bottom-navigation" // Stil sınıfını ekledik
     >
       <BottomNavigationAction label="Home" icon={<RestoreIcon />} />
       <BottomNavigationAction label="Farm" icon={<FavoriteIcon />} />
@@ -42,5 +43,4 @@ export default function SimpleBottomNavigation() {
       <BottomNavigationAction label="Profile" icon={<LocationOnIcon />} />
     </BottomNavigation>
   );
-  
 }
