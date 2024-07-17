@@ -45,6 +45,8 @@ function App() {
         <Link to="/vite-react-router/contact">Contact</Link>
         {" | "}
         <Link to="/vite-react-router/user-details">User Profile</Link>
+        {" | "}
+        <Link to="/vite-react-router/user-profile-page">User Profile Page</Link>
       </nav>
 
       <Outlet />
