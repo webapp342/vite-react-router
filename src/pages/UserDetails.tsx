@@ -26,14 +26,7 @@ const UserProfilePage: React.FC = () => {
       <p><strong>First Name:</strong> {userData.first_name}</p>
       <p><strong>Last Name:</strong> {userData.last_name || 'No last name available'}</p>
       <p><strong>Language Code:</strong> {userData.language_code}</p>
-      <p>
-        <strong>Profile Photo:</strong><br />
-        {userData.photo ? (
-          <img src={`https://api.telegram.org/file/bot<7496280457:AAHsgPHPCHQoNXDx7SZvMQgw2cmYUjXo44w>/${userData.photo.big_file_id}`} alt="Profile" />
-        ) : (
-          'No photo available'
-        )}
-      </p>
+     
     </div>
   );
 };
