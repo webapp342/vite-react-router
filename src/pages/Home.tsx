@@ -1,5 +1,6 @@
 export function Home() {
-  return <div>
+  return             <div className="main-content">
+
     <h2>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusantium, repudiandae minus. Ut, totam iure? Veniam, sapiente! Accusantium fuga officiis, excepturi dolore neque nulla sapiente porro, officia velit quod ratione impedit.</h2>
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi laudantium minus fuga iusto numquam ratione aut sapiente minima, voluptate quis eius. Dolore aut atque minima doloremque non suscipit accusamus rerum.
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi alias velit ut, architecto voluptates dolore esse facere animi consectetur quam odit quia adipisci dignissimos qui placeat dolorem error distinctio pariatur.

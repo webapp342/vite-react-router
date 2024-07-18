@@ -30,7 +30,7 @@ const FarmComponent: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="main-content">
       <div>
         Total Farmed Amount: {farmedAmount}
       </div>

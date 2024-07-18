@@ -54,7 +54,7 @@ const UserProfilePage: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className="main-content">
       <h2>User Details</h2>
  
       {userData && firestoreData && (

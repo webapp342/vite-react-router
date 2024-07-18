@@ -19,7 +19,7 @@ const UserProfilePage: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className="main-content">
       <h2>User Details</h2>
       <p><strong>Username:</strong> {userData.username || 'No username available'}</p>
       <p><strong>ID:</strong> {userData.id}</p>

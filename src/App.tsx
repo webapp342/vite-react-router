@@ -14,8 +14,6 @@ function App() {
     return (
         <div id="root">
             <div className="main-content">
-                <h1>Vite + React</h1>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Error doloremque expedita ipsa tempore aperiam eaque quisquam distinctio ullam quibusdam a. Molestiae exercitationem, eaque beatae alias inventore aliquam quae eius officiis!
                 <Outlet />
             </div>
             <SimpleBottomNavigation />

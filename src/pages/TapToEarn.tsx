@@ -37,7 +37,7 @@ const TapToEarn: React.FC<{ userId: string }> = ({ userId }) => {
   };
 
   return (
-    <div>
+    <div className="main-content">
       <h2>Tap to Earn</h2>
       <p>Puanlarınız: {points}</p>
       <button onClick={handleClick}>Tap Here!</button>
