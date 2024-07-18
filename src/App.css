@@ -5,6 +5,26 @@
   text-align: center;
 }
 
+.app-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999; /* Uygulamanın diğer unsurların üzerine gelmesini sağlar */
+}
+
+.overlay-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Overlay arka plan rengi */
+  z-index: 10000; /* Overlay'ın uygulamanın üzerine gelmesini sağlar */
+}
+
+
 .bottom-navigation {
   position: fixed;
   bottom: 0;
