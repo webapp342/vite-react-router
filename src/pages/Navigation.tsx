@@ -1,4 +1,6 @@
 import * as React from 'react';
+import "../App.css";
+
 import { useNavigate } from 'react-router-dom';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
@@ -30,14 +32,12 @@ export default function SimpleBottomNavigation() {
     }
   };
 
-  // Scroll olaylarını dinlemeye gerek yok, sadece tıklama ile değeri güncelleyeceğiz
-
   return (
     <BottomNavigation
       value={value}
       onChange={(_, newValue) => handleNavigationChange(newValue)}
       showLabels
-      className="bottom-navigation"
+      className="bottom-navigation" // Stil sınıfını ekledik
     >
       <BottomNavigationAction label="Home" icon={<RestoreIcon />} />
       <BottomNavigationAction label="Farm" icon={<FavoriteIcon />} />
