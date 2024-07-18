@@ -3,14 +3,14 @@
   margin: 0 auto;
   padding: 2rem 2rem 0 2rem; /* Üst, Sağ, Alt, Sol */
   text-align: center;
-  padding-bottom: 56px; /* Sabit navigation için alt boşluk bırakın */
+  padding-bottom: 76px; /* Sabit navigation için alt boşluk bırakın */
   overflow-y: auto; /* İçerik kaydırma */
-  height: calc(100vh - 56px); /* Tam ekran yükseklikten navigation yüksekliğini çıkarın */
+  height: calc(100vh - 76px); /* Tam ekran yükseklikten navigation yüksekliğini çıkarın */
 }
 
 .bottom-navigation {
   position: fixed;
-  bottom: 0;
+  bottom: 20px; /* 20 piksel yukarı kaldırıldı */
   left: 0;
   right: 0;
   width: 100%;
@@ -27,8 +27,8 @@
   }
 
   #root {
-    padding-bottom: 56px; /* Mobilde de sabit navigation için alt boşluk bırakın */
-    height: calc(100vh - 56px); /* Mobilde de tam ekran yükseklikten navigation yüksekliğini çıkarın */
+    padding-bottom: 76px; /* Mobilde de sabit navigation için alt boşluk bırakın */
+    height: calc(100vh - 76px); /* Mobilde de tam ekran yükseklikten navigation yüksekliğini çıkarın */
   }
 }
 
