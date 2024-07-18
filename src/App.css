@@ -1,11 +1,17 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* Sayfanın genel kaydırmasını devre dışı bırakır */
+}
+
 #root {
-  max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Tam ekran yüksekliği */
   margin: 0 auto;
-  padding: 2rem 2rem 0 2rem; /* Üst, Sağ, Alt, Sol */
-  text-align: center;
+  padding: 2rem;
   padding-bottom: 76px; /* Sabit navigation için alt boşluk bırakın */
   overflow-y: auto; /* İçerik kaydırma */
-  height: calc(100vh - 76px); /* Tam ekran yükseklikten navigation yüksekliğini çıkarın */
 }
 
 .bottom-navigation {
@@ -19,7 +25,6 @@
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   touch-action: none; /* Kaydırmayı devre dışı bırakır */
-
 }
 
 @media (max-width: 600px) {
@@ -29,8 +34,7 @@
   }
 
   #root {
-    padding-bottom: 76px; /* Mobilde de sabit navigation için alt boşluk bırakın */
-    height: calc(100vh - 76px); /* Mobilde de tam ekran yükseklikten navigation yüksekliğini çıkarın */
+    padding-bottom: 56px; /* Mobilde de sabit navigation için alt boşluk bırakın */
   }
 }
 
