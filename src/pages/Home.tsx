@@ -8,7 +8,6 @@ export function Home() {
     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos repellendus distinctio in deserunt accusamus similique quibusdam odit quis omnis! Delectus suscipit maiores error. At similique inventore excepturi soluta vel temporibus!
 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, neque! Enim, quas minus maxime eligendi, earum amet consequuntur vitae, dolores soluta voluptate accusantium voluptas officia! Aliquam at error vero quae?</p>
 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, odio! Architecto quo repudiandae quis, a at doloremque quibusdam nihil velit voluptas obcaecati perferendis repellendus. Minima repellat soluta beatae voluptate possimus?</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum porro at dolores rerum amet eum quae. Animi enim soluta ex! Enim vero soluta tempore, ex aliquid aperiam ipsum. Qui, harum.</p>
   </div>
 
 }
