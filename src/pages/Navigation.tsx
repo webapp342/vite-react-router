@@ -30,12 +30,14 @@ export default function SimpleBottomNavigation() {
     }
   };
 
+  // Scroll olaylarını dinlemeye gerek yok, sadece tıklama ile değeri güncelleyeceğiz
+
   return (
     <BottomNavigation
       value={value}
       onChange={(_, newValue) => handleNavigationChange(newValue)}
       showLabels
-      className="bottom-navigation" // Stil sınıfını ekledik
+      className="bottom-navigation"
     >
       <BottomNavigationAction label="Home" icon={<RestoreIcon />} />
       <BottomNavigationAction label="Farm" icon={<FavoriteIcon />} />
