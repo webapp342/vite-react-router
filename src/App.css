@@ -1,8 +1,11 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem 2rem 0 2rem; /* Üst, Sağ, Alt, Sol */
   text-align: center;
+  padding-bottom: 56px; /* Sabit navigation için alt boşluk bırakın */
+  overflow-y: auto; /* İçerik kaydırma */
+  height: calc(100vh - 56px); /* Tam ekran yükseklikten navigation yüksekliğini çıkarın */
 }
 
 .bottom-navigation {
@@ -11,7 +14,7 @@
   left: 0;
   right: 0;
   width: 100%;
-
+  height: 56px; /* Sabit navigation yüksekliği */
   background-color: white;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
   z-index: 1000;
@@ -21,6 +24,11 @@
   .bottom-navigation {
     height: 56px;
     font-size: 0.8rem;
+  }
+
+  #root {
+    padding-bottom: 56px; /* Mobilde de sabit navigation için alt boşluk bırakın */
+    height: calc(100vh - 56px); /* Mobilde de tam ekran yükseklikten navigation yüksekliğini çıkarın */
   }
 }
 
