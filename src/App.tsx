@@ -1,9 +1,9 @@
+import { useEffect } from "react";
 import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import viteLogo from "./assets/vite.svg";
 import "./App.css";
 import { Link, Outlet } from "react-router-dom";
 import SimpleBottomNavigation from "./pages/Navigation";
-import { useEffect } from "react";
 import WebApp from "@twa-dev/sdk";
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
     }, []);
 
     return (
-        <>
+        <div className="App">
             <div>
                 <a href="https://vitejs.dev" target="_blank" rel="noopener noreferrer">
                     <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -51,7 +51,7 @@ function App() {
 
             <Outlet />
             <SimpleBottomNavigation />
-        </>
+        </div>
     );
 }
 
