@@ -27,7 +27,7 @@ html, body {
   right: 0;
   bottom: 0;
   width: 100%;
-  height: 76px; /* Sabit navigation yüksekliği */
+  height: 100px; /* Sabit navigation yüksekliği */
   background-color: white;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
   z-index: 1000;
