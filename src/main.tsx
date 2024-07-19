@@ -4,7 +4,7 @@ import App from "./App.tsx";
 import "./index.css";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Home } from "./pages/Home.tsx";
+import Home  from "./pages/Home.tsx";
 import  FarmComponent  from "./pages/FarmComponent.tsx";
 import UserDetails from "./pages/UserDetails.tsx";
 import UserProfilePage from "./pages/UserProfilePage.tsx";
