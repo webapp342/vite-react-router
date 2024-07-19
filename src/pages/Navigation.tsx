@@ -7,6 +7,14 @@ import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import Diversity1RoundedIcon from '@mui/icons-material/Diversity1Rounded';
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
+import { styled } from '@mui/system';
+
+const StyledBottomNavigationAction = styled(BottomNavigationAction)(({ theme, selected }) => ({
+  color: selected ? theme.palette.primary.main : theme.palette.text.secondary,
+  '& .Mui-selected': {
+    color: theme.palette.primary.main,
+  },
+}));
 
 export default function SimpleBottomNavigation() {
   const [value, setValue] = React.useState<number>(0);
@@ -37,36 +45,27 @@ export default function SimpleBottomNavigation() {
       value={value}
       onChange={(_, newValue) => handleNavigationChange(newValue)}
       showLabels
-      sx={{
-        '& .Mui-selected': {
-          color: 'primary.main',
-        },
-        '& .MuiBottomNavigationAction-root': {
-          color: 'text.secondary',
-        },
-        '& .MuiBottomNavigationAction-label': {
-          fontSize: '0.75rem',
-          '&.Mui-selected': {
-            fontSize: '0.85rem',
-          },
-        },
-      }}
+      className="bottom-navigation"
     >
-      <BottomNavigationAction
+      <StyledBottomNavigationAction
         label="Home"
         icon={<HomeRoundedIcon />}
+        selected={value === 0}
       />
-      <BottomNavigationAction
+      <StyledBottomNavigationAction
         label="Tasks"
         icon={<TaskOutlinedIcon />}
+        selected={value === 1}
       />
-      <BottomNavigationAction
+      <StyledBottomNavigationAction
         label="Frens"
         icon={<Diversity1RoundedIcon />}
+        selected={value === 2}
       />
-      <BottomNavigationAction
+      <StyledBottomNavigationAction
         label="Wallet"
         icon={<AccountBalanceWalletOutlinedIcon />}
+        selected={value === 3}
       />
     </BottomNavigation>
   );
