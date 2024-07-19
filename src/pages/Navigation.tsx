@@ -38,15 +38,31 @@ export default function SimpleBottomNavigation() {
       onChange={(_, newValue) => handleNavigationChange(newValue)}
       showLabels
       className="bottom-navigation"
+      sx={{
+        '& .MuiBottomNavigationAction-root': {
+          minWidth: 0,
+          margin: 0,
+          padding: 0,
+        },
+        '& .Mui-selected': {
+          border: 'none',
+          borderColor: 'transparent',
+        },
+      }}
     >
       <BottomNavigationAction
         label="Home"
         icon={<HomeRoundedIcon />}
         sx={{
           color: value === 0 ? 'primary.main' : 'text.secondary',
-          '& .Mui-selected': {
+          '&.Mui-selected': {
             color: 'primary.main',
+            border: 'none',
+            borderColor: 'transparent',
           },
+          minWidth: 0,
+          margin: 0,
+          padding: 0,
         }}
       />
       <BottomNavigationAction
@@ -54,9 +70,14 @@ export default function SimpleBottomNavigation() {
         icon={<TaskOutlinedIcon />}
         sx={{
           color: value === 1 ? 'primary.main' : 'text.secondary',
-          '& .Mui-selected': {
+          '&.Mui-selected': {
             color: 'primary.main',
+            border: 'none',
+            borderColor: 'transparent',
           },
+          minWidth: 0,
+          margin: 0,
+          padding: 0,
         }}
       />
       <BottomNavigationAction
@@ -64,9 +85,14 @@ export default function SimpleBottomNavigation() {
         icon={<Diversity1RoundedIcon />}
         sx={{
           color: value === 2 ? 'primary.main' : 'text.secondary',
-          '& .Mui-selected': {
+          '&.Mui-selected': {
             color: 'primary.main',
+            border: 'none',
+            borderColor: 'transparent',
           },
+          minWidth: 0,
+          margin: 0,
+          padding: 0,
         }}
       />
       <BottomNavigationAction
@@ -74,9 +100,14 @@ export default function SimpleBottomNavigation() {
         icon={<AccountBalanceWalletOutlinedIcon />}
         sx={{
           color: value === 3 ? 'primary.main' : 'text.secondary',
-          '& .Mui-selected': {
+          '&.Mui-selected': {
             color: 'primary.main',
+            border: 'none',
+            borderColor: 'transparent',
           },
+          minWidth: 0,
+          margin: 0,
+          padding: 0,
         }}
       />
     </BottomNavigation>
