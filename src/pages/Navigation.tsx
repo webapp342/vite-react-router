@@ -44,10 +44,16 @@ export default function SimpleBottomNavigation() {
         label="Home"
         icon={<HomeRoundedIcon />}
         sx={{
-          color: value === 0 ? 'primary.main' : 'text.secondary',
+          color: value === 0 ? 'white' : 'grey',
           minWidth: 0,
           margin: 0,
           padding: 0,
+          '& .MuiBottomNavigationAction-label': {
+            color: value === 0 ? 'white' : 'grey',
+          },
+          '& .MuiSvgIcon-root': {
+            color: value === 0 ? 'white' : 'grey',
+          },
         }}
       />
       <BottomNavigationAction
@@ -55,10 +61,16 @@ export default function SimpleBottomNavigation() {
         label="Tasks"
         icon={<TaskOutlinedIcon />}
         sx={{
-          color: value === 1 ? 'primary.main' : 'text.secondary',
+          color: value === 1 ? 'white' : 'grey',
           minWidth: 0,
           margin: 0,
           padding: 0,
+          '& .MuiBottomNavigationAction-label': {
+            color: value === 1 ? 'white' : 'grey',
+          },
+          '& .MuiSvgIcon-root': {
+            color: value === 1 ? 'white' : 'grey',
+          },
         }}
       />
       <BottomNavigationAction
@@ -66,10 +78,16 @@ export default function SimpleBottomNavigation() {
         label="Frens"
         icon={<Diversity1RoundedIcon />}
         sx={{
-          color: value === 2 ? 'primary.main' : 'text.secondary',
+          color: value === 2 ? 'white' : 'grey',
           minWidth: 0,
           margin: 0,
           padding: 0,
+          '& .MuiBottomNavigationAction-label': {
+            color: value === 2 ? 'white' : 'grey',
+          },
+          '& .MuiSvgIcon-root': {
+            color: value === 2 ? 'white' : 'grey',
+          },
         }}
       />
       <BottomNavigationAction
@@ -77,10 +95,16 @@ export default function SimpleBottomNavigation() {
         label="Wallet"
         icon={<AccountBalanceWalletOutlinedIcon />}
         sx={{
-          color: value === 3 ? 'primary.main' : 'text.secondary',
+          color: value === 3 ? 'white' : 'grey',
           minWidth: 0,
           margin: 0,
           padding: 0,
+          '& .MuiBottomNavigationAction-label': {
+            color: value === 3 ? 'white' : 'grey',
+          },
+          '& .MuiSvgIcon-root': {
+            color: value === 3 ? 'white' : 'grey',
+          },
         }}
       />
     </BottomNavigation>
