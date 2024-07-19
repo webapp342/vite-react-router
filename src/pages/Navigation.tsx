@@ -39,7 +39,11 @@ export default function SimpleBottomNavigation() {
       showLabels
       className="bottom-navigation"
     >
-      <BottomNavigationAction label="Home" icon={<HomeRoundedIcon />} />
+  <BottomNavigationAction
+  label="Home"
+  icon={<HomeRoundedIcon />}
+  sx={{ borderColor: 'transparent' }}
+/>
       <BottomNavigationAction label="Tasks" icon={<TaskOutlinedIcon />} />
       <BottomNavigationAction label="Frens" icon={<Diversity1RoundedIcon />} />
       <BottomNavigationAction label="Wallet" icon={<AccountBalanceWalletOutlinedIcon />} />
