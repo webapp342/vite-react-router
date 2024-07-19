@@ -33,19 +33,3 @@ html, body {
   z-index: 1000;
 }
 
-/* BottomNavigation için arka plan rengini ve border özelliklerini ayarlayın */
-
-
-.bottom-navigation .MuiBottomNavigationAction-root {
-  color: #9e9e9e; /* İkonların gri rengi */
-  border: 1px solid #000000; /* Kenarlıkları siyah yapın */
-  border-radius: 4px; /* Köşeleri yuvarlatma */
-}
-
-
-
-.bottom-navigation .MuiBottomNavigationAction-root.Mui-selected {
-  background-color: #000000; /* Seçili durumunda arka plan rengini beyaz yapın */
-  color: #ffffff; /* Seçili durumda ikonların rengi siyah */
-  border: 1px solid #000000; /* Seçili durumda kenarlıkları siyah yapın */
-}
