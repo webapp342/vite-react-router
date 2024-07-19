@@ -39,7 +39,7 @@ html, body {
 .bottom-navigation .MuiBottomNavigationAction-root {
   color: #9e9e9e; /* İkonların gri rengi */
   border: 1px solid #000000; /* Kenarlıkları siyah yapın */
-  border-radius: 0px; /* Köşeleri yuvarlatma */
+  border-radius: none; /* Köşeleri yuvarlatma */
 }
 
 
