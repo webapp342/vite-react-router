@@ -7,14 +7,6 @@ import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import Diversity1RoundedIcon from '@mui/icons-material/Diversity1Rounded';
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
-import { styled } from '@mui/system';
-
-const StyledBottomNavigationAction = styled(BottomNavigationAction)(({ theme, selected }) => ({
-  color: selected ? theme.palette.primary.main : theme.palette.text.secondary,
-  '& .Mui-selected': {
-    color: theme.palette.primary.main,
-  },
-}));
 
 export default function SimpleBottomNavigation() {
   const [value, setValue] = React.useState<number>(0);
@@ -47,25 +39,45 @@ export default function SimpleBottomNavigation() {
       showLabels
       className="bottom-navigation"
     >
-      <StyledBottomNavigationAction
+      <BottomNavigationAction
         label="Home"
         icon={<HomeRoundedIcon />}
-        selected={value === 0}
+        sx={{
+          color: value === 0 ? 'primary.main' : 'text.secondary',
+          '& .Mui-selected': {
+            color: 'primary.main',
+          },
+        }}
       />
-      <StyledBottomNavigationAction
+      <BottomNavigationAction
         label="Tasks"
         icon={<TaskOutlinedIcon />}
-        selected={value === 1}
+        sx={{
+          color: value === 1 ? 'primary.main' : 'text.secondary',
+          '& .Mui-selected': {
+            color: 'primary.main',
+          },
+        }}
       />
-      <StyledBottomNavigationAction
+      <BottomNavigationAction
         label="Frens"
         icon={<Diversity1RoundedIcon />}
-        selected={value === 2}
+        sx={{
+          color: value === 2 ? 'primary.main' : 'text.secondary',
+          '& .Mui-selected': {
+            color: 'primary.main',
+          },
+        }}
       />
-      <StyledBottomNavigationAction
+      <BottomNavigationAction
         label="Wallet"
         icon={<AccountBalanceWalletOutlinedIcon />}
-        selected={value === 3}
+        sx={{
+          color: value === 3 ? 'primary.main' : 'text.secondary',
+          '& .Mui-selected': {
+            color: 'primary.main',
+          },
+        }}
       />
     </BottomNavigation>
   );
