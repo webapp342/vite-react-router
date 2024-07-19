@@ -43,6 +43,10 @@ export default function SimpleBottomNavigation() {
           minWidth: 0,
           margin: 0,
           padding: 0,
+          outline: 'none', // Outline kaldırmak için bu satır eklendi
+          '&:focus': {
+            outline: 'none', // Focus durumunda outline kaldırmak için bu satır eklendi
+          },
         },
         '& .Mui-selected': {
           border: 'none',
@@ -63,6 +67,10 @@ export default function SimpleBottomNavigation() {
           minWidth: 0,
           margin: 0,
           padding: 0,
+          outline: 'none', // Outline kaldırmak için bu satır eklendi
+          '&:focus': {
+            outline: 'none', // Focus durumunda outline kaldırmak için bu satır eklendi
+          },
         }}
       />
       <BottomNavigationAction
@@ -78,6 +86,10 @@ export default function SimpleBottomNavigation() {
           minWidth: 0,
           margin: 0,
           padding: 0,
+          outline: 'none', // Outline kaldırmak için bu satır eklendi
+          '&:focus': {
+            outline: 'none', // Focus durumunda outline kaldırmak için bu satır eklendi
+          },
         }}
       />
       <BottomNavigationAction
@@ -93,6 +105,10 @@ export default function SimpleBottomNavigation() {
           minWidth: 0,
           margin: 0,
           padding: 0,
+          outline: 'none', // Outline kaldırmak için bu satır eklendi
+          '&:focus': {
+            outline: 'none', // Focus durumunda outline kaldırmak için bu satır eklendi
+          },
         }}
       />
       <BottomNavigationAction
@@ -108,6 +124,10 @@ export default function SimpleBottomNavigation() {
           minWidth: 0,
           margin: 0,
           padding: 0,
+          outline: 'none', // Outline kaldırmak için bu satır eklendi
+          '&:focus': {
+            outline: 'none', // Focus durumunda outline kaldırmak için bu satır eklendi
+          },
         }}
       />
     </BottomNavigation>
