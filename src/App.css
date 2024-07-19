@@ -33,3 +33,10 @@ html, body {
   z-index: 1000;
 }
 
+
+
+.bottom-navigation-action:focus {
+  outline: none !important;
+  border: none !important;
+}
+
