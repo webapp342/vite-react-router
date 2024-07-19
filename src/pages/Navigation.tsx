@@ -37,16 +37,37 @@ export default function SimpleBottomNavigation() {
       value={value}
       onChange={(_, newValue) => handleNavigationChange(newValue)}
       showLabels
-      className="bottom-navigation"
+      sx={{
+        '& .Mui-selected': {
+          color: 'primary.main',
+        },
+        '& .MuiBottomNavigationAction-root': {
+          color: 'text.secondary',
+        },
+        '& .MuiBottomNavigationAction-label': {
+          fontSize: '0.75rem',
+          '&.Mui-selected': {
+            fontSize: '0.85rem',
+          },
+        },
+      }}
     >
-  <BottomNavigationAction
-  label="Home"
-  icon={<HomeRoundedIcon />}
-  sx={{ borderColor: 'transparent' }}
-/>
-      <BottomNavigationAction label="Tasks" icon={<TaskOutlinedIcon />} />
-      <BottomNavigationAction label="Frens" icon={<Diversity1RoundedIcon />} />
-      <BottomNavigationAction label="Wallet" icon={<AccountBalanceWalletOutlinedIcon />} />
+      <BottomNavigationAction
+        label="Home"
+        icon={<HomeRoundedIcon />}
+      />
+      <BottomNavigationAction
+        label="Tasks"
+        icon={<TaskOutlinedIcon />}
+      />
+      <BottomNavigationAction
+        label="Frens"
+        icon={<Diversity1RoundedIcon />}
+      />
+      <BottomNavigationAction
+        label="Wallet"
+        icon={<AccountBalanceWalletOutlinedIcon />}
+      />
     </BottomNavigation>
   );
 }
