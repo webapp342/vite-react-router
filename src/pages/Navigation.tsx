@@ -1,12 +1,12 @@
 import * as React from 'react';
 import "../App.css";
-
 import { useNavigate } from 'react-router-dom';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import Diversity1RoundedIcon from '@mui/icons-material/Diversity1Rounded';
+import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
 
 export default function SimpleBottomNavigation() {
   const [value, setValue] = React.useState<number>(0);
@@ -37,12 +37,12 @@ export default function SimpleBottomNavigation() {
       value={value}
       onChange={(_, newValue) => handleNavigationChange(newValue)}
       showLabels
-      className="bottom-navigation" // Stil sınıfını ekledik
+      className="bottom-navigation"
     >
-      <BottomNavigationAction label="Home" icon={<RestoreIcon />} />
-      <BottomNavigationAction label="Farm" icon={<FavoriteIcon />} />
-      <BottomNavigationAction label="User Details" icon={<LocationOnIcon />} />
-      <BottomNavigationAction label="Profile" icon={<LocationOnIcon />} />
+      <BottomNavigationAction label="Home" icon={<HomeRoundedIcon />} />
+      <BottomNavigationAction label="Tasks" icon={<TaskOutlinedIcon />} />
+      <BottomNavigationAction label="Frens" icon={<Diversity1RoundedIcon />} />
+      <BottomNavigationAction label="Wallet" icon={<AccountBalanceWalletOutlinedIcon />} />
     </BottomNavigation>
   );
 }
