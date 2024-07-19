@@ -40,10 +40,74 @@ export default function SimpleBottomNavigation() {
       showLabels
       className="bottom-navigation"
     >
-      <BottomNavigationAction label="Home" icon={<HomeRoundedIcon />} />
-      <BottomNavigationAction label="Tasks" icon={<TaskOutlinedIcon />} />
-      <BottomNavigationAction label="Frens" icon={<Diversity1RoundedIcon />} />
-      <BottomNavigationAction label="Wallet" icon={<AccountBalanceWalletOutlinedIcon />} />
+      <BottomNavigationAction
+        className="bottom-navigation-action"
+        label="Home"
+        icon={<HomeRoundedIcon />}
+        sx={{
+          color: value === 0 ? 'white' : 'grey',
+          minWidth: 0,
+          margin: 0,
+          padding: 0,
+          '& .MuiBottomNavigationAction-label': {
+            color: value === 0 ? 'white' : 'grey',
+          },
+          '& .MuiSvgIcon-root': {
+            color: value === 0 ? 'white' : 'grey',
+          },
+        }}
+      />
+      <BottomNavigationAction
+        className="bottom-navigation-action"
+        label="Tasks"
+        icon={<TaskOutlinedIcon />}
+        sx={{
+          color: value === 1 ? 'white' : 'grey',
+          minWidth: 0,
+          margin: 0,
+          padding: 0,
+          '& .MuiBottomNavigationAction-label': {
+            color: value === 1 ? 'white' : 'grey',
+          },
+          '& .MuiSvgIcon-root': {
+            color: value === 1 ? 'white' : 'grey',
+          },
+        }}
+      />
+      <BottomNavigationAction
+        className="bottom-navigation-action"
+        label="Frens"
+        icon={<Diversity1RoundedIcon />}
+        sx={{
+          color: value === 2 ? 'white' : 'grey',
+          minWidth: 0,
+          margin: 0,
+          padding: 0,
+          '& .MuiBottomNavigationAction-label': {
+            color: value === 2 ? 'white' : 'grey',
+          },
+          '& .MuiSvgIcon-root': {
+            color: value === 2 ? 'white' : 'grey',
+          },
+        }}
+      />
+      <BottomNavigationAction
+        className="bottom-navigation-action"
+        label="Wallet"
+        icon={<AccountBalanceWalletOutlinedIcon />}
+        sx={{
+          color: value === 3 ? 'white' : 'grey',
+          minWidth: 0,
+          margin: 0,
+          padding: 0,
+          '& .MuiBottomNavigationAction-label': {
+            color: value === 3 ? 'white' : 'grey',
+          },
+          '& .MuiSvgIcon-root': {
+            color: value === 3 ? 'white' : 'grey',
+          },
+        }}
+      />
     </BottomNavigation>
   );
 }
