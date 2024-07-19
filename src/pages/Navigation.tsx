@@ -38,96 +38,49 @@ export default function SimpleBottomNavigation() {
       onChange={(_, newValue) => handleNavigationChange(newValue)}
       showLabels
       className="bottom-navigation"
-      sx={{
-        '& .MuiBottomNavigationAction-root': {
-          minWidth: 0,
-          margin: 0,
-          padding: 0,
-          outline: 'none', // Outline kaldırmak için bu satır eklendi
-          '&:focus': {
-            outline: 'none', // Focus durumunda outline kaldırmak için bu satır eklendi
-          },
-        },
-        '& .Mui-selected': {
-          border: 'none',
-          borderColor: 'transparent',
-        },
-      }}
     >
       <BottomNavigationAction
+        className="bottom-navigation-action"
         label="Home"
         icon={<HomeRoundedIcon />}
         sx={{
           color: value === 0 ? 'primary.main' : 'text.secondary',
-          '&.Mui-selected': {
-            color: 'primary.main',
-            border: 'none',
-            borderColor: 'transparent',
-          },
           minWidth: 0,
           margin: 0,
           padding: 0,
-          outline: 'none', // Outline kaldırmak için bu satır eklendi
-          '&:focus': {
-            outline: 'none', // Focus durumunda outline kaldırmak için bu satır eklendi
-          },
         }}
       />
       <BottomNavigationAction
+        className="bottom-navigation-action"
         label="Tasks"
         icon={<TaskOutlinedIcon />}
         sx={{
           color: value === 1 ? 'primary.main' : 'text.secondary',
-          '&.Mui-selected': {
-            color: 'primary.main',
-            border: 'none',
-            borderColor: 'transparent',
-          },
           minWidth: 0,
           margin: 0,
           padding: 0,
-          outline: 'none', // Outline kaldırmak için bu satır eklendi
-          '&:focus': {
-            outline: 'none', // Focus durumunda outline kaldırmak için bu satır eklendi
-          },
         }}
       />
       <BottomNavigationAction
+        className="bottom-navigation-action"
         label="Frens"
         icon={<Diversity1RoundedIcon />}
         sx={{
           color: value === 2 ? 'primary.main' : 'text.secondary',
-          '&.Mui-selected': {
-            color: 'primary.main',
-            border: 'none',
-            borderColor: 'transparent',
-          },
           minWidth: 0,
           margin: 0,
           padding: 0,
-          outline: 'none', // Outline kaldırmak için bu satır eklendi
-          '&:focus': {
-            outline: 'none', // Focus durumunda outline kaldırmak için bu satır eklendi
-          },
         }}
       />
       <BottomNavigationAction
+        className="bottom-navigation-action"
         label="Wallet"
         icon={<AccountBalanceWalletOutlinedIcon />}
         sx={{
           color: value === 3 ? 'primary.main' : 'text.secondary',
-          '&.Mui-selected': {
-            color: 'primary.main',
-            border: 'none',
-            borderColor: 'transparent',
-          },
           minWidth: 0,
           margin: 0,
           padding: 0,
-          outline: 'none', // Outline kaldırmak için bu satır eklendi
-          '&:focus': {
-            outline: 'none', // Focus durumunda outline kaldırmak için bu satır eklendi
-          },
         }}
       />
     </BottomNavigation>
