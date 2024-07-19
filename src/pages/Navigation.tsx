@@ -34,11 +34,13 @@ export default function SimpleBottomNavigation() {
   };
 
   return (
+    
     <BottomNavigation
       value={value}
       onChange={(_, newValue) => handleNavigationChange(newValue)}
       showLabels
       className="bottom-navigation"
+      sx={{ paddingBottom: '18px' }} // Adjust this value if needed
     >
       <BottomNavigationAction
         className="bottom-navigation-action"
@@ -65,7 +67,7 @@ export default function SimpleBottomNavigation() {
           color: value === 1 ? 'white' : 'grey',
           minWidth: 0,
           margin: 0,
-          padding: 0,
+          padding: 2,
           '& .MuiBottomNavigationAction-label': {
             color: value === 1 ? 'white' : 'grey',
           },

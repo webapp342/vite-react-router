@@ -28,7 +28,6 @@ html, body {
   right: 0;
   width: 100%;
   background-color: #000000 !important; /* Navigation background color */
-  height: 90px; /* Fixed height for the navigation bar */
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 }
