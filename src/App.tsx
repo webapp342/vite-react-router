@@ -4,6 +4,8 @@ import { Outlet } from "react-router-dom";
 import SimpleBottomNavigation from "./pages/Navigation";
 import { useEffect } from "react";
 import WebApp from "@twa-dev/sdk";
+import './index.css'; // Global stil dosyasını import edin
+
 
 function App() {
     useEffect(() => {
