@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Container, Typography } from '@mui/material';
+import CounterButton from './CounterButton'; // Bileşeni import ediyoruz
 import WebApp from '@twa-dev/sdk';
-import '../App.css';  // Matrix animasyon CSS dosyasını import ediyoruz
+import '../App.css'; // Matrix animasyon CSS dosyasını import ediyoruz
 
 interface User {
   id: number;
@@ -11,17 +12,30 @@ interface User {
 }
 
 const Home: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = React.useState<User | null>(null);
 
-  useEffect(() => {
-    // WebApp SDK'yı başlatıyoruz ve kullanıcı bilgilerini alıyoruz
+  React.useEffect(() => {
     const userData = WebApp.initDataUnsafe?.user;
     if (userData) {
       setUser(userData);
     }
 
-    // Matrix animasyonunu başlatıyoruz
     matrixAnimation();
+
+    const handleResize = () => {
+      const canvas = document.querySelector('.matrix') as HTMLCanvasElement;
+      if (canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // İlk boyutlandırmayı yap
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   if (!user) {
@@ -38,6 +52,7 @@ const Home: React.FC = () => {
         Merhaba, {user.first_name}
       </Typography>
       <Typography variant="body1">Telegram ID: {user.id}</Typography>
+      <CounterButton /> {/* Sayı göstergesi ve yuvarlak butonu ekliyoruz */}
     </Container>
   );
 };
