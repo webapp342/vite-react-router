@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, Box } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import WebApp from '@twa-dev/sdk';
+import '../App.css';  // Matrix animasyon CSS dosyasını import ediyoruz
 
 interface User {
   id: number;
@@ -8,17 +9,6 @@ interface User {
   last_name?: string;
   username?: string;
 }
-
-const matrixKeyframes = `
-  @keyframes matrix {
-    0% {
-      background-position: 0% 50%;
-    }
-    100% {
-      background-position: 100% 50%;
-    }
-  }
-`;
 
 const Home: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -29,6 +19,9 @@ const Home: React.FC = () => {
     if (userData) {
       setUser(userData);
     }
+
+    // Matrix animasyonunu başlatıyoruz
+    matrixAnimation();
   }, []);
 
   if (!user) {
@@ -44,26 +37,52 @@ const Home: React.FC = () => {
       <Typography variant="h4" gutterBottom>
         Merhaba, {user.first_name}
       </Typography>
-      <Box
-        sx={{
-          width: 100,
-          height: 100,
-          borderRadius: '50%',
-          overflow: 'hidden',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          mb: 2,
-          backgroundImage: 'linear-gradient(45deg, #628078, #819993)',
-          backgroundSize: '100% 200%',
-          animation: 'atrix 5s infinite',
-        }}
-      >
-        <Typography variant="body1">Telegram ID: {user.id}</Typography>
-      </Box>
-      <style>{matrixKeyframes}</style>
+      <Typography variant="body1">Telegram ID: {user.id}</Typography>
     </Container>
   );
+};
+
+const matrixAnimation = () => {
+  const canvas = document.createElement('canvas');
+  canvas.className = 'matrix';
+  document.body.appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+  
+  if (!ctx) {
+    console.error('Canvas context not supported');
+    return;
+  }
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const letters = 'ESCAPEFROMMATRIX';
+  const fontSize = 10;
+  const columns = Math.floor(canvas.width / fontSize);
+
+  const drops: number[] = Array(columns).fill(1);
+
+  const draw = () => {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = '#0f0';
+    ctx.font = `${fontSize}px monospace`;
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+
+      drops[i]++;
+    }
+  };
+
+  setInterval(draw, 33);
 };
 
 export default Home;
