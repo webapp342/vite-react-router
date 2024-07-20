@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import backgroundJpg from './background.jpg'; // JPG görselini import et
-import backgroundGif from './background.gif'; // GIF görselini import et
+import backgroundJpg from './background.jpg';
+import backgroundGif from './background.gif';
 
 // Styled component for background
 const BackgroundBox = styled(Box)<{ isCounting: boolean }>(({ isCounting }) => ({
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100vw',
+  height: '100vh',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  width: '100vw',
-  height: '100vh',
   backgroundImage: isCounting
-    ? `url(${backgroundGif})` // Geri sayım sırasında GIF arka plan
-    : `url(${backgroundJpg})`, // Başlangıçta JPG arka plan
+    ? `url(${backgroundGif})`
+    : `url(${backgroundJpg})`,
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   transition: 'background-image 1s ease',
