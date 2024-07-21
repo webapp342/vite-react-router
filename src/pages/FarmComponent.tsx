@@ -38,24 +38,31 @@ const FarmComponent: React.FC = () => {
     if (user) {
       setTelegramUserId(user.id.toString()); // Ensure user ID is a string
     }
+  }, []);
 
-    // Fetch existing farmed amount from Firestore
-    if (telegramUserId) {
-      const fetchFarmData = async () => {
+  useEffect(() => {
+    const initializeUserData = async () => {
+      if (telegramUserId) {
         try {
           const docRef = doc(db, 'farmData', telegramUserId);
           const docSnap = await getDoc(docRef);
+
           if (docSnap.exists()) {
+            // Document exists, fetch the farmed amount
             setFarmedAmount(docSnap.data().totalFarmedAmount || 0);
           } else {
-            console.log('No such document!');
+            // Document does not exist, create with default value
+            await setDoc(docRef, { totalFarmedAmount: 0 });
+            setFarmedAmount(0);
+            console.log('New document created with initial farmed amount of 0');
           }
         } catch (error) {
-          console.error('Error fetching farmed amount from Firestore: ', error);
+          console.error('Error initializing user data: ', error);
         }
-      };
-      fetchFarmData();
-    }
+      }
+    };
+
+    initializeUserData();
   }, [telegramUserId]);
 
   useEffect(() => {
