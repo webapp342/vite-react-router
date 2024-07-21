@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import backgroundJpg from './background.jpg';
 import backgroundGif from './background.gif';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { db } from './firebaseConfig';
 import WebApp from "@twa-dev/sdk";
 
@@ -26,96 +26,57 @@ const BackgroundBox = styled(Box)<{ isFarming: boolean }>(({ isFarming }) => ({
 }));
 
 const FarmComponent: React.FC = () => {
-  const [countdown, setCountdown] = useState<number>(0);
-  const [farmedAmount, setFarmedAmount] = useState<number>(0);
-  const [isFarming, setIsFarming] = useState<boolean>(false);
-  const [lastFarmedAmount, setLastFarmedAmount] = useState<number>(0);
-  const [telegramUserId, setTelegramUserId] = useState<string>('');
+  const [inviteLink, setInviteLink] = useState<string>('');
+  const [userId, setUserId] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    // Initialize Telegram Web Apps SDK and get user data
-    const user = WebApp.initDataUnsafe?.user;
-    if (user) {
-      setTelegramUserId(user.id.toString()); // Ensure user ID is a string
-    }
-  }, []);
+    const fetchUserData = async () => {
+      const user = WebApp.initDataUnsafe?.user;
+      if (user) {
+        const telegramUserId = user.id.toString();
+        setUserId(telegramUserId);
+        console.log(`Fetching user data for ID: ${telegramUserId}`);
 
-  useEffect(() => {
-    const initializeUserData = async () => {
-      if (telegramUserId) {
         try {
-          const docRef = doc(db, 'farmData', telegramUserId);
+          const docRef = doc(db, 'users', telegramUserId);
+          console.log(`Fetching document from Firestore: ${docRef.path}`);
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
-            // Document exists, fetch the farmed amount
-            setFarmedAmount(docSnap.data().totalFarmedAmount || 0);
+            const data = docSnap.data();
+            setInviteLink(data.invite_link || 'No invite link found');
+            console.log(`Fetched invite link: ${data.invite_link}`);
           } else {
-            // Document does not exist, create with default value
-            await setDoc(docRef, { totalFarmedAmount: 0 });
-            setFarmedAmount(0);
-            console.log('New document created with initial farmed amount of 0');
+            console.log('Document does not exist');
+            setInviteLink('No invite link found');
           }
         } catch (error) {
-          console.error('Error initializing user data: ', error);
+          console.error('Error fetching user data: ', error);
+          setInviteLink('Error fetching invite link');
         }
+      } else {
+        console.error('Failed to get user data from Telegram Web Apps SDK');
+        setInviteLink('No user data available');
       }
+
+      setLoading(false);
     };
 
-    initializeUserData();
-  }, [telegramUserId]);
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (isFarming && countdown > 0) {
-      timer = setTimeout(() => {
-        setCountdown(prev => prev - 1);
-        setLastFarmedAmount((5 - countdown) * (100 / 5)); // Adjust to 5 seconds
-      }, 1000);
-    } else if (isFarming && countdown === 0) {
-      setIsFarming(false);
-      const newFarmedAmount = farmedAmount + 100;
-      setFarmedAmount(newFarmedAmount);
-      setLastFarmedAmount(100);
-
-      // Save new farmed amount to Firestore
-      if (telegramUserId) {
-        setDoc(doc(db, 'farmData', telegramUserId), {
-          totalFarmedAmount: newFarmedAmount
-        }, { merge: true })
-        .then(() => {
-          console.log('Farmed amount saved to Firestore');
-        })
-        .catch((error) => {
-          console.error('Error saving farmed amount to Firestore: ', error);
-        });
-      }
-    }
-
-    return () => clearTimeout(timer);
-  }, [isFarming, countdown, farmedAmount, telegramUserId]);
-
-  const handleFarm = () => {
-    setIsFarming(true);
-    setCountdown(5); // Set countdown to 5 seconds for testing
-    setLastFarmedAmount(0);
-  };
+    fetchUserData();
+  }, []);
 
   return (
-    <BackgroundBox isFarming={isFarming}>
+    <BackgroundBox isFarming={false}>
       <div className="main-content">
-        <div>
-          Total Farmed Amount: {farmedAmount}
-        </div>
-        <div>
-          Last Farmed Amount: {Math.round(lastFarmedAmount)} / 100
-        </div>
-        <button onClick={handleFarm} disabled={isFarming}>
-          {isFarming 
-            ? `Farming ${Math.round(lastFarmedAmount)} / 100 - Time remaining: ${countdown}s` 
-            : 'Farm'
-          }
-        </button>
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          <div>
+            <div>User ID: {userId}</div>
+            <div>Invite Link: {inviteLink}</div>
+          </div>
+        )}
       </div>
     </BackgroundBox>
   );
