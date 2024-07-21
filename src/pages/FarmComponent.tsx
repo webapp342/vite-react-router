@@ -25,13 +25,13 @@ const BackgroundBox = styled(Box)<{ isFarming: boolean }>(({ isFarming }) => ({
   transition: 'background-image 1s ease',
 }));
 
-const FarmComponent: React.FC = () => {
+const IntegratedComponent: React.FC = () => {
+  const [inviteLink, setInviteLink] = useState<string>('');
+  const [userId, setUserId] = useState<string>('');
   const [countdown, setCountdown] = useState<number>(0);
   const [farmedAmount, setFarmedAmount] = useState<number>(0);
   const [isFarming, setIsFarming] = useState<boolean>(false);
   const [lastFarmedAmount, setLastFarmedAmount] = useState<number>(0);
-  const [inviteLink, setInviteLink] = useState<string>('');
-  const [userId, setUserId] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -40,37 +40,23 @@ const FarmComponent: React.FC = () => {
       if (user) {
         const telegramUserId = user.id.toString();
         setUserId(telegramUserId);
-        console.log(`Fetching user data for ID: ${telegramUserId}`);
 
         try {
-          const docRef = doc(db, 'farm', telegramUserId); // Tek bir belge kullanıyoruz
-          console.log(`Fetching document from Firestore: ${docRef.path}`);
+          const docRef = doc(db, 'users', telegramUserId);
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
             const data = docSnap.data();
-            console.log('Document exists. Data:', data);
-
-            // Check if 'totalFarmedAmount' exists
-            if (data && 'totalFarmedAmount' in data) {
-              console.log('Total farmed amount field exists. Value:', data.totalFarmedAmount);
-              setFarmedAmount(data.totalFarmedAmount);
+            if (data && 'farm' in data) {
+              setFarmedAmount(data.farm);
             } else {
-              console.log('Total farmed amount field does not exist. Creating with default value of 0...');
-              await setDoc(docRef, { totalFarmedAmount: 0 }, { merge: true });
-              console.log('Total farmed amount field set to 0.');
+              await setDoc(docRef, { farm: 0 }, { merge: true });
               setFarmedAmount(0);
             }
 
             setInviteLink(data.invite_link || 'No invite link found');
-            console.log(`Fetched invite link: ${data.invite_link}`);
           } else {
-            console.log('Document does not exist. Creating new document...');
-            await setDoc(docRef, { 
-              invite_link: 'No invite link found', 
-              totalFarmedAmount: 0 
-            });
-            console.log('New document created with initial values.');
+            await setDoc(docRef, { invite_link: 'No invite link found', farm: 0 });
             setInviteLink('No invite link found');
             setFarmedAmount(0);
           }
@@ -96,25 +82,16 @@ const FarmComponent: React.FC = () => {
     if (isFarming && countdown > 0) {
       timer = setTimeout(() => {
         setCountdown(prev => prev - 1);
-        setLastFarmedAmount((60 - countdown) * (100 / 60));
+        setLastFarmedAmount((60 - countdown) * (100 / 60)); // Amount farmed per second
       }, 1000);
     } else if (isFarming && countdown === 0) {
       setIsFarming(false);
       const newFarmedAmount = farmedAmount + 100;
       setFarmedAmount(newFarmedAmount);
-      setLastFarmedAmount(100);
-
+      setLastFarmedAmount(100); // Last farming increment
+      // Update Firestore with new farmed amount
       if (userId) {
-        const docRef = doc(db, 'farm', userId); // Tek bir belge kullanıyoruz
-        setDoc(docRef, {
-          totalFarmedAmount: newFarmedAmount
-        }, { merge: true })
-        .then(() => {
-          console.log('Farmed amount saved to Firestore');
-        })
-        .catch((error) => {
-          console.error('Error saving farmed amount to Firestore: ', error);
-        });
+        setDoc(doc(db, 'users', userId), { farm: newFarmedAmount }, { merge: true });
       }
     }
 
@@ -124,7 +101,7 @@ const FarmComponent: React.FC = () => {
   const handleFarm = () => {
     setIsFarming(true);
     setCountdown(60);
-    setLastFarmedAmount(0);
+    setLastFarmedAmount(0); // Reset last farm amount at the start
   };
 
   return (
@@ -137,9 +114,7 @@ const FarmComponent: React.FC = () => {
             <div>User ID: {userId}</div>
             <div>Invite Link: {inviteLink}</div>
             <div>Total Farmed Amount: {farmedAmount}</div>
-            <div>
-              Last Farmed Amount: {Math.round(lastFarmedAmount)} / 100
-            </div>
+            <div>Last Farmed Amount: {Math.round(lastFarmedAmount)} / 100</div>
             <button onClick={handleFarm} disabled={isFarming}>
               {isFarming 
                 ? `Farming ${Math.round(lastFarmedAmount)} / 100 - Time remaining: ${countdown}s` 
@@ -153,4 +128,4 @@ const FarmComponent: React.FC = () => {
   );
 };
 
-export default FarmComponent;
+export default IntegratedComponent;
