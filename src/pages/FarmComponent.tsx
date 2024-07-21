@@ -89,9 +89,17 @@ const IntegratedComponent: React.FC = () => {
       const newFarmedAmount = farmedAmount + 100;
       setFarmedAmount(newFarmedAmount);
       setLastFarmedAmount(100); // Last farming increment
+      
       // Update Firestore with new farmed amount
       if (userId) {
-        setDoc(doc(db, 'users', userId), { farm: newFarmedAmount }, { merge: true });
+        const docRef = doc(db, 'users', userId);
+        setDoc(docRef, { farm: newFarmedAmount }, { merge: true })
+          .then(() => {
+            console.log('Farmed amount updated successfully in Firestore.');
+          })
+          .catch((error) => {
+            console.error('Error updating farmed amount in Firestore: ', error);
+          });
       }
     }
 
