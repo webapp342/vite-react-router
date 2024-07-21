@@ -41,6 +41,17 @@ const IntegratedComponent: React.FC = () => {
         const telegramUserId = user.id.toString();
         setUserId(telegramUserId);
 
+        // Check localStorage for cached data
+        const cachedData = localStorage.getItem(`user_${telegramUserId}`);
+        let localFarmedAmount = 0;
+        let localInviteLink = 'No invite link found';
+
+        if (cachedData) {
+          const parsedData = JSON.parse(cachedData);
+          localFarmedAmount = parsedData.farm;
+          localInviteLink = parsedData.invite_link;
+        }
+
         try {
           const docRef = doc(db, 'users', telegramUserId);
           const docSnap = await getDoc(docRef);
@@ -60,10 +71,24 @@ const IntegratedComponent: React.FC = () => {
             setInviteLink('No invite link found');
             setFarmedAmount(0);
           }
+
+          // Save data to localStorage
+          localStorage.setItem(`user_${telegramUserId}`, JSON.stringify({
+            farm: farmedAmount,
+            invite_link: inviteLink,
+          }));
         } catch (error) {
           console.error('Error fetching or updating user data: ', error);
           setInviteLink('Error fetching invite link');
           setFarmedAmount(0);
+        }
+
+        // Ensure localStorage data is up-to-date
+        if (farmedAmount !== localFarmedAmount || inviteLink !== localInviteLink) {
+          localStorage.setItem(`user_${telegramUserId}`, JSON.stringify({
+            farm: farmedAmount,
+            invite_link: inviteLink,
+          }));
         }
       } else {
         console.error('Failed to get user data from Telegram Web Apps SDK');
@@ -75,7 +100,7 @@ const IntegratedComponent: React.FC = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, []); // Empty dependency array to run only once on mount
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -89,13 +114,19 @@ const IntegratedComponent: React.FC = () => {
       const newFarmedAmount = farmedAmount + 100;
       setFarmedAmount(newFarmedAmount);
       setLastFarmedAmount(100); // Last farming increment
-      
+
       // Update Firestore with new farmed amount
       if (userId) {
         const docRef = doc(db, 'users', userId);
         setDoc(docRef, { farm: newFarmedAmount }, { merge: true })
           .then(() => {
             console.log('Farmed amount updated successfully in Firestore.');
+
+            // Update localStorage with the new farmed amount
+            localStorage.setItem(`user_${userId}`, JSON.stringify({
+              farm: newFarmedAmount,
+              invite_link: inviteLink,
+            }));
           })
           .catch((error) => {
             console.error('Error updating farmed amount in Firestore: ', error);
@@ -104,7 +135,7 @@ const IntegratedComponent: React.FC = () => {
     }
 
     return () => clearTimeout(timer);
-  }, [isFarming, countdown, farmedAmount, userId]);
+  }, [isFarming, countdown, farmedAmount, userId, inviteLink]); // Add all dependencies
 
   const handleFarm = () => {
     setIsFarming(true);
