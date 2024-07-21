@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import backgroundJpg from './background.jpg';
 import backgroundGif from './background.gif';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from './firebaseConfig';
 import WebApp from "@twa-dev/sdk";
 
@@ -28,6 +28,7 @@ const BackgroundBox = styled(Box)<{ isFarming: boolean }>(({ isFarming }) => ({
 const FarmComponent: React.FC = () => {
   const [inviteLink, setInviteLink] = useState<string>('');
   const [userId, setUserId] = useState<string>('');
+  const [farmedAmount, setFarmedAmount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -46,18 +47,28 @@ const FarmComponent: React.FC = () => {
           if (docSnap.exists()) {
             const data = docSnap.data();
             setInviteLink(data.invite_link || 'No invite link found');
+            setFarmedAmount(data.farmedAmount || 0); // Set farmedAmount if exists or default to 0
             console.log(`Fetched invite link: ${data.invite_link}`);
+            console.log(`Fetched farmed amount: ${data.farmedAmount || 0}`);
           } else {
-            console.log('Document does not exist');
+            console.log('Document does not exist. Creating new document...');
+            await setDoc(docRef, { 
+              invite_link: 'No invite link found', 
+              farmedAmount: 0 
+            });
             setInviteLink('No invite link found');
+            setFarmedAmount(0);
+            console.log('New document created with initial values');
           }
         } catch (error) {
           console.error('Error fetching user data: ', error);
           setInviteLink('Error fetching invite link');
+          setFarmedAmount(0);
         }
       } else {
         console.error('Failed to get user data from Telegram Web Apps SDK');
         setInviteLink('No user data available');
+        setFarmedAmount(0);
       }
 
       setLoading(false);
@@ -75,6 +86,7 @@ const FarmComponent: React.FC = () => {
           <div>
             <div>User ID: {userId}</div>
             <div>Invite Link: {inviteLink}</div>
+            <div>Farmed Amount: {farmedAmount}</div>
           </div>
         )}
       </div>
