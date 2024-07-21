@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import backgroundJpg from './background.jpg';
 import backgroundGif from './background.gif';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from './firebaseConfig';
 import WebApp from "@twa-dev/sdk";
 
@@ -39,11 +39,31 @@ const FarmComponent: React.FC = () => {
       setTelegramUserId(user.id.toString()); // Ensure user ID is a string
     }
 
+    // Fetch existing farmed amount from Firestore
+    if (telegramUserId) {
+      const fetchFarmData = async () => {
+        try {
+          const docRef = doc(db, 'farmData', telegramUserId);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            setFarmedAmount(docSnap.data().totalFarmedAmount || 0);
+          } else {
+            console.log('No such document!');
+          }
+        } catch (error) {
+          console.error('Error fetching farmed amount from Firestore: ', error);
+        }
+      };
+      fetchFarmData();
+    }
+  }, [telegramUserId]);
+
+  useEffect(() => {
     let timer: NodeJS.Timeout;
     if (isFarming && countdown > 0) {
       timer = setTimeout(() => {
         setCountdown(prev => prev - 1);
-        setLastFarmedAmount((60 - countdown) * (100 / 60));
+        setLastFarmedAmount((5 - countdown) * (100 / 5)); // Adjust to 5 seconds
       }, 1000);
     } else if (isFarming && countdown === 0) {
       setIsFarming(false);
@@ -70,7 +90,7 @@ const FarmComponent: React.FC = () => {
 
   const handleFarm = () => {
     setIsFarming(true);
-    setCountdown(60);
+    setCountdown(5); // Set countdown to 5 seconds for testing
     setLastFarmedAmount(0);
   };
 
