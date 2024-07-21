@@ -28,7 +28,6 @@ const BackgroundBox = styled(Box)<{ isFarming: boolean }>(({ isFarming }) => ({
 const IntegratedComponent: React.FC = () => {
   const [inviteLink, setInviteLink] = useState<string>('');
   const [userId, setUserId] = useState<string>('');
-  const [countdown, setCountdown] = useState<number>(0);
   const [farmedAmount, setFarmedAmount] = useState<number>(0);
   const [isFarming, setIsFarming] = useState<boolean>(false);
   const [lastFarmedAmount, setLastFarmedAmount] = useState<number>(0);
@@ -46,7 +45,6 @@ const IntegratedComponent: React.FC = () => {
           const parsedData = JSON.parse(cachedData);
           setFarmedAmount(parsedData.farm || 0);
           setInviteLink(parsedData.invite_link || 'No invite link found');
-          setCountdown(parsedData.countdown || 0); // Get countdown from localStorage
         } else {
           setFarmedAmount(0);
           setInviteLink('No invite link found');
@@ -71,24 +69,21 @@ const IntegratedComponent: React.FC = () => {
           if (data) {
             const updatedFarmedAmount = data.farm || 0;
             const updatedInviteLink = data.invite_link || 'No invite link found';
-            const updatedCountdown = data.countdown || 0; // Get countdown from Firestore
 
             // Update localStorage with the latest Firestore data
             localStorage.setItem(`user_${telegramUserId}`, JSON.stringify({
               farm: updatedFarmedAmount,
               invite_link: updatedInviteLink,
-              countdown: updatedCountdown, // Save countdown
             }));
 
             // Update state
             setFarmedAmount(updatedFarmedAmount);
             setInviteLink(updatedInviteLink);
-            setCountdown(updatedCountdown);
           } else {
-            await setDoc(docRef, { farm: 0, invite_link: 'No invite link found', countdown: 0 });
+            await setDoc(docRef, { farm: 0, invite_link: 'No invite link found' });
           }
         } else {
-          await setDoc(docRef, { farm: 0, invite_link: 'No invite link found', countdown: 0 });
+          await setDoc(docRef, { farm: 0, invite_link: 'No invite link found' });
         }
       } catch (error) {
         console.error('Error fetching or updating user data: ', error);
@@ -101,61 +96,55 @@ const IntegratedComponent: React.FC = () => {
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
-    if (isFarming && countdown > 0) {
+    if (isFarming) {
       timer = setTimeout(() => {
-        setCountdown(prev => prev - 1);
-        setLastFarmedAmount((60 - countdown) * (100 / 60)); // Amount farmed per second
-      }, 1000);
-    } else if (isFarming && countdown === 0) {
-      setIsFarming(false);
-      const newFarmedAmount = farmedAmount + 100;
-      setFarmedAmount(newFarmedAmount);
-      setLastFarmedAmount(100); // Last farming increment
+        setLastFarmedAmount(100); // Amount farmed per session
+        const newFarmedAmount = farmedAmount + 100;
+        setFarmedAmount(newFarmedAmount);
 
-      // Update Firestore with new farmed amount and reset countdown
-      if (userId) {
-        const docRef = doc(db, 'users', userId);
-        setDoc(docRef, { farm: newFarmedAmount, countdown: 0 }, { merge: true })
-          .then(() => {
-            console.log('Farmed amount updated successfully in Firestore.');
+        // Update Firestore with new farmed amount
+        if (userId) {
+          const docRef = doc(db, 'users', userId);
+          setDoc(docRef, { farm: newFarmedAmount }, { merge: true })
+            .then(() => {
+              console.log('Farmed amount updated successfully in Firestore.');
 
-            // Update localStorage with the new farmed amount and reset countdown
-            localStorage.setItem(`user_${userId}`, JSON.stringify({
-              farm: newFarmedAmount,
-              invite_link: inviteLink,
-              countdown: 0,
-            }));
-          })
-          .catch((error) => {
-            console.error('Error updating farmed amount in Firestore: ', error);
-          });
-      }
+              // Update localStorage with the new farmed amount
+              localStorage.setItem(`user_${userId}`, JSON.stringify({
+                farm: newFarmedAmount,
+                invite_link: inviteLink,
+              }));
+            })
+            .catch((error) => {
+              console.error('Error updating farmed amount in Firestore: ', error);
+            });
+        }
+        setIsFarming(false);
+      }, 60000); // Assuming 60 seconds for farming session duration
     }
 
     return () => clearTimeout(timer);
-  }, [isFarming, countdown, farmedAmount, userId, inviteLink]);
+  }, [isFarming, farmedAmount, userId, inviteLink]);
 
   const handleFarm = () => {
     setIsFarming(true);
-    setCountdown(60);
     setLastFarmedAmount(0); // Reset last farm amount at the start
 
-    // Update Firestore with new countdown
+    // Update Firestore with new farming status
     if (userId) {
       const docRef = doc(db, 'users', userId);
-      setDoc(docRef, { countdown: 60 }, { merge: true })
+      setDoc(docRef, { farm: farmedAmount }, { merge: true })
         .then(() => {
-          console.log('Countdown updated successfully in Firestore.');
+          console.log('Farm status updated successfully in Firestore.');
 
-          // Update localStorage with the new countdown
+          // Update localStorage with the new farming status
           localStorage.setItem(`user_${userId}`, JSON.stringify({
             farm: farmedAmount,
             invite_link: inviteLink,
-            countdown: 60,
           }));
         })
         .catch((error) => {
-          console.error('Error updating countdown in Firestore: ', error);
+          console.error('Error updating farming status in Firestore: ', error);
         });
     }
   };
@@ -169,7 +158,7 @@ const IntegratedComponent: React.FC = () => {
         <div>Last Farmed Amount: {Math.round(lastFarmedAmount)} / 100</div>
         <button onClick={handleFarm} disabled={isFarming}>
           {isFarming 
-            ? `Farming ${Math.round(lastFarmedAmount)} / 100 - Time remaining: ${countdown}s` 
+            ? `Farming ${Math.round(lastFarmedAmount)} / 100` 
             : 'Farm'
           }
         </button>
