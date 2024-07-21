@@ -28,7 +28,7 @@ const BackgroundBox = styled(Box)<{ isFarming: boolean }>(({ isFarming }) => ({
 const FarmComponent: React.FC = () => {
   const [inviteLink, setInviteLink] = useState<string>('');
   const [userId, setUserId] = useState<string>('');
-  const [farmedAmount, setFarmedAmount] = useState<number>(0);
+  const [farm, setFarm] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -46,38 +46,40 @@ const FarmComponent: React.FC = () => {
 
           if (docSnap.exists()) {
             const data = docSnap.data();
-            
-            // Check if 'farmedAmount' exists and update it if not
-            if (!('farmedAmount' in data)) {
-              console.log('farmedAmount does not exist. Creating with default value of 0...');
-              await setDoc(docRef, { farmedAmount: 0 }, { merge: true });
-              setFarmedAmount(0);
+            console.log('Document exists. Data:', data);
+
+            // Check if 'farm' exists and update it if not
+            if (data && 'farm' in data) {
+              console.log('Farm field exists. Value:', data.farm);
+              setFarm(data.farm);
             } else {
-              setFarmedAmount(data.farmedAmount);
+              console.log('Farm field does not exist. Creating with default value of 0...');
+              await setDoc(docRef, { farm: 0 }, { merge: true });
+              console.log('Farm field set to 0.');
+              setFarm(0);
             }
 
             setInviteLink(data.invite_link || 'No invite link found');
             console.log(`Fetched invite link: ${data.invite_link}`);
-            console.log(`Fetched farmed amount: ${data.farmedAmount || 0}`);
           } else {
             console.log('Document does not exist. Creating new document...');
             await setDoc(docRef, { 
               invite_link: 'No invite link found', 
-              farmedAmount: 0 
+              farm: 0 
             });
+            console.log('New document created with initial values.');
             setInviteLink('No invite link found');
-            setFarmedAmount(0);
-            console.log('New document created with initial values');
+            setFarm(0);
           }
         } catch (error) {
-          console.error('Error fetching user data: ', error);
+          console.error('Error fetching or updating user data: ', error);
           setInviteLink('Error fetching invite link');
-          setFarmedAmount(0);
+          setFarm(0);
         }
       } else {
         console.error('Failed to get user data from Telegram Web Apps SDK');
         setInviteLink('No user data available');
-        setFarmedAmount(0);
+        setFarm(0);
       }
 
       setLoading(false);
@@ -95,7 +97,7 @@ const FarmComponent: React.FC = () => {
           <div>
             <div>User ID: {userId}</div>
             <div>Invite Link: {inviteLink}</div>
-            <div>Farmed Amount: {farmedAmount}</div>
+            <div>Farm: {farm}</div>
           </div>
         )}
       </div>
