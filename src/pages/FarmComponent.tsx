@@ -5,7 +5,7 @@ import backgroundJpg from './background.jpg';
 import backgroundGif from './background.gif';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from './firebaseConfig';
-import WebApp from "@twa-dev/sdk";
+import WebApp from '@twa-dev/sdk';
 
 // Styled component for background
 const BackgroundBox = styled(Box)<{ isFarming: boolean }>(({ isFarming }) => ({
@@ -46,8 +46,8 @@ const IntegratedComponent: React.FC = () => {
           const parsedData = JSON.parse(cachedData);
           setFarmedAmount(parsedData.farm || 0);
           setInviteLink(parsedData.invite_link || 'No invite link found');
+          setCountdown(parsedData.countdown || 0); // Get countdown from localStorage
         } else {
-          // Set default values if no data found in localStorage
           setFarmedAmount(0);
           setInviteLink('No invite link found');
         }
@@ -68,24 +68,27 @@ const IntegratedComponent: React.FC = () => {
 
         if (docSnap.exists()) {
           const data = docSnap.data();
-          if (data && 'farm' in data) {
+          if (data) {
             const updatedFarmedAmount = data.farm || 0;
             const updatedInviteLink = data.invite_link || 'No invite link found';
+            const updatedCountdown = data.countdown || 0; // Get countdown from Firestore
 
             // Update localStorage with the latest Firestore data
             localStorage.setItem(`user_${telegramUserId}`, JSON.stringify({
               farm: updatedFarmedAmount,
               invite_link: updatedInviteLink,
+              countdown: updatedCountdown, // Save countdown
             }));
 
             // Update state
             setFarmedAmount(updatedFarmedAmount);
             setInviteLink(updatedInviteLink);
+            setCountdown(updatedCountdown);
           } else {
-            await setDoc(docRef, { farm: 0, invite_link: 'No invite link found' }, { merge: true });
+            await setDoc(docRef, { farm: 0, invite_link: 'No invite link found', countdown: 0 });
           }
         } else {
-          await setDoc(docRef, { invite_link: 'No invite link found', farm: 0 });
+          await setDoc(docRef, { farm: 0, invite_link: 'No invite link found', countdown: 0 });
         }
       } catch (error) {
         console.error('Error fetching or updating user data: ', error);
@@ -97,6 +100,7 @@ const IntegratedComponent: React.FC = () => {
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
+
     if (isFarming && countdown > 0) {
       timer = setTimeout(() => {
         setCountdown(prev => prev - 1);
@@ -108,17 +112,18 @@ const IntegratedComponent: React.FC = () => {
       setFarmedAmount(newFarmedAmount);
       setLastFarmedAmount(100); // Last farming increment
 
-      // Update Firestore with new farmed amount
+      // Update Firestore with new farmed amount and reset countdown
       if (userId) {
         const docRef = doc(db, 'users', userId);
-        setDoc(docRef, { farm: newFarmedAmount }, { merge: true })
+        setDoc(docRef, { farm: newFarmedAmount, countdown: 0 }, { merge: true })
           .then(() => {
             console.log('Farmed amount updated successfully in Firestore.');
 
-            // Update localStorage with the new farmed amount
+            // Update localStorage with the new farmed amount and reset countdown
             localStorage.setItem(`user_${userId}`, JSON.stringify({
               farm: newFarmedAmount,
               invite_link: inviteLink,
+              countdown: 0,
             }));
           })
           .catch((error) => {
@@ -128,12 +133,31 @@ const IntegratedComponent: React.FC = () => {
     }
 
     return () => clearTimeout(timer);
-  }, [isFarming, countdown, farmedAmount, userId, inviteLink]); // Add all dependencies
+  }, [isFarming, countdown, farmedAmount, userId, inviteLink]);
 
   const handleFarm = () => {
     setIsFarming(true);
     setCountdown(60);
     setLastFarmedAmount(0); // Reset last farm amount at the start
+
+    // Update Firestore with new countdown
+    if (userId) {
+      const docRef = doc(db, 'users', userId);
+      setDoc(docRef, { countdown: 60 }, { merge: true })
+        .then(() => {
+          console.log('Countdown updated successfully in Firestore.');
+
+          // Update localStorage with the new countdown
+          localStorage.setItem(`user_${userId}`, JSON.stringify({
+            farm: farmedAmount,
+            invite_link: inviteLink,
+            countdown: 60,
+          }));
+        })
+        .catch((error) => {
+          console.error('Error updating countdown in Firestore: ', error);
+        });
+    }
   };
 
   return (
