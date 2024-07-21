@@ -22,24 +22,23 @@ const Loading: React.FC = () => {
         const docRef = doc(db, 'users', telegramUserId);
         const docSnap = await getDoc(docRef);
 
+        let userData;
         if (docSnap.exists()) {
-          const data = docSnap.data();
-          const farmAmount = data?.farm || 0;
-          const inviteLink = data?.invite_link || 'No invite link found';
-
-          // Veriyi localStorage'a kaydet
-          localStorage.setItem(`user_${telegramUserId}`, JSON.stringify({
-            farm: farmAmount,
-            invite_link: inviteLink,
-          }));
+          // Eğer doküman varsa, verileri al
+          userData = docSnap.data();
         } else {
           // Firestore'da veri yoksa, varsayılan değerlerle veri oluştur
-          await setDoc(docRef, { invite_link: 'No invite link found', farm: 0 });
-          localStorage.setItem(`user_${telegramUserId}`, JSON.stringify({
-            farm: 0,
+          userData = {
             invite_link: 'No invite link found',
-          }));
+            farm: 0,
+            clicks: 0,
+            other_field: 'Default value', // Diğer alanlar eklenebilir
+          };
+          await setDoc(docRef, userData);
         }
+
+        // Veriyi localStorage'a kaydet
+        localStorage.setItem(`user_${telegramUserId}`, JSON.stringify(userData));
       } catch (error) {
         console.error('Error fetching or updating user data:', error);
         setError('An error occurred while fetching or updating data.');

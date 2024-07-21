@@ -32,10 +32,9 @@ const IntegratedComponent: React.FC = () => {
   const [farmedAmount, setFarmedAmount] = useState<number>(0);
   const [isFarming, setIsFarming] = useState<boolean>(false);
   const [lastFarmedAmount, setLastFarmedAmount] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const initializeUser = async () => {
       const user = WebApp.initDataUnsafe?.user;
       if (user) {
         const telegramUserId = user.id.toString();
@@ -43,63 +42,57 @@ const IntegratedComponent: React.FC = () => {
 
         // Check localStorage for cached data
         const cachedData = localStorage.getItem(`user_${telegramUserId}`);
-        let localFarmedAmount = 0;
-        let localInviteLink = 'No invite link found';
-
         if (cachedData) {
           const parsedData = JSON.parse(cachedData);
-          localFarmedAmount = parsedData.farm;
-          localInviteLink = parsedData.invite_link;
-        }
-
-        try {
-          const docRef = doc(db, 'users', telegramUserId);
-          const docSnap = await getDoc(docRef);
-
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            if (data && 'farm' in data) {
-              setFarmedAmount(data.farm);
-            } else {
-              await setDoc(docRef, { farm: 0 }, { merge: true });
-              setFarmedAmount(0);
-            }
-
-            setInviteLink(data.invite_link || 'No invite link found');
-          } else {
-            await setDoc(docRef, { invite_link: 'No invite link found', farm: 0 });
-            setInviteLink('No invite link found');
-            setFarmedAmount(0);
-          }
-
-          // Save data to localStorage
-          localStorage.setItem(`user_${telegramUserId}`, JSON.stringify({
-            farm: farmedAmount,
-            invite_link: inviteLink,
-          }));
-        } catch (error) {
-          console.error('Error fetching or updating user data: ', error);
-          setInviteLink('Error fetching invite link');
+          setFarmedAmount(parsedData.farm || 0);
+          setInviteLink(parsedData.invite_link || 'No invite link found');
+        } else {
+          // Set default values if no data found in localStorage
           setFarmedAmount(0);
+          setInviteLink('No invite link found');
         }
 
-        // Ensure localStorage data is up-to-date
-        if (farmedAmount !== localFarmedAmount || inviteLink !== localInviteLink) {
-          localStorage.setItem(`user_${telegramUserId}`, JSON.stringify({
-            farm: farmedAmount,
-            invite_link: inviteLink,
-          }));
-        }
+        // Synchronize data with Firestore in the background
+        synchronizeDataWithFirestore(telegramUserId);
       } else {
         console.error('Failed to get user data from Telegram Web Apps SDK');
         setInviteLink('No user data available');
         setFarmedAmount(0);
       }
-
-      setLoading(false);
     };
 
-    fetchUserData();
+    const synchronizeDataWithFirestore = async (telegramUserId: string) => {
+      try {
+        const docRef = doc(db, 'users', telegramUserId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          if (data && 'farm' in data) {
+            const updatedFarmedAmount = data.farm || 0;
+            const updatedInviteLink = data.invite_link || 'No invite link found';
+
+            // Update localStorage with the latest Firestore data
+            localStorage.setItem(`user_${telegramUserId}`, JSON.stringify({
+              farm: updatedFarmedAmount,
+              invite_link: updatedInviteLink,
+            }));
+
+            // Update state
+            setFarmedAmount(updatedFarmedAmount);
+            setInviteLink(updatedInviteLink);
+          } else {
+            await setDoc(docRef, { farm: 0, invite_link: 'No invite link found' }, { merge: true });
+          }
+        } else {
+          await setDoc(docRef, { invite_link: 'No invite link found', farm: 0 });
+        }
+      } catch (error) {
+        console.error('Error fetching or updating user data: ', error);
+      }
+    };
+
+    initializeUser();
   }, []); // Empty dependency array to run only once on mount
 
   useEffect(() => {
@@ -146,22 +139,16 @@ const IntegratedComponent: React.FC = () => {
   return (
     <BackgroundBox isFarming={isFarming}>
       <div className="main-content">
-        {loading ? (
-          <div>Loading...</div>
-        ) : (
-          <div>
-            <div>User ID: {userId}</div>
-            <div>Invite Link: {inviteLink}</div>
-            <div>Total Farmed Amount: {farmedAmount}</div>
-            <div>Last Farmed Amount: {Math.round(lastFarmedAmount)} / 100</div>
-            <button onClick={handleFarm} disabled={isFarming}>
-              {isFarming 
-                ? `Farming ${Math.round(lastFarmedAmount)} / 100 - Time remaining: ${countdown}s` 
-                : 'Farm'
-              }
-            </button>
-          </div>
-        )}
+        <div>User ID: {userId}</div>
+        <div>Invite Link: {inviteLink}</div>
+        <div>Total Farmed Amount: {farmedAmount}</div>
+        <div>Last Farmed Amount: {Math.round(lastFarmedAmount)} / 100</div>
+        <button onClick={handleFarm} disabled={isFarming}>
+          {isFarming 
+            ? `Farming ${Math.round(lastFarmedAmount)} / 100 - Time remaining: ${countdown}s` 
+            : 'Farm'
+          }
+        </button>
       </div>
     </BackgroundBox>
   );
