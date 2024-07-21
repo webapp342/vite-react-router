@@ -46,8 +46,17 @@ const FarmComponent: React.FC = () => {
 
           if (docSnap.exists()) {
             const data = docSnap.data();
+            
+            // Check if 'farmedAmount' exists and update it if not
+            if (!('farmedAmount' in data)) {
+              console.log('farmedAmount does not exist. Creating with default value of 0...');
+              await setDoc(docRef, { farmedAmount: 0 }, { merge: true });
+              setFarmedAmount(0);
+            } else {
+              setFarmedAmount(data.farmedAmount);
+            }
+
             setInviteLink(data.invite_link || 'No invite link found');
-            setFarmedAmount(data.farmedAmount || 0); // Set farmedAmount if exists or default to 0
             console.log(`Fetched invite link: ${data.invite_link}`);
             console.log(`Fetched farmed amount: ${data.farmedAmount || 0}`);
           } else {
