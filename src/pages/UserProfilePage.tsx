@@ -1,8 +1,5 @@
-// src/components/UserProfilePage.js
 import React, { useEffect, useState } from 'react';
 import WebApp from '@twa-dev/sdk';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from './firebaseConfig';
 import { ExtendedWebAppUser } from './types'; // Kullanıcı tipi için gerekli olan import
 
 const UserProfilePage: React.FC = () => {
@@ -12,29 +9,25 @@ const UserProfilePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchUserData = () => {
       const user = WebApp.initDataUnsafe?.user as ExtendedWebAppUser;
       if (user) {
         setUserData(user);
-        try {
-          const docRef = doc(db, "users", user.id.toString());
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            setFirestoreData({
-              invite_link: data.invite_link,
-              clicks: data.clicks,
-            });
-          } else {
-            console.error("No such document!");
-            setError("No such document!");
-          }
-        } catch (err) {
-          console.error("Error getting document:", err);
-          setError("Error getting document");
-        } finally {
-          setLoading(false);
+        const telegramUserId = user.id.toString();
+
+        // Veriyi localStorage'dan kontrol et
+        const cachedData = localStorage.getItem(`user_${telegramUserId}`);
+        if (cachedData) {
+          const parsedData = JSON.parse(cachedData);
+          setFirestoreData({
+            invite_link: parsedData.invite_link || 'No invite link found',
+            clicks: parsedData.clicks || 0,
+          });
+        } else {
+          // Eğer localStorage'da veri bulunamazsa, hata durumunu ayarla
+          setError('No data found in local storage');
         }
+        setLoading(false);
       } else {
         console.error('User data is not available');
         setError('User data is not available');
@@ -53,13 +46,16 @@ const UserProfilePage: React.FC = () => {
     return <div>Error: {error}</div>;
   }
 
+  if (!firestoreData) {
+    return <div>No data found</div>;
+  }
+
   return (
     <div className="main-content">
       <h2>User Details</h2>
- 
       {userData && firestoreData && (
         <>
-          <h3>Firestore Data</h3>
+          <h3>Local Storage Data</h3>
           <p><strong>Invite Link:</strong> {firestoreData.invite_link}</p>
           <p><strong>Clicks:</strong> {firestoreData.clicks}</p>
         </>
