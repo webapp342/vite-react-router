@@ -4,7 +4,7 @@ import { ExtendedWebAppUser } from './types'; // Kullanıcı tipi için gerekli 
 
 const UserProfilePage: React.FC = () => {
   const [userData, setUserData] = useState<ExtendedWebAppUser | null>(null);
-  const [firestoreData, setFirestoreData] = useState<{ invite_link: string; clicks: number } | null>(null);
+  const [firestoreData, setFirestoreData] = useState<{ invite_link: string; farm: number } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,11 +18,15 @@ const UserProfilePage: React.FC = () => {
         // Veriyi localStorage'dan kontrol et
         const cachedData = localStorage.getItem(`user_${telegramUserId}`);
         if (cachedData) {
-          const parsedData = JSON.parse(cachedData);
-          setFirestoreData({
-            invite_link: parsedData.invite_link || 'No invite link found',
-            clicks: parsedData.clicks || 0,
-          });
+          try {
+            const parsedData = JSON.parse(cachedData);
+            setFirestoreData({
+              invite_link: parsedData.invite_link || 'No invite link found',
+              farm: typeof parsedData.farm === 'number' ? parsedData.farm : 0, // Sayısal bir değer olup olmadığını kontrol et
+            });
+          } catch (e) {
+            setError('Error parsing data from local storage');
+          }
         } else {
           // Eğer localStorage'da veri bulunamazsa, hata durumunu ayarla
           setError('No data found in local storage');
@@ -57,7 +61,7 @@ const UserProfilePage: React.FC = () => {
         <>
           <h3>Local Storage Data</h3>
           <p><strong>Invite Link:</strong> {firestoreData.invite_link}</p>
-          <p><strong>Clicks:</strong> {firestoreData.clicks}</p>
+          <p><strong>Farm:</strong> {firestoreData.farm}</p>
         </>
       )}
     </div>
