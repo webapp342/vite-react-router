@@ -26,8 +26,8 @@ const IntegratedComponent: React.FC = () => {
   const [isRunning, setIsRunning] = useState<boolean>(false);
 
   useEffect(() => {
-    const isRunningValue = localStorage.getItem('isRunning');
-    setIsRunning(isRunningValue === 'yes');
+    const storedIsRunning = localStorage.getItem('isRunning');
+    setIsRunning(storedIsRunning === 'true');
   }, []);
 
   return (
