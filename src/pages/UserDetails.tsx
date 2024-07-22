@@ -1,50 +1,92 @@
 import React, { useState, useEffect } from 'react';
-import { db } from './firebaseConfig'; // Firestore'u içe aktarın
-import { doc, setDoc, getDoc, Timestamp } from 'firebase/firestore';
+import { db } from './firebaseConfig';
+import { doc, setDoc, getDoc, Timestamp, updateDoc, increment } from 'firebase/firestore';
 
-// Kullanıcı ID'si tipi (örnek olarak string olarak tanımlanmıştır, gerçek uygulamada farklı olabilir)
-type UserId = string;
+// Sabit kullanıcı ID'si
+const userId: string = '7046348699';
 
 interface CountdownData {
   endTime: Timestamp | null;
   isRunning: boolean;
+  pointsAdded?: boolean; // Puan eklendi mi?
 }
 
 const CountdownTimer: React.FC = () => {
   const [seconds, setSeconds] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
-
-  // Kullanıcı ID'si (önceden belirlenmiş veya kimlik doğrulama ile alınmış olmalı)
-  const userId: UserId = '7046348699'; // Örnek kullanıcı ID'si
+  const [userScore, setUserScore] = useState<number>(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log('Fetching countdown data for user:', userId);
+
         const docRef = doc(db, 'countdowns', userId);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
+          console.log('Document data:', docSnap.data());
           const data = docSnap.data() as CountdownData;
           const currentTime = new Date();
+          console.log('Current time:', currentTime);
+          console.log('Document endTime:', data.endTime?.toDate());
 
           if (data.isRunning && data.endTime && data.endTime.toDate() > currentTime) {
-            // Geri sayım süresi hala devam ediyorsa
+            console.log('Countdown is running.');
             setIsRunning(true);
             const remainingTime = Math.floor((data.endTime.toDate().getTime() - currentTime.getTime()) / 1000);
             setSeconds(remainingTime);
             setButtonDisabled(true);
           } else {
-            // Geri sayım süresi dolmuşsa
+            console.log('Countdown has expired or is not running.');
             setIsRunning(false);
             setSeconds(0);
             setButtonDisabled(false);
-            // Firestore'daki isRunning ve endTime'ı güncelleyin
-            await setDoc(docRef, {
-              endTime: null,
-              isRunning: false,
-            }, { merge: true });
+
+            if (!data.pointsAdded) {
+              // Puan ekleme işlemi yapılmamışsa, puanı ekleyin
+              await setDoc(docRef, {
+                endTime: null,
+                isRunning: false,
+                pointsAdded: true
+              }, { merge: true });
+
+              // Kullanıcı puanını güncelleyin
+              const userDocRef = doc(db, 'users', userId);
+              await updateDoc(userDocRef, {
+                score: increment(10)
+              });
+              console.log('Added 10 points to user.');
+
+              // Kullanıcı skorunu güncelle
+              const userDocSnap = await getDoc(userDocRef);
+              if (userDocSnap.exists()) {
+                setUserScore(userDocSnap.data().score || 0);
+              }
+            } else {
+              // Puan ekleme işlemi yapılmışsa, sadece geri sayımı güncelleyin
+              await setDoc(docRef, {
+                endTime: null,
+                isRunning: false
+              }, { merge: true });
+            }
           }
+        } else {
+          console.log('Document does not exist. Creating new document.');
+          await setDoc(docRef, {
+            endTime: null,
+            isRunning: false,
+            pointsAdded: false // Başlangıçta puan eklenmedi
+          }, { merge: true });
+          setButtonDisabled(false);
+        }
+
+        // Kullanıcı skorunu al
+        const userDocRef = doc(db, 'users', userId);
+        const userDocSnap = await getDoc(userDocRef);
+        if (userDocSnap.exists()) {
+          setUserScore(userDocSnap.data().score || 0);
         }
       } catch (error) {
         console.error('Error fetching countdown data:', error);
@@ -56,13 +98,20 @@ const CountdownTimer: React.FC = () => {
 
   const startCountdown = async () => {
     try {
-      const endTime = new Date(Date.now() + 300 * 1000); // Şu andan 5 dakika ekleyin
+      console.log('Starting countdown for user:', userId);
+
+      const endTime = new Date(Date.now() + 300 * 1000);
+      console.log('Countdown endTime:', endTime);
+
       const docRef = doc(db, 'countdowns', userId);
 
       await setDoc(docRef, {
         endTime: Timestamp.fromDate(endTime),
         isRunning: true,
+        pointsAdded: false // Geri sayım başlatıldığında puan eklenmedi
       }, { merge: true });
+
+      console.log('Document updated with new endTime and isRunning true.');
 
       setSeconds(300);
       setIsRunning(true);
@@ -75,9 +124,11 @@ const CountdownTimer: React.FC = () => {
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
     if (isRunning) {
+      console.log('Countdown started.');
       interval = setInterval(() => {
         setSeconds((prevSeconds) => {
           if (prevSeconds <= 1) {
+            console.log('Countdown finished.');
             clearInterval(interval!);
             setIsRunning(false);
             setButtonDisabled(false);
@@ -85,7 +136,24 @@ const CountdownTimer: React.FC = () => {
             setDoc(doc(db, 'countdowns', userId), {
               endTime: null,
               isRunning: false,
+              pointsAdded: true
             }, { merge: true });
+
+            // Kullanıcı puanını güncelleyin
+            const userDocRef = doc(db, 'users', userId);
+            updateDoc(userDocRef, {
+              score: increment(10)
+            });
+
+            console.log('Added 10 points to user.');
+
+            // Kullanıcı skorunu güncelle
+            getDoc(userDocRef).then(userDocSnap => {
+              if (userDocSnap.exists()) {
+                setUserScore(userDocSnap.data().score || 0);
+              }
+            });
+
             return 0;
           }
           return prevSeconds - 1;
@@ -95,6 +163,7 @@ const CountdownTimer: React.FC = () => {
     return () => {
       if (interval) {
         clearInterval(interval);
+        console.log('Interval cleared.');
       }
     };
   }, [isRunning]);
@@ -108,6 +177,7 @@ const CountdownTimer: React.FC = () => {
   return (
     <div>
       <h1>Geri Sayım: {formatTime(seconds)}</h1>
+      <p>Mevcut Skor: {userScore}</p>
       <button onClick={startCountdown} disabled={buttonDisabled}>
         {buttonDisabled ? 'Başlatıldı' : 'Başlat'}
       </button>
