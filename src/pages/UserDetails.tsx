@@ -3,7 +3,7 @@ import { db } from './firebaseConfig';
 import { doc, setDoc, getDoc, Timestamp, updateDoc, increment } from 'firebase/firestore';
 
 // Sabit kullanıcı ID'si
-const userId: string = '7046348699';
+const userId: string = '1421109983';
 
 interface CountdownData {
   endTime: Timestamp | null;
