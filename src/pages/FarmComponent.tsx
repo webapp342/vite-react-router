@@ -5,7 +5,7 @@ import backgroundJpg from './background.jpg';
 import backgroundGif from './background.gif';
 
 // Styled component for background
-const BackgroundBox = styled(Box)<{ isFarming: boolean }>(({ isFarming }) => ({
+const BackgroundBox = styled(Box)<{ isRunning: boolean }>(({ isRunning }) => ({
   position: 'fixed',
   top: 0,
   left: 0,
@@ -14,7 +14,7 @@ const BackgroundBox = styled(Box)<{ isFarming: boolean }>(({ isFarming }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundImage: isFarming
+  backgroundImage: isRunning
     ? `url(${backgroundGif})`
     : `url(${backgroundJpg})`,
   backgroundSize: 'cover',
@@ -23,17 +23,17 @@ const BackgroundBox = styled(Box)<{ isFarming: boolean }>(({ isFarming }) => ({
 }));
 
 const IntegratedComponent: React.FC = () => {
-  const [isFarming, setIsFarming] = useState<boolean>(false);
+  const [isRunning, setIsRunning] = useState<boolean>(false);
 
   useEffect(() => {
-    const isRunning = localStorage.getItem('isRunning');
-    setIsFarming(isRunning === 'true');
+    const isRunningValue = localStorage.getItem('isRunning');
+    setIsRunning(isRunningValue === 'yes');
   }, []);
 
   return (
-    <BackgroundBox isFarming={isFarming}>
+    <BackgroundBox isRunning={isRunning}>
       <div className="main-content">
-        {/* Content can be added here if needed */}
+        <p><strong>Is Running:</strong> {isRunning ? 'Yes' : 'No'}</p>
       </div>
     </BackgroundBox>
   );
