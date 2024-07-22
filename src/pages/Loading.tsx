@@ -10,7 +10,7 @@ const Loading: React.FC = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        // Telegram Web App SDK kullanarak Telegram ID'sini al
+        // Get Telegram user ID using the Telegram Web App SDK
         const user = WebApp.initDataUnsafe?.user;
         if (!user) {
           throw new Error('Telegram user data is not available');
@@ -18,27 +18,43 @@ const Loading: React.FC = () => {
 
         const telegramUserId = user.id.toString();
 
-        // Firestore'dan veri al
-        const docRef = doc(db, 'users', telegramUserId);
-        const docSnap = await getDoc(docRef);
+        // Fetch data from Firestore's 'users' collection
+        const userDocRef = doc(db, 'users', telegramUserId);
+        const userDocSnap = await getDoc(userDocRef);
 
         let userData;
-        if (docSnap.exists()) {
-          // Eğer doküman varsa, verileri al
-          userData = docSnap.data();
+        if (userDocSnap.exists()) {
+          userData = userDocSnap.data();
         } else {
-          // Firestore'da veri yoksa, varsayılan değerlerle veri oluştur
+          // Create default data if no document exists
           userData = {
             invite_link: 'No invite link found',
-            farm: 0,
-            clicks: 0,
-            other_field: 'Default value', // Diğer alanlar eklenebilir
           };
-          await setDoc(docRef, userData);
+          await setDoc(userDocRef, userData);
         }
 
-        // Veriyi localStorage'a kaydet
+        // Save user data to localStorage
         localStorage.setItem(`user_${telegramUserId}`, JSON.stringify(userData));
+
+        // Fetch data from Firestore's 'countdowns' collection
+        const countdownDocRef = doc(db, 'countdowns', telegramUserId);
+        const countdownDocSnap = await getDoc(countdownDocRef);
+
+        let countdownData;
+        if (countdownDocSnap.exists()) {
+          countdownData = countdownDocSnap.data();
+        } else {
+          // Create default data if no document exists
+          countdownData = {
+            isRunning: false,
+            duration: 0, // Additional fields can be added
+          };
+          await setDoc(countdownDocRef, countdownData);
+        }
+
+        // Save countdown data to localStorage
+        localStorage.setItem(`countdown_${telegramUserId}`, JSON.stringify(countdownData));
+
       } catch (error) {
         console.error('Error fetching or updating user data:', error);
         setError('An error occurred while fetching or updating data.');
