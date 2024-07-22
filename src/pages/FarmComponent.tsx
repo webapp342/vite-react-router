@@ -27,7 +27,12 @@ const IntegratedComponent: React.FC = () => {
 
   useEffect(() => {
     const storedIsRunning = localStorage.getItem('isRunning');
-    setIsRunning(storedIsRunning === 'true');
+    if (storedIsRunning === null) {
+      console.warn('No "isRunning" value found in local storage');
+    } else {
+      console.log(`Fetched "isRunning" value: ${storedIsRunning}`);
+      setIsRunning(storedIsRunning === 'true');
+    }
   }, []);
 
   return (

@@ -33,14 +33,20 @@ const UserProfilePage: React.FC = () => {
             const parsedUserData = JSON.parse(cachedUserData);
             const parsedCountdownData = JSON.parse(cachedCountdownData);
 
+            const isRunning = !!parsedCountdownData.isRunning;
+            const pointsAdded = !!parsedCountdownData.pointsAdded;
+
             setFirestoreData({
               invite_link: parsedUserData.invite_link || 'No invite link found',
               farm: typeof parsedUserData.farm === 'number' ? parsedUserData.farm : 0,
               user_id: parsedUserData.user_id || 'No user ID found',
               score: typeof parsedUserData.score === 'number' ? parsedUserData.score : 0,
-              isRunning: !!parsedCountdownData.isRunning,
-              pointsAdded: !!parsedCountdownData.pointsAdded,
+              isRunning,
+              pointsAdded,
             });
+
+            // Store the isRunning value as a string in localStorage
+            localStorage.setItem('isRunning', isRunning ? 'true' : 'false');
           } catch (e) {
             setError('Error parsing data from local storage');
           }
