@@ -25,33 +25,29 @@ const CountdownTimer: React.FC = () => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          console.log('Document data:', docSnap.data());
           const data = docSnap.data() as CountdownData;
           const currentTime = new Date();
-          console.log('Current time:', currentTime);
-          console.log('Document endTime:', data.endTime?.toDate());
 
           if (data.isRunning && data.endTime && data.endTime.toDate() > currentTime) {
-            console.log('Countdown is running.');
+            // Geri sayım hala çalışıyor
             setIsRunning(true);
             const remainingTime = Math.floor((data.endTime.toDate().getTime() - currentTime.getTime()) / 1000);
             setSeconds(remainingTime);
             setButtonDisabled(true);
-
-            // Güncellenmiş verileri localStorage'a kaydet
             localStorage.setItem('countdownEndTime', data.endTime.toDate().toISOString());
             localStorage.setItem('isRunning', 'true');
           } else {
-            console.log('Countdown has expired or is not running.');
+            // Geri sayım bitmiş veya çalışmıyor
             setIsRunning(false);
             setSeconds(0);
             setButtonDisabled(false);
 
-            // Güncellenmiş verileri localStorage'a kaydet
-            localStorage.setItem('countdownEndTime', '');
+            // localStorage'ı güncelle
+            localStorage.removeItem('countdownEndTime');
             localStorage.setItem('isRunning', 'false');
 
             if (!data.pointsAdded) {
+              // Puan eklenmemişse, puanı ekleyin
               await setDoc(docRef, {
                 endTime: null,
                 isRunning: false,
@@ -72,6 +68,7 @@ const CountdownTimer: React.FC = () => {
                 localStorage.setItem('userScore', newScore.toString());
               }
             } else {
+              // Puan eklenmişse, sadece geri sayımı güncelleyin
               await setDoc(docRef, {
                 endTime: null,
                 isRunning: false
@@ -79,6 +76,7 @@ const CountdownTimer: React.FC = () => {
             }
           }
         } else {
+          // Belge mevcut değilse, yeni belge oluşturun
           console.log('Document does not exist. Creating new document.');
           await setDoc(docRef, {
             endTime: null,
@@ -86,10 +84,11 @@ const CountdownTimer: React.FC = () => {
             pointsAdded: false
           }, { merge: true });
           setButtonDisabled(false);
-          localStorage.setItem('countdownEndTime', '');
+          localStorage.removeItem('countdownEndTime');
           localStorage.setItem('isRunning', 'false');
         }
 
+        // Kullanıcı skorunu güncelle
         const userDocRef = doc(db, 'users', userId);
         const userDocSnap = await getDoc(userDocRef);
         if (userDocSnap.exists()) {
@@ -126,7 +125,6 @@ const CountdownTimer: React.FC = () => {
       setIsRunning(true);
       setButtonDisabled(true);
 
-      // `localStorage`'ı güncelle
       localStorage.setItem('countdownEndTime', endTime.toISOString());
       localStorage.setItem('isRunning', 'true');
     } catch (error) {
@@ -145,15 +143,17 @@ const CountdownTimer: React.FC = () => {
             clearInterval(interval!);
             setIsRunning(false);
             setButtonDisabled(false);
+
             // Geri sayım tamamlandığında Firestore'u güncelleyin
             const updateFirestore = async () => {
-              await setDoc(doc(db, 'countdowns', userId), {
+              const docRef = doc(db, 'countdowns', userId);
+
+              await setDoc(docRef, {
                 endTime: null,
                 isRunning: false,
                 pointsAdded: true
               }, { merge: true });
 
-              // Kullanıcı puanını güncelleyin
               const userDocRef = doc(db, 'users', userId);
               await updateDoc(userDocRef, {
                 score: increment(10)
@@ -169,9 +169,10 @@ const CountdownTimer: React.FC = () => {
               }
 
               // Güncellenmiş verileri localStorage'a kaydedin
-              localStorage.setItem('countdownEndTime', '');
+              localStorage.removeItem('countdownEndTime');
               localStorage.setItem('isRunning', 'false');
             };
+
             updateFirestore();
 
             return 0;
