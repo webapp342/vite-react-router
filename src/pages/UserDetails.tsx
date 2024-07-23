@@ -38,11 +38,15 @@ const CountdownTimer: React.FC = () => {
             const remainingTime = Math.floor((data.endTime.toDate().getTime() - currentTime.getTime()) / 1000);
             setSeconds(remainingTime);
             setButtonDisabled(true);
+            localStorage.setItem('countdownEndTime', data.endTime.toDate().toISOString());
+            localStorage.setItem('isRunning', 'true');
           } else {
             console.log('Countdown has expired or is not running.');
             setIsRunning(false);
             setSeconds(0);
             setButtonDisabled(false);
+            localStorage.removeItem('countdownEndTime');
+            localStorage.removeItem('isRunning');
 
             if (!data.pointsAdded) {
               // Puan ekleme işlemi yapılmamışsa, puanı ekleyin
@@ -63,6 +67,7 @@ const CountdownTimer: React.FC = () => {
               const userDocSnap = await getDoc(userDocRef);
               if (userDocSnap.exists()) {
                 setUserScore(userDocSnap.data().score || 0);
+                localStorage.setItem('userScore', (userDocSnap.data().score || 0).toString());
               }
             } else {
               // Puan ekleme işlemi yapılmışsa, sadece geri sayımı güncelleyin
@@ -80,6 +85,8 @@ const CountdownTimer: React.FC = () => {
             pointsAdded: false // Başlangıçta puan eklenmedi
           }, { merge: true });
           setButtonDisabled(false);
+          localStorage.removeItem('countdownEndTime');
+          localStorage.removeItem('isRunning');
         }
 
         // Kullanıcı skorunu al
@@ -87,6 +94,7 @@ const CountdownTimer: React.FC = () => {
         const userDocSnap = await getDoc(userDocRef);
         if (userDocSnap.exists()) {
           setUserScore(userDocSnap.data().score || 0);
+          localStorage.setItem('userScore', (userDocSnap.data().score || 0).toString());
         }
       } catch (error) {
         console.error('Error fetching countdown data:', error);
@@ -116,6 +124,8 @@ const CountdownTimer: React.FC = () => {
       setSeconds(300);
       setIsRunning(true);
       setButtonDisabled(true);
+      localStorage.setItem('countdownEndTime', endTime.toISOString());
+      localStorage.setItem('isRunning', 'true');
     } catch (error) {
       console.error('Error starting countdown:', error);
     }
@@ -150,9 +160,14 @@ const CountdownTimer: React.FC = () => {
             // Kullanıcı skorunu güncelle
             getDoc(userDocRef).then(userDocSnap => {
               if (userDocSnap.exists()) {
-                setUserScore(userDocSnap.data().score || 0);
+                const newScore = userDocSnap.data().score || 0;
+                setUserScore(newScore);
+                localStorage.setItem('userScore', newScore.toString());
               }
             });
+
+            localStorage.removeItem('countdownEndTime');
+            localStorage.removeItem('isRunning');
 
             return 0;
           }
