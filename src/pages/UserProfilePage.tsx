@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { db } from './firebaseConfig';
 import WebApp from '@twa-dev/sdk';
 import { ExtendedWebAppUser } from './types'; // Import for user type
 
@@ -24,7 +26,44 @@ const UserProfilePage: React.FC = () => {
         setUserData(user);
         const telegramUserId = user.id.toString();
 
-        // Check for data in localStorage
+        // Dinleyici ekleyerek Firestore verilerini izleyin
+        const unsubscribe = onSnapshot(doc(db, 'users', telegramUserId), (docSnap) => {
+          if (docSnap.exists()) {
+            const data = docSnap.data() as FirestoreData;
+            setFirestoreData(data);
+
+            // Veriyi localStorage'a kaydet
+            localStorage.setItem(`user_${telegramUserId}`, JSON.stringify(data));
+            localStorage.setItem('isRunning', data.isRunning ? 'true' : 'false');
+          } else {
+            // Firestore'da veri bulunamazsa, hata durumunu ayarla
+            setError('No data found in Firestore');
+          }
+          setLoading(false);
+        }, (error) => {
+          console.error('Error fetching user data from Firestore: ', error);
+          setError('Error fetching user data from Firestore');
+          setLoading(false);
+        });
+
+        return () => unsubscribe();
+      } else {
+        console.error('User data is not available');
+        setError('User data is not available');
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  // localStorage ile Firestore arasında veri senkronizasyonu sağlamak için
+  useEffect(() => {
+    if (firestoreData) {
+      const user = WebApp.initDataUnsafe?.user as ExtendedWebAppUser;
+      if (user) {
+        const telegramUserId = user.id.toString();
+
         const cachedUserData = localStorage.getItem(`user_${telegramUserId}`);
         const cachedCountdownData = localStorage.getItem(`countdown_${telegramUserId}`);
 
@@ -36,34 +75,21 @@ const UserProfilePage: React.FC = () => {
             const isRunning = !!parsedCountdownData.isRunning;
             const pointsAdded = !!parsedCountdownData.pointsAdded;
 
-            setFirestoreData({
-              invite_link: parsedUserData.invite_link || 'No invite link found',
-              farm: typeof parsedUserData.farm === 'number' ? parsedUserData.farm : 0,
-              user_id: parsedUserData.user_id || 'No user ID found',
-              score: typeof parsedUserData.score === 'number' ? parsedUserData.score : 0,
+            const newFirestoreData = {
+              ...parsedUserData,
               isRunning,
               pointsAdded,
-            });
+            };
 
-            // Store the isRunning value as a string in localStorage
-            localStorage.setItem('isRunning', isRunning ? 'true' : 'false');
+            // Firestore'u güncelle
+            setDoc(doc(db, 'users', telegramUserId), newFirestoreData, { merge: true });
           } catch (e) {
             setError('Error parsing data from local storage');
           }
-        } else {
-          // If no data in localStorage, set error state
-          setError('No data found in local storage');
         }
-        setLoading(false);
-      } else {
-        console.error('User data is not available');
-        setError('User data is not available');
-        setLoading(false);
       }
-    };
-
-    fetchUserData();
-  }, []);
+    }
+  }, [firestoreData]);
 
   if (loading) {
     return <div>Loading...</div>;
