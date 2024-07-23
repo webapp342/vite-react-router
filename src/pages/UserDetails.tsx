@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { db } from './firebaseConfig';
 import { doc, setDoc, getDoc, Timestamp, updateDoc, increment } from 'firebase/firestore';
 
-// Sabit kullanıcı ID'si
-const userId: string = '1421109983';
-
 interface CountdownData {
   endTime: Timestamp | null;
   isRunning: boolean;
@@ -12,13 +9,25 @@ interface CountdownData {
 }
 
 const CountdownTimer: React.FC = () => {
+  const [userId, setUserId] = useState<string | null>(null);
   const [seconds, setSeconds] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [userScore, setUserScore] = useState<number>(0);
 
   useEffect(() => {
+    const telegramUserId = localStorage.getItem('telegramUserId');
+    if (telegramUserId) {
+      setUserId(telegramUserId);
+    } else {
+      console.error('Telegram user ID not found in localStorage');
+    }
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
+      if (!userId) return;
+
       try {
         console.log('Fetching countdown data for user:', userId);
 
@@ -94,10 +103,12 @@ const CountdownTimer: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [userId]);
 
   const startCountdown = async () => {
     try {
+      if (!userId) return;
+
       console.log('Starting countdown for user:', userId);
 
       const endTime = new Date(Date.now() + 300 * 1000);
@@ -133,27 +144,28 @@ const CountdownTimer: React.FC = () => {
             setIsRunning(false);
             setButtonDisabled(false);
             // Geri sayım tamamlandığında Firestore'u güncelleyin
-            setDoc(doc(db, 'countdowns', userId), {
-              endTime: null,
-              isRunning: false,
-              pointsAdded: true
-            }, { merge: true });
+            if (userId) {
+              setDoc(doc(db, 'countdowns', userId), {
+                endTime: null,
+                isRunning: false,
+                pointsAdded: true
+              }, { merge: true });
 
-            // Kullanıcı puanını güncelleyin
-            const userDocRef = doc(db, 'users', userId);
-            updateDoc(userDocRef, {
-              score: increment(10)
-            });
+              // Kullanıcı puanını güncelleyin
+              const userDocRef = doc(db, 'users', userId);
+              updateDoc(userDocRef, {
+                score: increment(10)
+              });
 
-            console.log('Added 10 points to user.');
+              console.log('Added 10 points to user.');
 
-            // Kullanıcı skorunu güncelle
-            getDoc(userDocRef).then(userDocSnap => {
-              if (userDocSnap.exists()) {
-                setUserScore(userDocSnap.data().score || 0);
-              }
-            });
-
+              // Kullanıcı skorunu güncelle
+              getDoc(userDocRef).then(userDocSnap => {
+                if (userDocSnap.exists()) {
+                  setUserScore(userDocSnap.data().score || 0);
+                }
+              });
+            }
             return 0;
           }
           return prevSeconds - 1;
@@ -166,7 +178,7 @@ const CountdownTimer: React.FC = () => {
         console.log('Interval cleared.');
       }
     };
-  }, [isRunning]);
+  }, [isRunning, userId]);
 
   const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
