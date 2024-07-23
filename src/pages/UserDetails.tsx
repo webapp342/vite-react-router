@@ -9,25 +9,16 @@ interface CountdownData {
 }
 
 const CountdownTimer: React.FC = () => {
-  const [userId, setUserId] = useState<string | null>(null);
   const [seconds, setSeconds] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [userScore, setUserScore] = useState<number>(0);
 
-  useEffect(() => {
-    const telegramUserId = localStorage.getItem('telegramUserId');
-    if (telegramUserId) {
-      setUserId(telegramUserId);
-    } else {
-      console.error('Telegram user ID not found in localStorage');
-    }
-  }, []);
+  // Kullanıcı ID'sini localStorage'dan al
+  const userId = localStorage.getItem('telegramUserId') || 'defaultUserId'; // Varsayılan bir ID eklenebilir
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!userId) return;
-
       try {
         console.log('Fetching countdown data for user:', userId);
 
@@ -107,8 +98,6 @@ const CountdownTimer: React.FC = () => {
 
   const startCountdown = async () => {
     try {
-      if (!userId) return;
-
       console.log('Starting countdown for user:', userId);
 
       const endTime = new Date(Date.now() + 300 * 1000);
@@ -144,28 +133,27 @@ const CountdownTimer: React.FC = () => {
             setIsRunning(false);
             setButtonDisabled(false);
             // Geri sayım tamamlandığında Firestore'u güncelleyin
-            if (userId) {
-              setDoc(doc(db, 'countdowns', userId), {
-                endTime: null,
-                isRunning: false,
-                pointsAdded: true
-              }, { merge: true });
+            setDoc(doc(db, 'countdowns', userId), {
+              endTime: null,
+              isRunning: false,
+              pointsAdded: true
+            }, { merge: true });
 
-              // Kullanıcı puanını güncelleyin
-              const userDocRef = doc(db, 'users', userId);
-              updateDoc(userDocRef, {
-                score: increment(10)
-              });
+            // Kullanıcı puanını güncelleyin
+            const userDocRef = doc(db, 'users', userId);
+            updateDoc(userDocRef, {
+              score: increment(10)
+            });
 
-              console.log('Added 10 points to user.');
+            console.log('Added 10 points to user.');
 
-              // Kullanıcı skorunu güncelle
-              getDoc(userDocRef).then(userDocSnap => {
-                if (userDocSnap.exists()) {
-                  setUserScore(userDocSnap.data().score || 0);
-                }
-              });
-            }
+            // Kullanıcı skorunu güncelle
+            getDoc(userDocRef).then(userDocSnap => {
+              if (userDocSnap.exists()) {
+                setUserScore(userDocSnap.data().score || 0);
+              }
+            });
+
             return 0;
           }
           return prevSeconds - 1;

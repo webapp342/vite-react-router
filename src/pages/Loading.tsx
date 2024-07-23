@@ -10,13 +10,16 @@ const Loading: React.FC = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        // Get Telegram user ID using the Telegram Web App SDK
+        // Get Telegram user data using the Telegram Web App SDK
         const user = WebApp.initDataUnsafe?.user;
         if (!user) {
           throw new Error('Telegram user data is not available');
         }
 
         const telegramUserId = user.id.toString();
+
+        // Save user ID to localStorage
+        localStorage.setItem('telegramUserId', telegramUserId);
 
         // Fetch data from Firestore's 'users' collection
         const userDocRef = doc(db, 'users', telegramUserId);
@@ -47,7 +50,6 @@ const Loading: React.FC = () => {
           // Create default data if no document exists
           countdownData = {
             isRunning: false,
-            duration: 0, // Additional fields can be added
           };
           await setDoc(countdownDocRef, countdownData);
         }
