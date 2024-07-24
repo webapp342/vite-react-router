@@ -4,10 +4,11 @@ import App from "./App.tsx";
 import "./index.css";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Home  from "./pages/Home.tsx";
+//import Home  from "./pages/Home.tsx"; 
 import  FarmComponent  from "./pages/FarmComponent.tsx";
 import UserDetails from "./pages/UserDetails.tsx";
 import UserProfilePage from "./pages/UserProfilePage.tsx";
+import LocalStorageViewer from "./pages/localStorage.tsx";
 
 
 
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/vite-react-router/",
-        element: <Home />,
+        element: <LocalStorageViewer />,
       },
       {
         path: "/vite-react-router/farm",
