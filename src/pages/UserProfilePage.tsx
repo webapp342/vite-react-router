@@ -5,9 +5,6 @@ import WebApp from '@twa-dev/sdk';
 import { ExtendedWebAppUser } from './types'; // Import for user type
 
 interface FirestoreData {
-  invite_link: string;
-  farm: number;
-  user_id: string;
   score: number;
   isRunning: boolean;
   pointsAdded: boolean;
@@ -25,15 +22,14 @@ const UserProfilePage: React.FC = () => {
       setUserData(user);
       const telegramUserId = user.id.toString();
 
-      // Dinleyici ekleyerek Firestore verilerini izleyin
+      // Firestore listener
       const unsubscribe = onSnapshot(doc(db, 'users', telegramUserId), (docSnap) => {
         if (docSnap.exists()) {
           const data = docSnap.data() as FirestoreData;
           setFirestoreData(data);
 
-          // Veriyi localStorage'a kaydet
+          // Update localStorage
           localStorage.setItem(`user_${telegramUserId}`, JSON.stringify(data));
-          localStorage.setItem('isRunning', data.isRunning ? 'true' : 'false');
         } else {
           setError('No data found in Firestore');
         }
@@ -59,26 +55,14 @@ const UserProfilePage: React.FC = () => {
     if (user) {
       const telegramUserId = user.id.toString();
 
-      // localStorage'daki veriyi oku
+      // Read data from localStorage
       const cachedUserData = localStorage.getItem(`user_${telegramUserId}`);
-      const cachedCountdownData = localStorage.getItem(`countdown_${telegramUserId}`);
-
-      if (cachedUserData && cachedCountdownData) {
+      if (cachedUserData) {
         try {
           const parsedUserData = JSON.parse(cachedUserData);
-          const parsedCountdownData = JSON.parse(cachedCountdownData);
-
-          const isRunning = !!parsedCountdownData.isRunning;
-          const pointsAdded = !!parsedCountdownData.pointsAdded;
-
-          const newFirestoreData = {
-            ...parsedUserData,
-            isRunning,
-            pointsAdded,
-          };
-
-          // Firestore'u güncelle
-          setDoc(doc(db, 'users', telegramUserId), newFirestoreData, { merge: true });
+          
+          // Update Firestore with data from localStorage
+          setDoc(doc(db, 'users', telegramUserId), parsedUserData, { merge: true });
         } catch (e) {
           setError('Error parsing data from local storage');
         }
@@ -125,12 +109,8 @@ const UserProfilePage: React.FC = () => {
       <h2>User Details</h2>
       {userData && firestoreData && (
         <>
-          <h3>Local Storage Data</h3>
-          <p><strong>Invite Link:</strong> {firestoreData.invite_link}</p>
-          <p><strong>Farm:</strong> {firestoreData.farm}</p>
-          <p><strong>User ID:</strong> {firestoreData.user_id}</p>
+          <h3>User Data</h3>
           <p><strong>Score:</strong> {firestoreData.score}</p>
-          <h3>Countdown Data</h3>
           <p><strong>Is Running:</strong> {firestoreData.isRunning ? 'Yes' : 'No'}</p>
           <p><strong>Points Added:</strong> {firestoreData.pointsAdded ? 'Yes' : 'No'}</p>
         </>
