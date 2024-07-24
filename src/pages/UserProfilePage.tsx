@@ -59,37 +59,59 @@ const UserProfilePage: React.FC = () => {
 
   // localStorage ile Firestore arasında veri senkronizasyonu sağlamak için
   useEffect(() => {
-    if (firestoreData) {
-      const user = WebApp.initDataUnsafe?.user as ExtendedWebAppUser;
-      if (user) {
-        const telegramUserId = user.id.toString();
+    const user = WebApp.initDataUnsafe?.user as ExtendedWebAppUser;
+    if (user) {
+      const telegramUserId = user.id.toString();
 
-        const cachedUserData = localStorage.getItem(`user_${telegramUserId}`);
-        const cachedCountdownData = localStorage.getItem(`countdown_${telegramUserId}`);
+      // localStorage'daki veriyi oku
+      const cachedUserData = localStorage.getItem(`user_${telegramUserId}`);
+      const cachedCountdownData = localStorage.getItem(`countdown_${telegramUserId}`);
 
-        if (cachedUserData && cachedCountdownData) {
-          try {
-            const parsedUserData = JSON.parse(cachedUserData);
-            const parsedCountdownData = JSON.parse(cachedCountdownData);
+      if (cachedUserData && cachedCountdownData) {
+        try {
+          const parsedUserData = JSON.parse(cachedUserData);
+          const parsedCountdownData = JSON.parse(cachedCountdownData);
 
-            const isRunning = !!parsedCountdownData.isRunning;
-            const pointsAdded = !!parsedCountdownData.pointsAdded;
+          const isRunning = !!parsedCountdownData.isRunning;
+          const pointsAdded = !!parsedCountdownData.pointsAdded;
 
-            const newFirestoreData = {
-              ...parsedUserData,
-              isRunning,
-              pointsAdded,
-            };
+          const newFirestoreData = {
+            ...parsedUserData,
+            isRunning,
+            pointsAdded,
+          };
 
-            // Firestore'u güncelle
-            setDoc(doc(db, 'users', telegramUserId), newFirestoreData, { merge: true });
-          } catch (e) {
-            setError('Error parsing data from local storage');
-          }
+          // Firestore'u güncelle
+          setDoc(doc(db, 'users', telegramUserId), newFirestoreData, { merge: true });
+        } catch (e) {
+          setError('Error parsing data from local storage');
         }
       }
     }
   }, [firestoreData]);
+
+  // localStorage güncellemelerini dinle
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.storageArea === localStorage) {
+        const user = WebApp.initDataUnsafe?.user as ExtendedWebAppUser;
+        if (user) {
+          const telegramUserId = user.id.toString();
+          const updatedData = localStorage.getItem(`user_${telegramUserId}`);
+          if (updatedData) {
+            const parsedData = JSON.parse(updatedData);
+            setFirestoreData(parsedData);
+          }
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   if (loading) {
     return <div>Loading...</div>;
