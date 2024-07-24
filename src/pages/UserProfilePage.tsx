@@ -20,45 +20,41 @@ const UserProfilePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchUserData = () => {
-      const user = WebApp.initDataUnsafe?.user as ExtendedWebAppUser;
-      if (user) {
-        setUserData(user);
-        const telegramUserId = user.id.toString();
+    const user = WebApp.initDataUnsafe?.user as ExtendedWebAppUser;
+    if (user) {
+      setUserData(user);
+      const telegramUserId = user.id.toString();
 
-        // Dinleyici ekleyerek Firestore verilerini izleyin
-        const unsubscribe = onSnapshot(doc(db, 'users', telegramUserId), (docSnap) => {
-          if (docSnap.exists()) {
-            const data = docSnap.data() as FirestoreData;
-            setFirestoreData(data);
+      // Dinleyici ekleyerek Firestore verilerini izleyin
+      const unsubscribe = onSnapshot(doc(db, 'users', telegramUserId), (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data() as FirestoreData;
+          setFirestoreData(data);
 
-            // Veriyi localStorage'a kaydet
-            localStorage.setItem(`user_${telegramUserId}`, JSON.stringify(data));
-            localStorage.setItem('isRunning', data.isRunning ? 'true' : 'false');
-          } else {
-            // Firestore'da veri bulunamazsa, hata durumunu ayarla
-            setError('No data found in Firestore');
-          }
-          setLoading(false);
-        }, (error) => {
-          console.error('Error fetching user data from Firestore: ', error);
-          setError('Error fetching user data from Firestore');
-          setLoading(false);
-        });
-
-        return () => unsubscribe();
-      } else {
-        console.error('User data is not available');
-        setError('User data is not available');
+          // Veriyi localStorage'a kaydet
+          localStorage.setItem(`user_${telegramUserId}`, JSON.stringify(data));
+          localStorage.setItem('isRunning', data.isRunning ? 'true' : 'false');
+        } else {
+          setError('No data found in Firestore');
+        }
         setLoading(false);
-      }
-    };
+      }, (error) => {
+        console.error('Error fetching user data from Firestore: ', error);
+        setError('Error fetching user data from Firestore');
+        setLoading(false);
+      });
 
-    fetchUserData();
+      return () => unsubscribe();
+    } else {
+      console.error('User data is not available');
+      setError('User data is not available');
+      setLoading(false);
+    }
   }, []);
 
-  // localStorage ile Firestore arasında veri senkronizasyonu sağlamak için
   useEffect(() => {
+    if (!firestoreData) return;
+
     const user = WebApp.initDataUnsafe?.user as ExtendedWebAppUser;
     if (user) {
       const telegramUserId = user.id.toString();
@@ -90,7 +86,6 @@ const UserProfilePage: React.FC = () => {
     }
   }, [firestoreData]);
 
-  // localStorage güncellemelerini dinle
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.storageArea === localStorage) {

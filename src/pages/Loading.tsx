@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { db } from './firebaseConfig';
 import WebApp from '@twa-dev/sdk';
 
@@ -28,13 +28,7 @@ const Loading: React.FC = () => {
         let userData;
         if (userDocSnap.exists()) {
           userData = userDocSnap.data();
-        } else {
-          // Create default data if no document exists
-          userData = {
-            invite_link: 'No invite link found',
-          };
-          await setDoc(userDocRef, userData);
-        }
+        } 
 
         // Save user data to localStorage
         localStorage.setItem(`user_${telegramUserId}`, JSON.stringify(userData));
@@ -46,16 +40,18 @@ const Loading: React.FC = () => {
         let countdownData;
         if (countdownDocSnap.exists()) {
           countdownData = countdownDocSnap.data();
-        } else {
-          // Create default data if no document exists
-          countdownData = {
-            isRunning: false,
-          };
-          await setDoc(countdownDocRef, countdownData);
-        }
 
-        // Save countdown data to localStorage
-        localStorage.setItem(`countdown_${telegramUserId}`, JSON.stringify(countdownData));
+          // Check if fields exist and save them to localStorage
+          const { endTime, isRunning, pointsAdded } = countdownData;
+          localStorage.setItem(`countdown_${telegramUserId}`, JSON.stringify({
+            endTime: endTime || null,
+            isRunning: isRunning || false,
+            pointsAdded: pointsAdded || 0,
+          }));
+        } else {
+          // If the document does not exist, skip saving countdown data
+          localStorage.removeItem(`countdown_${telegramUserId}`);
+        }
 
       } catch (error) {
         console.error('Error fetching or updating user data:', error);
