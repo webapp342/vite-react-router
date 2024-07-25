@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import backgroundJpg from './background.jpg';
 import backgroundGif from './background.gif';
@@ -51,11 +51,21 @@ const IntegratedComponent: React.FC = () => {
     };
   }, []);
 
+  // Function to start the counter
+  const startCounter = () => {
+    localStorage.setItem('isRunning', 'true');
+    setIsRunning(true);
+    // Here you can also add your counter logic
+  };
+
   return (
     <BackgroundBox isRunning={isRunning}>
       <div className="main-content">
         <UserDetails />
         <p><strong>Is Running:</strong> {isRunning ? 'Yes' : 'No'}</p>
+        <Button variant="contained" color="primary" onClick={startCounter} disabled={isRunning}>
+          Start Counter
+        </Button>
       </div>
     </BackgroundBox>
   );
