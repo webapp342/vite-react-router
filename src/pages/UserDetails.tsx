@@ -172,9 +172,13 @@ const CountdownTimer: React.FC = () => {
 
   const containerStyle: React.CSSProperties = {
     backgroundColor: isRunning ? 'lightgreen' : 'lightcoral',
+    height: '100vh',
+    width: '100vw',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
     padding: '20px',
-    borderRadius: '10px',
-    textAlign: 'center', // Bu satır doğru şekilde tanımlandı
     transition: 'background-color 0.5s ease'
   };
 
