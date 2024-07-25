@@ -15,9 +15,7 @@ const BackgroundBox = styled(Box)<{ isRunning: boolean }>(({ isRunning }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundImage: isRunning
-    ? `url(${backgroundGif})`
-    : `url(${backgroundJpg})`,
+  backgroundImage: isRunning ? `url(${backgroundGif})` : `url(${backgroundJpg})`,
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   transition: 'background-image 1s ease',
@@ -26,19 +24,22 @@ const BackgroundBox = styled(Box)<{ isRunning: boolean }>(({ isRunning }) => ({
 const IntegratedComponent: React.FC = () => {
   const [isRunning, setIsRunning] = useState<boolean>(false);
 
-  useEffect(() => {
+  // Function to handle localStorage updates
+  const updateIsRunning = () => {
     const storedIsRunning = localStorage.getItem('isRunning');
-    if (storedIsRunning === null) {
-      console.warn('No "isRunning" value found in local storage');
-    } else {
-      console.log(`Fetched "isRunning" value: ${storedIsRunning}`);
+    if (storedIsRunning !== null) {
       setIsRunning(storedIsRunning === 'true');
     }
+  };
 
+  useEffect(() => {
+    // Initial fetch from localStorage
+    updateIsRunning();
+
+    // Event listener for storage changes
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === 'isRunning') {
-        console.log(`Storage event detected. New value: ${event.newValue}`);
-        setIsRunning(event.newValue === 'true');
+        updateIsRunning();
       }
     };
 
