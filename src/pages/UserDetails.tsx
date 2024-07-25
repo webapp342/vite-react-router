@@ -170,8 +170,16 @@ const CountdownTimer: React.FC = () => {
     return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
   };
 
+  const containerStyle: React.CSSProperties = {
+    backgroundColor: isRunning ? 'lightgreen' : 'lightcoral',
+    padding: '20px',
+    borderRadius: '10px',
+    textAlign: 'center', // Bu satır doğru şekilde tanımlandı
+    transition: 'background-color 0.5s ease'
+  };
+
   return (
-    <div>
+    <div style={containerStyle}>
       <h1>Geri Sayım: {formatTime(seconds)}</h1>
       <p>Mevcut Skor: {userScore}</p>
       <button onClick={startCountdown} disabled={buttonDisabled}>
