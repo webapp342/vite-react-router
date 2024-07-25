@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { db } from './firebaseConfig';
-import { doc, setDoc, getDoc, Timestamp, updateDoc, increment } from 'firebase/firestore';
+import { doc, setDoc, onSnapshot, Timestamp, updateDoc, increment, DocumentReference } from 'firebase/firestore';
 
 interface CountdownData {
   endTime: Timestamp | null;
@@ -16,93 +16,89 @@ const CountdownTimer: React.FC = () => {
 
   const userId = localStorage.getItem('telegramUserId') || 'defaultUserId';
 
+  const updatePoints = useCallback(async (docRef: DocumentReference) => {
+    await setDoc(docRef, {
+      endTime: null,
+      isRunning: false,
+      pointsAdded: true
+    }, { merge: true });
+
+    const userDocRef = doc(db, 'users', userId);
+    await updateDoc(userDocRef, {
+      score: increment(10)
+    });
+
+    console.log('Added 10 points to user.');
+  }, [userId]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         console.log('Fetching countdown data for user:', userId);
 
         const docRef = doc(db, 'countdowns', userId);
-        const docSnap = await getDoc(docRef);
+        const unsubscribe = onSnapshot(docRef, (docSnap) => {
+          if (docSnap.exists()) {
+            const data = docSnap.data() as CountdownData;
+            const currentTime = new Date();
 
-        if (docSnap.exists()) {
-          const data = docSnap.data() as CountdownData;
-          const currentTime = new Date();
+            if (data.isRunning && data.endTime && data.endTime.toDate() > currentTime) {
+              setIsRunning(true);
+              const remainingTime = Math.floor((data.endTime.toDate().getTime() - currentTime.getTime()) / 1000);
+              setSeconds(remainingTime);
+              setButtonDisabled(true);
+              localStorage.setItem('countdownEndTime', data.endTime.toDate().toISOString());
+              localStorage.setItem('isRunning', 'true');
+            } else {
+              setIsRunning(false);
+              setSeconds(0);
+              setButtonDisabled(false);
 
-          if (data.isRunning && data.endTime && data.endTime.toDate() > currentTime) {
-            // Geri sayım hala çalışıyor
-            setIsRunning(true);
-            const remainingTime = Math.floor((data.endTime.toDate().getTime() - currentTime.getTime()) / 1000);
-            setSeconds(remainingTime);
-            setButtonDisabled(true);
-            localStorage.setItem('countdownEndTime', data.endTime.toDate().toISOString());
-            localStorage.setItem('isRunning', 'true');
+              localStorage.removeItem('countdownEndTime');
+              localStorage.setItem('isRunning', 'false');
+
+              if (!data.pointsAdded) {
+                updatePoints(docRef);
+              } else {
+                setDoc(docRef, {
+                  endTime: null,
+                  isRunning: false
+                }, { merge: true });
+              }
+            }
           } else {
-            // Geri sayım bitmiş veya çalışmıyor
-            setIsRunning(false);
-            setSeconds(0);
+            console.log('Document does not exist. Creating new document.');
+            setDoc(docRef, {
+              endTime: null,
+              isRunning: false,
+              pointsAdded: false
+            }, { merge: true });
             setButtonDisabled(false);
-
-            // localStorage'ı güncelle
             localStorage.removeItem('countdownEndTime');
             localStorage.setItem('isRunning', 'false');
-
-            if (!data.pointsAdded) {
-              // Puan eklenmemişse, puanı ekleyin
-              await setDoc(docRef, {
-                endTime: null,
-                isRunning: false,
-                pointsAdded: true
-              }, { merge: true });
-
-              const userDocRef = doc(db, 'users', userId);
-              await updateDoc(userDocRef, {
-                score: increment(10)
-              });
-
-              console.log('Added 10 points to user.');
-
-              const userDocSnap = await getDoc(userDocRef);
-              if (userDocSnap.exists()) {
-                const newScore = userDocSnap.data().score || 0;
-                setUserScore(newScore);
-                localStorage.setItem('userScore', newScore.toString());
-              }
-            } else {
-              // Puan eklenmişse, sadece geri sayımı güncelleyin
-              await setDoc(docRef, {
-                endTime: null,
-                isRunning: false
-              }, { merge: true });
-            }
           }
-        } else {
-          // Belge mevcut değilse, yeni belge oluşturun
-          console.log('Document does not exist. Creating new document.');
-          await setDoc(docRef, {
-            endTime: null,
-            isRunning: false,
-            pointsAdded: false
-          }, { merge: true });
-          setButtonDisabled(false);
-          localStorage.removeItem('countdownEndTime');
-          localStorage.setItem('isRunning', 'false');
-        }
+        });
 
-        // Kullanıcı skorunu güncelle
         const userDocRef = doc(db, 'users', userId);
-        const userDocSnap = await getDoc(userDocRef);
-        if (userDocSnap.exists()) {
-          const newScore = userDocSnap.data().score || 0;
-          setUserScore(newScore);
-          localStorage.setItem('userScore', newScore.toString());
-        }
+        const userUnsubscribe = onSnapshot(userDocRef, (userDocSnap) => {
+          if (userDocSnap.exists()) {
+            const newScore = userDocSnap.data().score || 0;
+            setUserScore(newScore);
+            localStorage.setItem('userScore', newScore.toString());
+          }
+        });
+
+        return () => {
+          unsubscribe();
+          userUnsubscribe();
+        };
       } catch (error) {
         console.error('Error fetching countdown data:', error);
       }
     };
 
     fetchData();
-  }, [userId]);
+  }, [userId, updatePoints]);
 
   const startCountdown = async () => {
     try {
@@ -147,28 +143,7 @@ const CountdownTimer: React.FC = () => {
             // Geri sayım tamamlandığında Firestore'u güncelleyin
             const updateFirestore = async () => {
               const docRef = doc(db, 'countdowns', userId);
-
-              await setDoc(docRef, {
-                endTime: null,
-                isRunning: false,
-                pointsAdded: true
-              }, { merge: true });
-
-              const userDocRef = doc(db, 'users', userId);
-              await updateDoc(userDocRef, {
-                score: increment(10)
-              });
-
-              console.log('Added 10 points to user.');
-
-              const userDocSnap = await getDoc(userDocRef);
-              if (userDocSnap.exists()) {
-                const newScore = userDocSnap.data().score || 0;
-                setUserScore(newScore);
-                localStorage.setItem('userScore', newScore.toString());
-              }
-
-              // Güncellenmiş verileri localStorage'a kaydedin
+              updatePoints(docRef);
               localStorage.removeItem('countdownEndTime');
               localStorage.setItem('isRunning', 'false');
             };
@@ -187,7 +162,7 @@ const CountdownTimer: React.FC = () => {
         console.log('Interval cleared.');
       }
     };
-  }, [isRunning, userId]);
+  }, [isRunning, userId, updatePoints]);
 
   const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
