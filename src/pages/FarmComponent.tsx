@@ -3,6 +3,8 @@ import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import backgroundJpg from './background.jpg';
 import backgroundGif from './background.gif';
+import UserDetails from "./UserDetails.tsx";
+
 
 // Styled component for background
 const BackgroundBox = styled(Box)<{ isRunning: boolean }>(({ isRunning }) => ({
@@ -38,6 +40,7 @@ const IntegratedComponent: React.FC = () => {
   return (
     <BackgroundBox isRunning={isRunning}>
       <div className="main-content">
+      <UserDetails />
         <p><strong>Is Running:</strong> {isRunning ? 'Yes' : 'No'}</p>
       </div>
     </BackgroundBox>
