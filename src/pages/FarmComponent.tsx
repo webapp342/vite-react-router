@@ -5,7 +5,6 @@ import backgroundJpg from './background.jpg';
 import backgroundGif from './background.gif';
 import UserDetails from "./UserDetails.tsx";
 
-
 // Styled component for background
 const BackgroundBox = styled(Box)<{ isRunning: boolean }>(({ isRunning }) => ({
   position: 'fixed',
@@ -35,12 +34,26 @@ const IntegratedComponent: React.FC = () => {
       console.log(`Fetched "isRunning" value: ${storedIsRunning}`);
       setIsRunning(storedIsRunning === 'true');
     }
+
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === 'isRunning') {
+        console.log(`Storage event detected. New value: ${event.newValue}`);
+        setIsRunning(event.newValue === 'true');
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   return (
     <BackgroundBox isRunning={isRunning}>
       <div className="main-content">
-      <UserDetails />
+        <UserDetails />
         <p><strong>Is Running:</strong> {isRunning ? 'Yes' : 'No'}</p>
       </div>
     </BackgroundBox>
