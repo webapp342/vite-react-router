@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Button, Grid, Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+interface Point {
+  value: number;
+}
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -10,16 +14,23 @@ const theme = createTheme({
   },
 });
 
-const WheelComponent = () => {
-  const [points, setPoints] = useState(0);
-  const [isSpinning, setIsSpinning] = useState(false);
+const WheelComponent: React.FC = () => {
+  const [points, setPoints] = useState<number>(0);
+  const [isSpinning, setIsSpinning] = useState<boolean>(false);
 
-  const pointsArray = [10, 20, 30, 100, 200, 300];
+  const pointsArray: Point[] = [
+    { value: 10 },
+    { value: 20 },
+    { value: 30 },
+    { value: 100 },
+    { value: 200 },
+    { value: 300 },
+  ];
 
   useEffect(() => {
     const handleSpin = () => {
       const randomIndex = Math.floor(Math.random() * pointsArray.length);
-      const randomPoints = pointsArray[randomIndex];
+      const randomPoints = pointsArray[randomIndex].value;
       setPoints(randomPoints);
       localStorage.setItem('points', randomPoints.toString());
     };
@@ -78,7 +89,7 @@ const WheelComponent = () => {
                   fontSize: '18px',
                   fontWeight: 'bold',
                 }}>
-                  {point}
+                  {point.value}
                 </div>
               ))}
             </div>
