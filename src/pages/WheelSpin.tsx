@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Wheel } from 'react-custom-roulette';
-import { updateSpinPoints } from './firestoreService';
+import { checkAndUpdatePoints, updateSpinPoints } from './firestoreService';
 import './WheelSpin.css'; // CSS dosyasını ekliyoruz
 
 const data = [
@@ -22,26 +22,30 @@ const WheelSpin: React.FC = () => {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
+  const [message, setMessage] = useState('');
   const telegramUserId = localStorage.getItem('telegramUserId') || '';
 
-  const handleSpinClick = () => {
-    const newPrizeNumber = Math.floor(Math.random() * data.length);
-    setPrizeNumber(newPrizeNumber);
-    setMustSpin(true);
-    setIsSpinning(true);
+  const handleSpinClick = async () => {
+    // Kullanıcının puanlarını kontrol et ve güncelle
+    const hasEnoughPoints = await checkAndUpdatePoints(telegramUserId);
+
+    if (hasEnoughPoints) {
+      const newPrizeNumber = Math.floor(Math.random() * data.length);
+      setPrizeNumber(newPrizeNumber);
+      setMustSpin(true);
+      setIsSpinning(true);
+      setMessage(''); // Mesajı sıfırla
+    } else {
+      setMessage('Çarkı çevirmek için yeterli ucreti yok.');
+    }
   };
 
-  const handleStopSpinning = () => {
+  const handleStopSpinning = async () => {
     setMustSpin(false);
     setIsSpinning(false);
 
-    // Firestore'a spin points güncelleme
-    const spinPoints = parseInt(data[prizeNumber].option, 10);
-    if (telegramUserId) {
-      updateSpinPoints(telegramUserId, spinPoints);
-    } else {
-      console.error("Telegram User ID is not available");
-    }
+    // Çark döndükten sonra spinPoints değerini güncelle
+    await updateSpinPoints(telegramUserId, parseInt(data[prizeNumber].option, 10));
   };
 
   return (
@@ -64,6 +68,7 @@ const WheelSpin: React.FC = () => {
           ) : (
             <p>Çarkın üzerinde durduğu sayı: {data[prizeNumber].option}</p>
           )}
+          {message && <p className="error-message">{message}</p>}
         </div>
       </div>
     </div>
