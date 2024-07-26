@@ -37,20 +37,19 @@ const Wheel: React.FC = () => {
 
   return (
     <Box sx={{ textAlign: 'center', mt: 5 }}>
-      <Box sx={{ position: 'relative', width: '250px', height: '250px', margin: '0 auto' }}>
+      <Box sx={{ position: 'relative', width: '300px', height: '300px', margin: '0 auto' }}>
         <Box
           id="wheel"
           sx={{
             width: '100%',
             height: '100%',
             borderRadius: '50%',
-            border: '10px solid #000',
-            borderColor: '#000 transparent transparent transparent',
+            border: '10px solid #333',
             position: 'relative',
             transform: `rotate(${rotation}deg)`,
             transition: 'transform 4s ease-out',
-            backgroundImage: `conic-gradient(#ffcc00 0% ${segmentAngle}deg, #ff6666 ${segmentAngle}deg ${2 * segmentAngle}deg, #ffcc00 ${2 * segmentAngle}deg ${3 * segmentAngle}deg)`,
-            boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
+            background: 'conic-gradient(from 0deg, #ffcc00, #ff6666, #66b2ff, #ffcc00)',
+            boxShadow: '0 0 15px rgba(0, 0, 0, 0.3)',
           }}
         >
           {pointValues.map((point, index) => (
@@ -81,11 +80,24 @@ const Wheel: React.FC = () => {
             position: 'absolute',
             top: '50%',
             left: '50%',
-            width: '10px',
-            height: '10px',
+            width: '20px',
+            height: '20px',
             backgroundColor: '#000',
             borderRadius: '50%',
             transform: 'translate(-50%, -50%)',
+          }}
+        />
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: '50%',
+            width: '0',
+            height: '0',
+            borderLeft: '10px solid transparent',
+            borderRight: '10px solid transparent',
+            borderBottom: '20px solid #ff0000',
+            transform: 'translateX(-50%)',
           }}
         />
       </Box>
