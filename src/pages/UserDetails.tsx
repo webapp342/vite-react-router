@@ -2,6 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { db } from './firebaseConfig';
 import { doc, setDoc, onSnapshot, Timestamp, updateDoc, increment, DocumentReference } from 'firebase/firestore';
 
+// İçe aktarılan arka plan resimlerini tanımlayın
+import backgroundGif from './assets/background.gif';
+import backgroundJpg from './assets/background.jpg';
+
 interface CountdownData {
   endTime: Timestamp | null;
   isRunning: boolean;
@@ -171,7 +175,9 @@ const CountdownTimer: React.FC = () => {
   };
 
   const containerStyle: React.CSSProperties = {
-    backgroundColor: isRunning ? 'lightgreen' : 'lightcoral',
+    backgroundImage: isRunning ? `url(${backgroundGif})` : `url(${backgroundJpg})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
     height: '100vh',
     width: '100vw',
     display: 'flex',
@@ -179,7 +185,7 @@ const CountdownTimer: React.FC = () => {
     justifyContent: 'center',
     flexDirection: 'column',
     padding: '20px',
-    transition: 'background-color 0.5s ease'
+    transition: 'background-image 0.5s ease'
   };
 
   return (
