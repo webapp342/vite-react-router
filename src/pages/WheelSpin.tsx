@@ -1,112 +1,83 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Grid, Typography } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
-interface Point {
-  value: number;
-}
+const WheelContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+`;
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#333',
-    },
-  },
-});
+const Wheel = styled(motion.div)`
+  width: 300px;
+  height: 300px;
+  border: 10px solid #ccc;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+`;
+
+const Slice = styled.div<{ rotation: number, color: string }>`
+  width: 150px;
+  height: 150px;
+  background-color: ${({ color }) => color};
+  position: absolute;
+  transform: rotate(${({ rotation }) => rotation}deg);
+  transform-origin: 100% 100%;
+  clip-path: polygon(0% 0%, 100% 0%, 50% 50%);
+`;
+
+const Button = styled.button`
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+`;
 
 const WheelComponent: React.FC = () => {
-  const [points, setPoints] = useState<number>(0);
-  const [isSpinning, setIsSpinning] = useState<boolean>(false);
-  const [rotateDeg, setRotateDeg] = useState<number>(0);
+  const [rotation, setRotation] = useState(0);
+  const [spinning, setSpinning] = useState(false);
 
-  const pointsArray: Point[] = [
-    { value: 10 },
-    { value: 20 },
-    { value: 30 },
-    { value: 100 },
-    { value: 200 },
-    { value: 300 },
+  const slices = [
+    { color: '#FF6633', label: '1' },
+    { color: '#FFB399', label: '2' },
+    { color: '#FF33FF', label: '3' },
+    { color: '#FFFF99', label: '4' },
+    { color: '#00B3E6', label: '5' },
+    { color: '#E6B333', label: '6' },
   ];
 
-  useEffect(() => {
-    const handleSpin = () => {
-      const randomIndex = Math.floor(Math.random() * pointsArray.length);
-      const randomPoints = pointsArray[randomIndex].value;
-      setPoints(randomPoints);
-      setRotateDeg(Math.floor(Math.random() * 360));
-      localStorage.setItem('points', randomPoints.toString());
-    };
-
-    if (isSpinning) {
-      handleSpin();
-      setIsSpinning(false);
-    }
-  }, [isSpinning]);
-
-  const handleSpinClick = () => {
-    setIsSpinning(true);
+  const spinWheel = () => {
+    if (spinning) return;
+    setSpinning(true);
+    const newRotation = rotation + 360 * 5 + Math.floor(Math.random() * 360);
+    setRotation(newRotation);
+    setTimeout(() => setSpinning(false), 5000);
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Grid container spacing={2} alignItems="center" justifyContent="center">
-        <Grid item xs={12}>
-          <div
-            style={{
-              width: '300px',
-              height: '300px',
-              borderRadius: '50%',
-              border: '10px solid #333',
-              position: 'relative',
-              transform: `rotate(${rotateDeg}deg)`,
-              transition: 'transform 2s ease-in-out',
-            }}
-          >
-            {pointsArray.map((point, index) => (
-              <div
-                key={index}
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: `translate(-50%, -50%) rotate(${index * 60}deg)`,
-                  fontSize: '24px',
-                  fontWeight: 'bold',
-                  color: '#fff',
-                }}
-              >
-                {point.value}
-              </div>
-            ))}
-            <div
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                fontSize: '36px',
-                fontWeight: 'bold',
-                color: '#fff',
-              }}
-            >
-              <Typography variant="h2" component="h2">
-                {points}
-              </Typography>
-            </div>
-          </div>
-        </Grid>
-        <Grid item xs={12}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSpinClick}
-            disabled={isSpinning}
-          >
-            Spin the Wheel!
-          </Button>
-        </Grid>
-      </Grid>
-    </ThemeProvider>
+    <WheelContainer>
+      <div>
+        <Wheel
+          animate={{ rotate: rotation }}
+          transition={{ duration: 5, ease: 'easeOut' }}
+        >
+          {slices.map((slice, index) => (
+            <Slice
+              key={index}
+              rotation={(360 / slices.length) * index}
+              color={slice.color}
+            />
+          ))}
+        </Wheel>
+        <Button onClick={spinWheel} disabled={spinning}>
+          Çevir
+        </Button>
+      </div>
+    </WheelContainer>
   );
 };
 
