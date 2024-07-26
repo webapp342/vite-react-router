@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Grid, Typography } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 interface Point {
@@ -47,7 +47,7 @@ const WheelComponent: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container spacing={2} alignItems="center" justify="center">
+      <Grid container spacing={2} alignItems="center" justifyContent="center">
         <Grid item xs={12}>
           <div style={{
             width: '300px',
@@ -64,7 +64,9 @@ const WheelComponent: React.FC = () => {
               fontSize: '24px',
               fontWeight: 'bold',
             }}>
-              {points}
+              <Typography variant="h2" component="h2">
+                {points}
+              </Typography>
             </div>
             <div style={{
               position: 'absolute',
