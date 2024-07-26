@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Box, Typography } from '@mui/material';
-import './WheelSpin.css'; // CSS dosyasını import ediyoruz
+import '../App.css'; // CSS dosyasını import ediyoruz
 
 const WheelSpin: React.FC = () => {
   const [points, setPoints] = useState<number | null>(null);
