@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import backgroundJpg from './background.jpg';
-import backgroundGif from './background.gif';
+import backgroundGif from '../assets/background.gif';
+import backgroundJpg from '../assets/background.jpg';
 import UserDetails from "./UserDetails.tsx";
 
 
