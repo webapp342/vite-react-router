@@ -1,111 +1,65 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const Wheel: React.FC = () => {
-  const [spinning, setSpinning] = useState(false);
-  const [rotation, setRotation] = useState(0);
-  const [points, setPoints] = useState<number[]>([]);
-  const pointValues = [10, 50, 100];
-  const segmentAngle = 360 / pointValues.length;
-  const segmentMidAngle = segmentAngle / 2;
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#333',
+    },
+  },
+});
+
+const WheelComponent = () => {
+  const [points, setPoints] = useState(0);
+  const [isSpinning, setIsSpinning] = useState(false);
+
+  const pointsArray = [10, 20, 30, 100, 200, 300];
 
   useEffect(() => {
-    const savedPoints = localStorage.getItem('points');
-    if (savedPoints) {
-      setPoints(JSON.parse(savedPoints));
+    const handleSpin = () => {
+      const randomIndex = Math.floor(Math.random() * pointsArray.length);
+      const randomPoints = pointsArray[randomIndex];
+      setPoints(randomPoints);
+      localStorage.setItem('points', randomPoints.toString());
+    };
+
+    if (isSpinning) {
+      handleSpin();
+      setIsSpinning(false);
     }
-  }, []);
+  }, [isSpinning]);
 
-  const handleSpin = () => {
-    if (spinning) return;
-    setSpinning(true);
-
-    const randomIndex = Math.floor(Math.random() * pointValues.length);
-    const selectedPoint = pointValues[randomIndex];
-    const fullSpin = 360 * 10;
-    const angleToRotate = randomIndex * segmentAngle;
-    const spinAngle = fullSpin + angleToRotate + segmentMidAngle;
-
-    setRotation(prevRotation => prevRotation + spinAngle);
-
-    setTimeout(() => {
-      setRotation(prevRotation => (prevRotation + spinAngle) % 360);
-      setSpinning(false);
-      const newPoints = [...points, selectedPoint];
-      setPoints(newPoints);
-      localStorage.setItem('points', JSON.stringify(newPoints));
-    }, 4000);
+  const handleSpinClick = () => {
+    setIsSpinning(true);
   };
 
-  const totalPoints = points.reduce((acc, curr) => acc + curr, 0);
-
   return (
-    <Box sx={{ textAlign: 'center', mt: 5 }}>
-      <Box sx={{ position: 'relative', width: '300px', height: '300px', margin: '0 auto' }}>
-        <Box
-          id="wheel"
-          sx={{
-            width: '100%',
-            height: '100%',
-            borderRadius: '50%',
-            position: 'relative',
-            transform: `rotate(${rotation}deg)`,
-            transition: 'transform 4s ease-out',
-            background: `conic-gradient(
-              #ffcc00 0deg ${segmentAngle}deg,
-              #ff6666 ${segmentAngle}deg ${2 * segmentAngle}deg,
-              #66b2ff ${2 * segmentAngle}deg 360deg
-            )`,
-            boxShadow: '0 0 15px rgba(0, 0, 0, 0.3)',
-          }}
-        >
-          {pointValues.map((point, index) => (
-            <Box
-              key={index}
-              sx={{
-                position: 'absolute',
-                width: '50%',
-                height: '50%',
-                backgroundColor: 'transparent',
-                transformOrigin: '100% 100%',
-                transform: `rotate(${index * segmentAngle + segmentMidAngle}deg)`,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                fontSize: '1.5rem',
-                fontWeight: 'bold',
-                color: '#000',
-                textShadow: '1px 1px 2px rgba(255, 255, 255, 0.7)',
-                zIndex: 2,
-              }}
-            >
-              {point}
-            </Box>
-          ))}
-        </Box>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '-20px',
-            left: '50%',
-            width: '0',
-            height: '0',
-            borderLeft: '10px solid transparent',
-            borderRight: '10px solid transparent',
-            borderBottom: '20px solid #ff0000',
-            transform: 'translateX(-50%)',
-            zIndex: 1,
-          }}
-        />
-      </Box>
-      <Button variant="contained" color="primary" onClick={handleSpin} disabled={spinning} sx={{ mt: 2 }}>
-        {spinning ? 'Spinning...' : 'Spin the Wheel'}
-      </Button>
-      <Typography variant="h6" sx={{ mt: 3 }}>
-        Total Points: {totalPoints}
-      </Typography>
-    </Box>
+    <ThemeProvider theme={theme}>
+      <Grid container spacing={2} alignItems="center" justify="center">
+        <Grid item xs={12}>
+          <Typography variant="h2" align="center">
+            Wheel of Fortune
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSpinClick}
+            disabled={isSpinning}
+          >
+            Spin the Wheel!
+          </Button>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h3" align="center">
+            You got {points} points!
+          </Typography>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 };
 
-export default Wheel;
+export default WheelComponent;
