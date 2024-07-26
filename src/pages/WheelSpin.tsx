@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Grid } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Button, Grid, Typography } from '@mui/material';
 
 interface Point {
   value: number;
