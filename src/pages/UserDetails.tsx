@@ -3,8 +3,8 @@ import { db } from './firebaseConfig';
 import { doc, setDoc, onSnapshot, Timestamp, updateDoc, increment, DocumentReference } from 'firebase/firestore';
 
 // İçe aktarılan arka plan resimlerini tanımlayın
-import backgroundGif from './assets/background.gif';
-import backgroundJpg from './assets/background.jpg';
+import backgroundGif from '../assets/background.gif';
+import backgroundJpg from '../assets/background.jpg';
 
 interface CountdownData {
   endTime: Timestamp | null;
