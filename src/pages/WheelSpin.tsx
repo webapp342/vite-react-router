@@ -1,22 +1,26 @@
-import React, { useState } from 'react';
-import { Box, Button } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Button, Typography } from '@mui/material';
 
-interface WheelProps {
-  onSpin: (point: number) => void;
-}
-
-const Wheel: React.FC<WheelProps> = ({ onSpin }) => {
+const Wheel: React.FC = () => {
   const [spinning, setSpinning] = useState(false);
-  const points = [10, 50, 100];
-  const segmentAngle = 360 / points.length;
+  const [points, setPoints] = useState<number[]>([]);
+  const segmentAngle = 360 / 3; // Çarkın 3 segmenti var: 10, 50, 100
+  const pointValues = [10, 50, 100];
+
+  useEffect(() => {
+    const savedPoints = localStorage.getItem('points');
+    if (savedPoints) {
+      setPoints(JSON.parse(savedPoints));
+    }
+  }, []);
 
   const handleSpin = () => {
     if (spinning) return;
     setSpinning(true);
 
-    const randomIndex = Math.floor(Math.random() * points.length);
-    const selectedPoint = points[randomIndex];
-    const spinAngle = 3600 + randomIndex * segmentAngle; // Çarkın 10 tur döneceğini varsayıyoruz
+    const randomIndex = Math.floor(Math.random() * pointValues.length);
+    const selectedPoint = pointValues[randomIndex];
+    const spinAngle = 3600 + randomIndex * segmentAngle;
 
     const wheelElement = document.getElementById('wheel');
     if (wheelElement) {
@@ -26,9 +30,13 @@ const Wheel: React.FC<WheelProps> = ({ onSpin }) => {
 
     setTimeout(() => {
       setSpinning(false);
-      onSpin(selectedPoint);
+      const newPoints = [...points, selectedPoint];
+      setPoints(newPoints);
+      localStorage.setItem('points', JSON.stringify(newPoints));
     }, 4000);
   };
+
+  const totalPoints = points.reduce((acc, curr) => acc + curr, 0);
 
   return (
     <Box sx={{ textAlign: 'center', mt: 5 }}>
@@ -44,7 +52,7 @@ const Wheel: React.FC<WheelProps> = ({ onSpin }) => {
             transform: 'rotate(0deg)',
           }}
         >
-          {points.map((point, index) => (
+          {pointValues.map((point, index) => (
             <Box
               key={index}
               sx={{
@@ -70,6 +78,12 @@ const Wheel: React.FC<WheelProps> = ({ onSpin }) => {
       <Button variant="contained" color="primary" onClick={handleSpin} disabled={spinning} sx={{ mt: 2 }}>
         {spinning ? 'Spinning...' : 'Spin the Wheel'}
       </Button>
+      <Typography variant="h6" sx={{ mt: 3 }}>
+        Total Points: {totalPoints}
+      </Typography>
+      <Typography variant="body1">
+        {points.length > 0 ? `Points History: ${points.join(', ')}` : 'No points yet.'}
+      </Typography>
     </Box>
   );
 };
