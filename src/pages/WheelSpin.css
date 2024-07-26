@@ -39,6 +39,7 @@
   max-width: 80%;
   margin: auto;
   text-align: center;
+  color: black; /* Yazı rengini siyah yapıyoruz */
 }
 
 .modal-overlay {
