@@ -8,7 +8,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import  FarmComponent  from "./pages/FarmComponent.tsx";
 import UserDetails from "./pages/UserDetails.tsx";
 import UserProfilePage from "./pages/UserProfilePage.tsx";
-import LocalStorageViewer from "./pages/localStorage.tsx";
+import WheelSpin from "./pages/WheelSpin.tsx";
 
 
 
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/vite-react-router/",
-        element: <LocalStorageViewer />,
+        element: <WheelSpin />,
       },
       {
         path: "/vite-react-router/farm",
