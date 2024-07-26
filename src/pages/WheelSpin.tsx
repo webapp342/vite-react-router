@@ -38,9 +38,51 @@ const WheelComponent = () => {
     <ThemeProvider theme={theme}>
       <Grid container spacing={2} alignItems="center" justify="center">
         <Grid item xs={12}>
-          <Typography variant="h2" align="center">
-            Wheel of Fortune
-          </Typography>
+          <div style={{
+            width: '300px',
+            height: '300px',
+            borderRadius: '50%',
+            border: '10px solid #333',
+            position: 'relative',
+          }}>
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              fontSize: '24px',
+              fontWeight: 'bold',
+            }}>
+              {points}
+            </div>
+            <div style={{
+              position: 'absolute',
+              top: '0',
+              left: '0',
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+              {pointsArray.map((point, index) => (
+                <div key={index} style={{
+                  width: '50px',
+                  height: '50px',
+                  borderRadius: '50%',
+                  backgroundColor: '#333',
+                  color: '#fff',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                }}>
+                  {point}
+                </div>
+              ))}
+            </div>
+          </div>
         </Grid>
         <Grid item xs={12}>
           <Button
@@ -51,11 +93,6 @@ const WheelComponent = () => {
           >
             Spin the Wheel!
           </Button>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant="h3" align="center">
-            You got {points} points!
-          </Typography>
         </Grid>
       </Grid>
     </ThemeProvider>
