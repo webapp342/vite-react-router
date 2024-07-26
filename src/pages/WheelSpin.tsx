@@ -1,84 +1,73 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { Wheel } from 'react-custom-roulette';
+import { updateSpinPoints } from './firestoreService';
+import './WheelSpin.css'; // CSS dosyasını ekliyoruz
 
-const WheelContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f0f0f0;
-`;
+const data = [
+  { option: '640', style: { backgroundColor: 'green', textColor: 'black' } },
+  { option: '10', style: { backgroundColor: 'green', textColor: 'black' } },
+  { option: '50', style: { backgroundColor: 'green', textColor: 'black' } },
+  { option: '510', style: { backgroundColor: 'green', textColor: 'black' } },
+  { option: '520', style: { backgroundColor: 'green', textColor: 'black' } },
+  { option: '70', style: { backgroundColor: 'green', textColor: 'black' } },
+  { option: '920', style: { backgroundColor: 'green', textColor: 'black' } },
+  { option: '720', style: { backgroundColor: 'green', textColor: 'black' } },
+  { option: '420', style: { backgroundColor: 'green', textColor: 'black' } },
+  { option: '320', style: { backgroundColor: 'green', textColor: 'black' } },
+  { option: '570', style: { backgroundColor: 'green', textColor: 'black' } },
+  { option: '20', style: { backgroundColor: 'green', textColor: 'black' } },
+];
 
-const Wheel = styled(motion.div)`
-  width: 300px;
-  height: 300px;
-  border: 10px solid #ccc;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-`;
+const WheelSpin: React.FC = () => {
+  const [mustSpin, setMustSpin] = useState(false);
+  const [prizeNumber, setPrizeNumber] = useState(0);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const telegramUserId = localStorage.getItem('telegramUserId') || '';
 
-const Slice = styled.div<{ rotation: number, color: string }>`
-  width: 150px;
-  height: 150px;
-  background-color: ${({ color }) => color};
-  position: absolute;
-  transform: rotate(${({ rotation }) => rotation}deg);
-  transform-origin: 100% 100%;
-  clip-path: polygon(0% 0%, 100% 0%, 50% 50%);
-`;
+  const handleSpinClick = () => {
+    const newPrizeNumber = Math.floor(Math.random() * data.length);
+    setPrizeNumber(newPrizeNumber);
+    setMustSpin(true);
+    setIsSpinning(true);
+  };
 
-const Button = styled.button`
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-`;
+  const handleStopSpinning = () => {
+    setMustSpin(false);
+    setIsSpinning(false);
 
-const WheelComponent: React.FC = () => {
-  const [rotation, setRotation] = useState(0);
-  const [spinning, setSpinning] = useState(false);
-
-  const slices = [
-    { color: '#FF6633', label: '1' },
-    { color: '#FFB399', label: '2' },
-    { color: '#FF33FF', label: '3' },
-    { color: '#FFFF99', label: '4' },
-    { color: '#00B3E6', label: '5' },
-    { color: '#E6B333', label: '6' },
-  ];
-
-  const spinWheel = () => {
-    if (spinning) return;
-    setSpinning(true);
-    const newRotation = rotation + 360 * 5 + Math.floor(Math.random() * 360);
-    setRotation(newRotation);
-    setTimeout(() => setSpinning(false), 5000);
+    // Firestore'a spin points güncelleme
+    const spinPoints = parseInt(data[prizeNumber].option, 10);
+    if (telegramUserId) {
+      updateSpinPoints(telegramUserId, spinPoints);
+    } else {
+      console.error("Telegram User ID is not available");
+    }
   };
 
   return (
-    <WheelContainer>
-      <div>
+    <div className="wheel-wrapper">
+      <div className="wheel-container">
         <Wheel
-          animate={{ rotate: rotation }}
-          transition={{ duration: 5, ease: 'easeOut' }}
-        >
-          {slices.map((slice, index) => (
-            <Slice
-              key={index}
-              rotation={(360 / slices.length) * index}
-              color={slice.color}
-            />
-          ))}
-        </Wheel>
-        <Button onClick={spinWheel} disabled={spinning}>
-          Çevir
-        </Button>
+          mustStartSpinning={mustSpin}
+          prizeNumber={prizeNumber}
+          data={data}
+          backgroundColors={['#3e3e3e', '#df3428']}
+          textColors={['#ffffff']}
+          onStopSpinning={handleStopSpinning}
+        />
+        <button className="spin-button" onClick={handleSpinClick} disabled={isSpinning}>
+          Spin
+        </button>
+        <div className="result">
+          {isSpinning ? (
+            <p>Çark dönüyor...</p>
+          ) : (
+            <p>Çarkın üzerinde durduğu sayı: {data[prizeNumber].option}</p>
+          )}
+        </div>
       </div>
-    </WheelContainer>
+    </div>
   );
 };
 
-export default WheelComponent;
+export default WheelSpin;
