@@ -48,7 +48,7 @@ const Wheel: React.FC = () => {
             position: 'relative',
             transform: `rotate(${rotation}deg)`,
             transition: 'transform 4s ease-out',
-            background: 'conic-gradient(from 0deg, #ffcc00, #ff6666, #66b2ff, #ffcc00)',
+            background: 'white',
             boxShadow: '0 0 15px rgba(0, 0, 0, 0.3)',
           }}
         >
@@ -66,9 +66,9 @@ const Wheel: React.FC = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 fontSize: '1.5rem',
-                color: '#fff',
                 fontWeight: 'bold',
                 textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
+                borderRight: '2px solid #333', // Segment ayrımı için çizgi
               }}
             >
               {point}
@@ -85,19 +85,21 @@ const Wheel: React.FC = () => {
             backgroundColor: '#000',
             borderRadius: '50%',
             transform: 'translate(-50%, -50%)',
+            zIndex: 1,
           }}
         />
         <Box
           sx={{
             position: 'absolute',
-            top: 0,
+            top: '-10px', // Oku doğru hizalamak için yukarıya taşı
             left: '50%',
             width: '0',
             height: '0',
             borderLeft: '10px solid transparent',
             borderRight: '10px solid transparent',
-            borderBottom: '20px solid #ff0000',
+            borderTop: '20px solid #ff0000',
             transform: 'translateX(-50%)',
+            zIndex: 1,
           }}
         />
       </Box>
