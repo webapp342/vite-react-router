@@ -181,18 +181,31 @@ const CountdownTimer: React.FC = () => {
     height: '100vh',
     width: '100vw',
     display: 'flex',
+    backgroundAttachment: 'fixed',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'column',
-    padding: '20px',
+    position: 'relative', // Important for absolute positioning of the button
     transition: 'background-image 0.5s ease'
+  };
+
+  const buttonStyle: React.CSSProperties = {
+    position: 'absolute',
+    bottom: '12%', // Distance from the bottom
+    left: '3%', // Distance from the left
+    right: '3%', // Distance from the right
+    padding: '3%',
+    fontSize: '16px',
+    textAlign: 'center'
   };
 
   return (
     <div style={containerStyle}>
-      <h1>Geri Sayım: {formatTime(seconds)}</h1>
-      <p>Mevcut Skor: {userScore}</p>
-      <button onClick={startCountdown} disabled={buttonDisabled}>
+      <div>
+        <h1>Geri Sayım: {formatTime(seconds)}</h1>
+        <p>Mevcut Skor: {userScore}</p>
+      </div>
+      <button onClick={startCountdown} disabled={buttonDisabled} style={buttonStyle}>
         {buttonDisabled ? 'Başlatıldı' : 'Başlat'}
       </button>
     </div>
