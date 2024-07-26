@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Box, Typography } from '@mui/material';
 
 const WheelSpin: React.FC = () => {
   const [points, setPoints] = useState<number | null>(null);
+  const [totalPoints, setTotalPoints] = useState<number>(0);
   const rewardOptions = [10, 50, 100, 250, 1000];
+
+  useEffect(() => {
+    const storedPoints = localStorage.getItem('points');
+    if (storedPoints) {
+      const pointsArray = JSON.parse(storedPoints);
+      const total = pointsArray.reduce((acc: number, curr: number) => acc + curr, 0);
+      setTotalPoints(total);
+    }
+  }, []);
 
   const handleSpin = () => {
     const randomIndex = Math.floor(Math.random() * rewardOptions.length);
@@ -17,6 +27,9 @@ const WheelSpin: React.FC = () => {
     const pointsArray = storedPoints ? JSON.parse(storedPoints) : [];
     pointsArray.push(newPoints);
     localStorage.setItem('points', JSON.stringify(pointsArray));
+    
+    const updatedTotal = pointsArray.reduce((acc: number, curr: number) => acc + curr, 0);
+    setTotalPoints(updatedTotal);
   };
 
   return (
@@ -32,6 +45,9 @@ const WheelSpin: React.FC = () => {
           Kazandığınız Puan: {points}
         </Typography>
       )}
+      <Typography variant="h6" mt={2}>
+        Toplam Puan: {totalPoints}
+      </Typography>
     </Box>
   );
 };
