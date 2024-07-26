@@ -17,6 +17,7 @@ const CountdownTimer: React.FC = () => {
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [userScore, setUserScore] = useState<number>(0);
+  const [counterValue, setCounterValue] = useState<number>(0); // Sayıcı için durum
 
   const userId = localStorage.getItem('telegramUserId') || 'defaultUserId';
 
@@ -53,6 +54,12 @@ const CountdownTimer: React.FC = () => {
               setButtonDisabled(true);
               localStorage.setItem('countdownEndTime', data.endTime.toDate().toISOString());
               localStorage.setItem('isRunning', 'true');
+
+              // Sayacı güncelle
+              const elapsedTime = 300 - remainingTime;
+              const counterIncrementPerSecond = 10 / 300;
+              setCounterValue(counterIncrementPerSecond * elapsedTime);
+
             } else {
               setIsRunning(false);
               setSeconds(0);
@@ -69,6 +76,9 @@ const CountdownTimer: React.FC = () => {
                   isRunning: false
                 }, { merge: true });
               }
+
+              // Sayıcıyı sıfırla
+              setCounterValue(0);
             }
           } else {
             console.log('Document does not exist. Creating new document.');
@@ -80,6 +90,9 @@ const CountdownTimer: React.FC = () => {
             setButtonDisabled(false);
             localStorage.removeItem('countdownEndTime');
             localStorage.setItem('isRunning', 'false');
+
+            // Sayıcıyı sıfırla
+            setCounterValue(0);
           }
         });
 
@@ -127,6 +140,10 @@ const CountdownTimer: React.FC = () => {
 
       localStorage.setItem('countdownEndTime', endTime.toISOString());
       localStorage.setItem('isRunning', 'true');
+
+      // Sayıcıyı sıfırla
+      setCounterValue(0);
+
     } catch (error) {
       console.error('Error starting countdown:', error);
     }
@@ -154,8 +171,15 @@ const CountdownTimer: React.FC = () => {
 
             updateFirestore();
 
+            // Sayıcıyı sıfırla
+            setCounterValue(0);
+
             return 0;
           }
+          // Güncel sayıcı değerini güncelle
+          const elapsedTime = 300 - prevSeconds;
+          const counterIncrementPerSecond = 10 / 300;
+          setCounterValue(counterIncrementPerSecond * elapsedTime);
           return prevSeconds - 1;
         });
       }, 1000);
@@ -191,15 +215,15 @@ const CountdownTimer: React.FC = () => {
 
   const buttonStyle: React.CSSProperties = {
     position: 'absolute',
-    bottom: '12%', // Distance from the bottom
-    left: '3%', // Distance from the left
-    right: '3%', // Distance from the right
+    bottom: '20%', // Adjust as needed to fit the card
+    left: '3%',
+    right: '3%',
     padding: '3%',
     fontSize: '16px',
     textAlign: 'center',
     display: 'flex',
-    justifyContent: 'space-between', // Distributes space between "Başlatıldı" and the countdown
-    alignItems: 'center' // Center aligns the content vertically
+    justifyContent: 'space-between',
+    alignItems: 'center'
   };
 
   return (
@@ -216,10 +240,12 @@ const CountdownTimer: React.FC = () => {
           </>
         ) : (
           <span style={{ flex: 1, textAlign: 'center' }}>Başlat</span>
-
-         
         )}
       </button>
+      <div style={{ marginTop: '20px' }}>
+        <h2>Sayıcı Değeri</h2>
+        <p>{counterValue.toFixed(2)} Puan</p>
+      </div>
     </div>
   );
 };
