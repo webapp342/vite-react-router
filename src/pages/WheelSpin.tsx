@@ -7,6 +7,7 @@ const Wheel: React.FC = () => {
   const [points, setPoints] = useState<number[]>([]);
   const pointValues = [10, 50, 100];
   const segmentAngle = 360 / pointValues.length;
+  const segmentMidAngle = segmentAngle / 2; // Segmentlerin ortasına denk gelecek açı
 
   useEffect(() => {
     const savedPoints = localStorage.getItem('points');
@@ -21,7 +22,7 @@ const Wheel: React.FC = () => {
 
     const randomIndex = Math.floor(Math.random() * pointValues.length);
     const selectedPoint = pointValues[randomIndex];
-    const spinAngle = 3600 + randomIndex * segmentAngle; // Total rotation angle
+    const spinAngle = 3600 + randomIndex * segmentAngle + segmentMidAngle; // Total rotation angle
 
     setRotation(rotation + spinAngle);
 
@@ -59,7 +60,7 @@ const Wheel: React.FC = () => {
                 position: 'absolute',
                 width: '50%',
                 height: '50%',
-                backgroundColor: 'transparent',
+                backgroundColor: index % 2 === 0 ? '#ffcc00' : '#ff6666',
                 transformOrigin: '100% 100%',
                 transform: `rotate(${index * segmentAngle}deg)`,
                 display: 'flex',
@@ -75,19 +76,6 @@ const Wheel: React.FC = () => {
             </Box>
           ))}
         </Box>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            width: '20px',
-            height: '20px',
-            backgroundColor: '#000',
-            borderRadius: '50%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 1,
-          }}
-        />
         <Box
           sx={{
             position: 'absolute',
