@@ -45,11 +45,15 @@ const Wheel: React.FC = () => {
             width: '100%',
             height: '100%',
             borderRadius: '50%',
-            border: '10px solid #333',
             position: 'relative',
             transform: `rotate(${rotation}deg)`,
             transition: 'transform 4s ease-out',
-            background: 'white',
+            background: `conic-gradient(
+              #ffcc00 0deg ${segmentAngle}deg,
+              #ff6666 ${segmentAngle}deg ${2 * segmentAngle}deg,
+              #66b2ff ${2 * segmentAngle}deg ${3 * segmentAngle}deg,
+              #ffcc00 ${3 * segmentAngle}deg 360deg
+            )`,
             boxShadow: '0 0 15px rgba(0, 0, 0, 0.3)',
           }}
         >
@@ -60,16 +64,18 @@ const Wheel: React.FC = () => {
                 position: 'absolute',
                 width: '50%',
                 height: '50%',
-                backgroundColor: index % 2 === 0 ? '#ffcc00' : '#ff6666',
+                backgroundColor: 'transparent',
                 transformOrigin: '100% 100%',
                 transform: `rotate(${index * segmentAngle}deg)`,
+                clipPath: `polygon(100% 100%, 0% 100%, 50% 50%)`, // Tam kaplama için
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 fontSize: '1.5rem',
                 fontWeight: 'bold',
+                color: '#fff',
                 textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
-                borderRight: '2px solid #333', // Segment ayrımı için çizgi
+                zIndex: 2,
               }}
             >
               {point}
@@ -79,13 +85,13 @@ const Wheel: React.FC = () => {
         <Box
           sx={{
             position: 'absolute',
-            top: '-10px', // Oku doğru hizalamak için yukarıya taşı
+            top: '-20px', // Oku doğru hizalamak için yukarıya taşı
             left: '50%',
             width: '0',
             height: '0',
             borderLeft: '10px solid transparent',
             borderRight: '10px solid transparent',
-            borderTop: '20px solid #ff0000',
+            borderBottom: '20px solid #ff0000',
             transform: 'translateX(-50%)',
             zIndex: 1,
           }}
