@@ -22,13 +22,14 @@ const Wheel: React.FC = () => {
 
     const randomIndex = Math.floor(Math.random() * pointValues.length);
     const selectedPoint = pointValues[randomIndex];
-    const fullSpin = 3600; // 10 tam dönüş
-    const angleToRotate = randomIndex * segmentAngle + segmentMidAngle;
-    const spinAngle = fullSpin + angleToRotate;
+    const fullSpin = 360 * 10; // 10 tam dönüş
+    const angleToRotate = randomIndex * segmentAngle;
+    const spinAngle = fullSpin + angleToRotate + segmentMidAngle;
 
-    setRotation(rotation + spinAngle);
+    setRotation(prevRotation => prevRotation + spinAngle);
 
     setTimeout(() => {
+      setRotation(prevRotation => (prevRotation + angleToRotate + segmentMidAngle) % 360);
       setSpinning(false);
       const newPoints = [...points, selectedPoint];
       setPoints(newPoints);
@@ -53,8 +54,7 @@ const Wheel: React.FC = () => {
             background: `conic-gradient(
               #ffcc00 0deg ${segmentAngle}deg,
               #ff6666 ${segmentAngle}deg ${2 * segmentAngle}deg,
-              #66b2ff ${2 * segmentAngle}deg ${3 * segmentAngle}deg,
-              #ffcc00 ${3 * segmentAngle}deg 360deg
+              #66b2ff ${2 * segmentAngle}deg 360deg
             )`,
             boxShadow: '0 0 15px rgba(0, 0, 0, 0.3)',
           }}
@@ -68,15 +68,14 @@ const Wheel: React.FC = () => {
                 height: '50%',
                 backgroundColor: 'transparent',
                 transformOrigin: '100% 100%',
-                transform: `rotate(${index * segmentAngle}deg)`,
-                clipPath: `polygon(100% 100%, 0% 100%, 50% 50%)`, // Tam kaplama için
+                transform: `rotate(${index * segmentAngle + segmentMidAngle}deg)`,
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 fontSize: '1.5rem',
                 fontWeight: 'bold',
-                color: '#fff',
-                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
+                color: '#000',
+                textShadow: '1px 1px 2px rgba(255, 255, 255, 0.7)',
                 zIndex: 2,
               }}
             >
