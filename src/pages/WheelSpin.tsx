@@ -1,81 +1,77 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Box, Typography } from '@mui/material';
-import '../App.css'; // CSS dosyasını import ediyoruz
+import React, { useState } from 'react';
+import { Box, Button } from '@mui/material';
 
-const WheelSpin: React.FC = () => {
-  const [points, setPoints] = useState<number | null>(null);
-  const [totalPoints, setTotalPoints] = useState<number>(0);
-  const [spinning, setSpinning] = useState<boolean>(false);
-  const rewardOptions = [10, 50, 100, 250, 1000];
-  const wheelRef = React.useRef<HTMLDivElement>(null);
+interface WheelProps {
+  onSpin: (point: number) => void;
+}
 
-  useEffect(() => {
-    const storedPoints = localStorage.getItem('points');
-    if (storedPoints) {
-      const pointsArray = JSON.parse(storedPoints);
-      const total = pointsArray.reduce((acc: number, curr: number) => acc + curr, 0);
-      setTotalPoints(total);
-    }
-  }, []);
+const Wheel: React.FC<WheelProps> = ({ onSpin }) => {
+  const [spinning, setSpinning] = useState(false);
+  const points = [10, 50, 100];
+  const segmentAngle = 360 / points.length;
 
   const handleSpin = () => {
     if (spinning) return;
-
     setSpinning(true);
-    const randomIndex = Math.floor(Math.random() * rewardOptions.length);
-    const selectedPoints = rewardOptions[randomIndex];
 
-    const randomDegree = 3600 + randomIndex * (360 / rewardOptions.length); // Çarkı 10 tur döndür ve rastgele bir noktada durdur
-    if (wheelRef.current) {
-      wheelRef.current.style.transition = 'transform 4s ease-out';
-      wheelRef.current.style.transform = `rotate(${randomDegree}deg)`;
+    const randomIndex = Math.floor(Math.random() * points.length);
+    const selectedPoint = points[randomIndex];
+    const spinAngle = 3600 + randomIndex * segmentAngle; // Çarkın 10 tur döneceğini varsayıyoruz
+
+    const wheelElement = document.getElementById('wheel');
+    if (wheelElement) {
+      wheelElement.style.transition = 'transform 4s ease-out';
+      wheelElement.style.transform = `rotate(${spinAngle}deg)`;
     }
 
     setTimeout(() => {
-      setPoints(selectedPoints);
-      savePoints(selectedPoints);
       setSpinning(false);
-    }, 4000); // 4 saniye döndürme süresi
-  };
-
-  const savePoints = (newPoints: number) => {
-    const storedPoints = localStorage.getItem('points');
-    const pointsArray = storedPoints ? JSON.parse(storedPoints) : [];
-    pointsArray.push(newPoints);
-    localStorage.setItem('points', JSON.stringify(pointsArray));
-    
-    const updatedTotal = pointsArray.reduce((acc: number, curr: number) => acc + curr, 0);
-    setTotalPoints(updatedTotal);
+      onSpin(selectedPoint);
+    }, 4000);
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
-      <Typography variant="h4" gutterBottom>
-        Çarkı Çevir!
-      </Typography>
-      <Box className="wheel-container" mt={2} mb={2}>
-        <div className="wheel" ref={wheelRef}>
-          {rewardOptions.map((option, index) => (
-            <div key={index} className="segment">
-              {option}
-            </div>
+    <Box sx={{ textAlign: 'center', mt: 5 }}>
+      <Box sx={{ position: 'relative', width: '200px', height: '200px', margin: '0 auto' }}>
+        <Box
+          id="wheel"
+          sx={{
+            width: '100%',
+            height: '100%',
+            borderRadius: '50%',
+            border: '5px solid #ccc',
+            position: 'relative',
+            transform: 'rotate(0deg)',
+          }}
+        >
+          {points.map((point, index) => (
+            <Box
+              key={index}
+              sx={{
+                position: 'absolute',
+                width: '50%',
+                height: '50%',
+                backgroundColor: index % 2 === 0 ? '#ffcc00' : '#ff6666',
+                transformOrigin: '100% 100%',
+                transform: `rotate(${index * segmentAngle}deg)`,
+                clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%)',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontSize: '1.5rem',
+                color: '#fff',
+              }}
+            >
+              {point}
+            </Box>
           ))}
-        </div>
-        <div className="arrow"></div>
+        </Box>
       </Box>
-      <Button variant="contained" color="primary" onClick={handleSpin} disabled={spinning}>
-        Çarkı Çevir
+      <Button variant="contained" color="primary" onClick={handleSpin} disabled={spinning} sx={{ mt: 2 }}>
+        {spinning ? 'Spinning...' : 'Spin the Wheel'}
       </Button>
-      {points !== null && (
-        <Typography variant="h6" mt={2}>
-          Kazandığınız Puan: {points}
-        </Typography>
-      )}
-      <Typography variant="h6" mt={2}>
-        Toplam Puan: {totalPoints}
-      </Typography>
     </Box>
   );
 };
 
-export default WheelSpin;
+export default Wheel;
