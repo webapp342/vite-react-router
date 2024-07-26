@@ -22,7 +22,9 @@ const Wheel: React.FC = () => {
 
     const randomIndex = Math.floor(Math.random() * pointValues.length);
     const selectedPoint = pointValues[randomIndex];
-    const spinAngle = 3600 + randomIndex * segmentAngle + segmentMidAngle; // Total rotation angle
+    const fullSpin = 3600; // 10 tam dönüş
+    const angleToRotate = randomIndex * segmentAngle + segmentMidAngle;
+    const spinAngle = fullSpin + angleToRotate;
 
     setRotation(rotation + spinAngle);
 
