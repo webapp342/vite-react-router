@@ -178,10 +178,10 @@ const CountdownTimer: React.FC = () => {
     backgroundImage: isRunning ? `url(${backgroundGif})` : `url(${backgroundJpg})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    backgroundAttachment: 'fixed', // Background is fixed relative to the viewport
     height: '100vh',
     width: '100vw',
     display: 'flex',
-    backgroundAttachment: 'fixed',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
@@ -191,23 +191,26 @@ const CountdownTimer: React.FC = () => {
 
   const buttonStyle: React.CSSProperties = {
     position: 'absolute',
-    bottom: '12%', // Distance from the bottom
-    left: '3%', // Distance from the left
-    right: '3%', // Distance from the right
-    padding: '3%',
+    bottom: '20px', // Distance from the bottom
+    left: '20px', // Distance from the left
+    right: '20px', // Distance from the right
+    padding: '10px',
     fontSize: '16px',
-    textAlign: 'center'
+    cursor: 'pointer',
+    textAlign: 'center',
+    backgroundColor: '#f0f0f0', // Optional: Background color of the button
+    border: 'none', // Optional: Remove default border
+    borderRadius: '5px', // Optional: Rounded corners
   };
 
   return (
     <div style={containerStyle}>
+      <button onClick={startCountdown} disabled={buttonDisabled} style={buttonStyle}>
+        {buttonDisabled ? `Başlatıldı\n${formatTime(seconds)}` : 'Başlat'}
+      </button>
       <div>
-        <h1>Geri Sayım: {formatTime(seconds)}</h1>
         <p>Mevcut Skor: {userScore}</p>
       </div>
-      <button onClick={startCountdown} disabled={buttonDisabled} style={buttonStyle}>
-        {buttonDisabled ? 'Başlatıldı' : 'Başlat'}
-      </button>
     </div>
   );
 };
