@@ -3,11 +3,11 @@ import { Box, Button, Typography } from '@mui/material';
 
 const Wheel: React.FC = () => {
   const [spinning, setSpinning] = useState(false);
-  const [rotation, setRotation] = useState(0); // Total rotation angle
+  const [rotation, setRotation] = useState(0);
   const [points, setPoints] = useState<number[]>([]);
   const pointValues = [10, 50, 100];
   const segmentAngle = 360 / pointValues.length;
-  const segmentMidAngle = segmentAngle / 2; // Segmentlerin ortasına denk gelecek açı
+  const segmentMidAngle = segmentAngle / 2;
 
   useEffect(() => {
     const savedPoints = localStorage.getItem('points');
@@ -22,14 +22,14 @@ const Wheel: React.FC = () => {
 
     const randomIndex = Math.floor(Math.random() * pointValues.length);
     const selectedPoint = pointValues[randomIndex];
-    const fullSpin = 360 * 10; // 10 tam dönüş
+    const fullSpin = 360 * 10;
     const angleToRotate = randomIndex * segmentAngle;
     const spinAngle = fullSpin + angleToRotate + segmentMidAngle;
 
     setRotation(prevRotation => prevRotation + spinAngle);
 
     setTimeout(() => {
-      setRotation(prevRotation => (prevRotation + angleToRotate + segmentMidAngle) % 360);
+      setRotation(prevRotation => (prevRotation + spinAngle) % 360);
       setSpinning(false);
       const newPoints = [...points, selectedPoint];
       setPoints(newPoints);
@@ -86,7 +86,7 @@ const Wheel: React.FC = () => {
         <Box
           sx={{
             position: 'absolute',
-            top: '-20px', // Oku doğru hizalamak için yukarıya taşı
+            top: '-20px',
             left: '50%',
             width: '0',
             height: '0',
