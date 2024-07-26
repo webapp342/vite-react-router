@@ -215,7 +215,9 @@ const CountdownTimer: React.FC = () => {
             <span>{formatTime(seconds)}</span>
           </>
         ) : (
-          'Başlat'
+          <span style={{ flex: 1, textAlign: 'center' }}>Başlat</span>
+
+         
         )}
       </button>
     </div>
