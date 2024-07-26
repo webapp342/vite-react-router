@@ -3,9 +3,10 @@ import { Box, Button, Typography } from '@mui/material';
 
 const Wheel: React.FC = () => {
   const [spinning, setSpinning] = useState(false);
+  const [rotation, setRotation] = useState(0); // Total rotation angle
   const [points, setPoints] = useState<number[]>([]);
-  const segmentAngle = 360 / 3; // Çarkın 3 segmenti var: 10, 50, 100
   const pointValues = [10, 50, 100];
+  const segmentAngle = 360 / pointValues.length;
 
   useEffect(() => {
     const savedPoints = localStorage.getItem('points');
@@ -20,13 +21,9 @@ const Wheel: React.FC = () => {
 
     const randomIndex = Math.floor(Math.random() * pointValues.length);
     const selectedPoint = pointValues[randomIndex];
-    const spinAngle = 3600 + randomIndex * segmentAngle;
+    const spinAngle = 3600 + randomIndex * segmentAngle; // Total rotation angle
 
-    const wheelElement = document.getElementById('wheel');
-    if (wheelElement) {
-      wheelElement.style.transition = 'transform 4s ease-out';
-      wheelElement.style.transform = `rotate(${spinAngle}deg)`;
-    }
+    setRotation(rotation + spinAngle);
 
     setTimeout(() => {
       setSpinning(false);
@@ -50,7 +47,8 @@ const Wheel: React.FC = () => {
             border: '10px solid #000',
             borderColor: '#000 transparent transparent transparent',
             position: 'relative',
-            transform: 'rotate(0deg)',
+            transform: `rotate(${rotation}deg)`,
+            transition: 'transform 4s ease-out',
             backgroundImage: `conic-gradient(#ffcc00 0% ${segmentAngle}deg, #ff6666 ${segmentAngle}deg ${2 * segmentAngle}deg, #ffcc00 ${2 * segmentAngle}deg ${3 * segmentAngle}deg)`,
             boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
           }}
