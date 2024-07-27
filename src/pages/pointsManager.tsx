@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { getUserData } from './firestoreService';
+import { onSnapshot, doc } from 'firebase/firestore';
+import { db } from './firebaseConfig'; // Firebase konfigürasyonunuzu import edin
 import './PointsManager.css'; // CSS dosyasını ekleyin
 
 const PointsManager: React.FC = () => {
@@ -8,15 +9,21 @@ const PointsManager: React.FC = () => {
   const userId = localStorage.getItem('telegramUserId') || '';
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (userId) {
-        const userData = await getUserData(userId);
-        setSpinPoints(userData.spinPoints);
-        setPoints(userData.points);
-      }
-    };
+    if (userId) {
+      const userRef = doc(db, 'users', userId);
 
-    fetchData();
+      // Veritabanı değişikliklerini dinle
+      const unsubscribe = onSnapshot(userRef, (docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const data = docSnapshot.data();
+          setSpinPoints(data?.spinPoints || 0);
+          setPoints(data?.points || 0);
+        }
+      });
+
+      // Unsubscribe on component unmount
+      return () => unsubscribe();
+    }
   }, [userId]);
 
   return (
