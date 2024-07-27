@@ -4,8 +4,6 @@
   top: 0;
   left: 0;
   width: 100%;
-  background: #ffffff;
-  border-bottom: 1px solid #ddd;
   padding: 10px;
   z-index: 1000; /* Diğer içeriklerin üstünde görünmesini sağlar */
 }
@@ -13,5 +11,4 @@
 .points-display {
   display: inline-block;
   margin-right: 20px;
-  color: black; /* Yazı rengini siyah yapar */
 }
