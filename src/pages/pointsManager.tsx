@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { onSnapshot, doc } from 'firebase/firestore';
 import { db } from './firebaseConfig'; // Firebase konfigürasyonunuzu import edin
 import { Box, Typography, Paper } from '@mui/material'; // MUI bileşenleri
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import StarIcon from '@mui/icons-material/Star';
 
 const PointsManager: React.FC = () => {
   const [spinPoints, setSpinPoints] = useState<number>(0);
@@ -40,11 +42,11 @@ const PointsManager: React.FC = () => {
       sx={{ boxSizing: 'border-box' }} // Box'ın içerik boyutlarına göre ayarlanmasını sağlar
     >
       <Paper elevation={3} sx={{ padding: 1, display: 'flex', alignItems: 'center', flexDirection: 'row', backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
-        <Typography variant="body1" sx={{ marginRight: 1 }}>S:</Typography>
+        <SportsEsportsIcon sx={{ marginRight: 1 }} />
         <Typography variant="h6" color="textPrimary">{spinPoints}</Typography>
       </Paper>
       <Paper elevation={3} sx={{ padding: 1, display: 'flex', alignItems: 'center', flexDirection: 'row', backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
-        <Typography variant="body1" sx={{ marginRight: 1 }}>P:</Typography>
+        <StarIcon sx={{ marginRight: 1 }} />
         <Typography variant="h6" color="textPrimary">{points}</Typography>
       </Paper>
     </Box>
