@@ -215,9 +215,9 @@ const CountdownTimer: React.FC = () => {
 
   const buttonStyle: React.CSSProperties = {
     position: 'absolute',
-    bottom: '5%', // 5% yukarıda olacak şekilde ayarlandı
-    left: '5%', // Soldan %5
-    right: '5%', // Sağdan %5
+    bottom: '20%', // Alttan %20 yukarıda olacak şekilde ayarlandı
+    left: '50%', // Ortalamak için
+    transform: 'translateX(-50%)', // Ortalamak için
     padding: '10px 20px',
     fontSize: '16px',
     textAlign: 'center',
@@ -226,9 +226,7 @@ const CountdownTimer: React.FC = () => {
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
-    width: '90%', // Sağdan ve soldan %5 boşluk bırakıldığında, butonun genişliği %90 olmalı
-    maxWidth: '300px'
+    transition: 'background-color 0.3s ease'
   };
 
   return (
