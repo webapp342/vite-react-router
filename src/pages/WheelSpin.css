@@ -69,10 +69,12 @@
 
 .modal h2 {
   margin-bottom: 20px;
+  color: black; /* Yazı rengini siyah yapıyoruz */
 }
 
 .modal p {
   margin-bottom: 20px;
+  color: black; /* Yazı rengini siyah yapıyoruz */
 }
 
 .modal button {
