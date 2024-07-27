@@ -53,3 +53,24 @@ export const updateSpinPoints = async (telegramUserId: string, spinPoints: numbe
     console.error("Error updating spin points: ", error);
   }
 };
+
+// Kullanıcı verilerini çekme işlevi
+export const getUserData = async (userId: string) => {
+  try {
+    const userDoc = doc(db, 'users', userId);
+    const userSnapshot = await getDoc(userDoc);
+    if (userSnapshot.exists()) {
+      const data = userSnapshot.data();
+      return {
+        spinPoints: data?.spinPoints || 0,
+        points: data?.points || 0,
+      };
+    } else {
+      console.log('No such document!');
+      return { spinPoints: 0, points: 0 };
+    }
+  } catch (error) {
+    console.error('Error getting document:', error);
+    return { spinPoints: 0, points: 0 };
+  }
+};
