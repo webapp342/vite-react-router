@@ -215,15 +215,20 @@ const CountdownTimer: React.FC = () => {
 
   const buttonStyle: React.CSSProperties = {
     position: 'absolute',
-    bottom: '20%', // Adjust as needed to fit the card
-    left: '3%',
-    right: '3%',
-    padding: '3%',
+    bottom: '5%', // 5% yukarıda olacak şekilde ayarlandı
+    left: '5%', // Soldan %5
+    right: '5%', // Sağdan %5
+    padding: '10px 20px',
     fontSize: '16px',
     textAlign: 'center',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    backgroundColor: '#007bff',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    width: '90%', // Sağdan ve soldan %5 boşluk bırakıldığında, butonun genişliği %90 olmalı
+    maxWidth: '300px'
   };
 
   return (
