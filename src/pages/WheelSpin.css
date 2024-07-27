@@ -51,6 +51,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 1001; /* Modal'ın z-index değerini artırıyoruz */
 }
 
 .modal-overlay {
@@ -63,6 +64,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000; /* Overlay'in z-index değerini artırıyoruz */
 }
 
 .modal h2 {
