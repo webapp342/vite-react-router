@@ -218,7 +218,6 @@ const CountdownTimer: React.FC = () => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)', // Ortalamak için
-    padding: '30px', // Daha büyük padding
     fontSize: '16px',
     textAlign: 'center',
     backgroundColor: '#007bff',
@@ -254,4 +253,10 @@ const CountdownTimer: React.FC = () => {
       </button>
       <div style={{ marginTop: '20px' }}>
         <h1>Geri Sayım: {formatTime(seconds)}</h1>
-        <p>Mevcut Skor: {userScore}</p
+        <p>Mevcut Skor: {userScore}</p>
+      </div>
+    </div>
+  );
+};
+
+export default CountdownTimer;
