@@ -3,7 +3,6 @@ import { onSnapshot, doc } from 'firebase/firestore';
 import { db } from './firebaseConfig';
 import { Box, Typography, Paper } from '@mui/material';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import logo from '../assets/ton_logo_dark_background.svg';
 import { useSpring, animated } from '@react-spring/web';
 
@@ -88,7 +87,7 @@ const PointsManager: React.FC = () => {
               color: spinPointsColor,
             }}
           >
-            {spinPointsAnimation.number.to(n => formatNumber(n.toFixed(0)))}
+            {spinPointsAnimation.number.to(n => formatNumber(n))}
           </animated.span>
         </Typography>
       </Paper>
@@ -103,7 +102,7 @@ const PointsManager: React.FC = () => {
               color: pointsColor,
             }}
           >
-            {pointsAnimation.number.to(n => formatNumber(n.toFixed(0)))}
+            {pointsAnimation.number.to(n => formatNumber(n))}
           </animated.span>
         </Typography>
         <img src={logo} alt="Ton Logo" style={{ width: 28, height: 28 }} />
