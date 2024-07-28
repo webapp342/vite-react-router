@@ -34,17 +34,21 @@ const PointsManager: React.FC = () => {
     }
   }, [userId, spinPoints, points]);
 
+  const formatNumber = (number: number) => {
+    return number >= 10000 ? (number / 1000).toFixed(1) + 'k' : number.toString();
+  };
+
   const spinPointsAnimation = useSpring({
-    from: { number: prevSpinPoints, fontSize: '1rem' },
-    to: { number: spinPoints, fontSize: '2rem' },
+    from: { number: prevSpinPoints, fontSize: '0.8rem' },
+    to: { number: spinPoints, fontSize: '1.5rem' },
     config: { duration: 1500 },
     onStart: () => setSpinPointsColor('lightgreen'),
     onRest: () => setSpinPointsColor('white')
   });
 
   const pointsAnimation = useSpring({
-    from: { number: prevPoints, fontSize: '1rem' },
-    to: { number: points, fontSize: '2rem' },
+    from: { number: prevPoints, fontSize: '0.8rem' },
+    to: { number: points, fontSize: '1.5rem' },
     config: { duration: 1500 },
     onStart: () => setPointsColor('lightgreen'),
     onRest: () => setPointsColor('white')
@@ -84,7 +88,7 @@ const PointsManager: React.FC = () => {
               color: spinPointsColor,
             }}
           >
-            {spinPointsAnimation.number.to(n => n.toFixed(0))}
+            {spinPointsAnimation.number.to(n => formatNumber(n.toFixed(0)))}
           </animated.span>
         </Typography>
       </Paper>
@@ -99,7 +103,7 @@ const PointsManager: React.FC = () => {
               color: pointsColor,
             }}
           >
-            {pointsAnimation.number.to(n => n.toFixed(0))}
+            {pointsAnimation.number.to(n => formatNumber(n.toFixed(0)))}
           </animated.span>
         </Typography>
         <img src={logo} alt="Ton Logo" style={{ width: 28, height: 28 }} />
