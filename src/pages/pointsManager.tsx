@@ -35,16 +35,16 @@ const PointsManager: React.FC = () => {
   }, [userId, spinPoints, points]);
 
   const spinPointsAnimation = useSpring({
-    from: { number: prevSpinPoints, transform: 'translateY(100%)', fontSize: '1rem' },
-    to: { number: spinPoints, transform: 'translateY(0%)', fontSize: '1.5rem' },
+    from: { number: prevSpinPoints, fontSize: '1rem' },
+    to: { number: spinPoints, fontSize: '1.5rem' },
     config: { duration: 1000 },
     onStart: () => setSpinPointsColor('lightgreen'),
     onRest: () => setSpinPointsColor('white')
   });
 
   const pointsAnimation = useSpring({
-    from: { number: prevPoints, transform: 'translateY(100%)', fontSize: '1rem' },
-    to: { number: points, transform: 'translateY(0%)', fontSize: '1.5rem' },
+    from: { number: prevPoints, fontSize: '1rem' },
+    to: { number: points, fontSize: '1.5rem' },
     config: { duration: 1000 },
     onStart: () => setPointsColor('lightgreen'),
     onRest: () => setPointsColor('white')
@@ -78,7 +78,12 @@ const PointsManager: React.FC = () => {
       <Paper elevation={3} sx={{ ...boxStyles }}>
         <SportsEsportsIcon sx={{ marginRight: 1, fontSize: '1.25rem', color: 'white' }} />
         <Typography variant="body2" color="white">
-          <animated.span style={{ ...spinPointsAnimation, color: spinPointsColor }}>
+          <animated.span
+            style={{
+              ...spinPointsAnimation,
+              color: spinPointsColor,
+            }}
+          >
             {spinPointsAnimation.number.to(n => n.toFixed(0))}
           </animated.span>
         </Typography>
@@ -89,7 +94,12 @@ const PointsManager: React.FC = () => {
       </Paper>
       <Paper elevation={3} sx={{ ...boxStyles }}>
         <Typography variant="body2" color="white" sx={{ marginRight: 1 }}>
-          <animated.span style={{ ...pointsAnimation, color: pointsColor }}>
+          <animated.span
+            style={{
+              ...pointsAnimation,
+              color: pointsColor,
+            }}
+          >
             {pointsAnimation.number.to(n => n.toFixed(0))}
           </animated.span>
         </Typography>
