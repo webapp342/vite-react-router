@@ -34,16 +34,16 @@ const PointsManager: React.FC = () => {
   }, [userId, spinPoints, points]);
 
   const spinPointsAnimation = useSpring({
-    from: { number: prevSpinPoints, fontSize: '0.75rem' },
-    to: { number: spinPoints, fontSize: '1rem' },
+    from: { number: prevSpinPoints, fontSize: '1rem' },
+    to: { number: spinPoints, fontSize: '1.5rem' },
     config: { duration: 1500 },
     onStart: () => setSpinPointsColor('lightgreen'),
     onRest: () => setSpinPointsColor('white')
   });
 
   const pointsAnimation = useSpring({
-    from: { number: prevPoints, fontSize: '0.75rem' },
-    to: { number: points, fontSize: '1rem' },
+    from: { number: prevPoints, fontSize: '1rem' },
+    to: { number: points, fontSize: '1.5rem' },
     config: { duration: 1500 },
     onStart: () => setPointsColor('lightgreen'),
     onRest: () => setPointsColor('white')
@@ -76,7 +76,7 @@ const PointsManager: React.FC = () => {
     >
       <Paper elevation={3} sx={{ ...boxStyles }}>
         <SportsEsportsIcon sx={{ marginRight: 1, fontSize: '1rem', color: 'white' }} />
-        <Typography variant="subtitle2" color="white" sx={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>
+        <Typography variant="body2" color="white" sx={{ fontFamily: 'Arial', fontWeight: 'bold' }}>
           <animated.span
             style={{
               ...spinPointsAnimation,
@@ -88,10 +88,10 @@ const PointsManager: React.FC = () => {
         </Typography>
       </Paper>
       <Paper elevation={3} sx={{ ...boxStyles, width: '40%' }}>
-        <Typography variant="subtitle2" color="white" sx={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>Profil</Typography>
+        <Typography variant="body2" color="white" sx={{ fontFamily: 'Arial', fontWeight: 'bold' }}>Profil</Typography>
       </Paper>
       <Paper elevation={3} sx={{ ...boxStyles }}>
-        <Typography variant="subtitle2" color="white" sx={{ marginRight: 1, fontFamily: 'sans-serif', fontWeight: 'bold' }}>
+        <Typography variant="body2" color="white" sx={{ marginRight: 1, fontFamily: 'Arial', fontWeight: 'bold' }}>
           <animated.span
             style={{
               ...pointsAnimation,
