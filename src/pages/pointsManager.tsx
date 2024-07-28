@@ -77,7 +77,7 @@ const PointsManager: React.FC = () => {
     >
       <Paper elevation={3} sx={{ ...boxStyles }}>
         <SportsEsportsIcon sx={{ marginRight: 1, fontSize: '1rem', color: 'white' }} />
-        <Typography variant="body3" color="white">
+        <Typography variant="body2" color="white">
           <animated.span
             style={{
               ...spinPointsAnimation,
@@ -89,10 +89,10 @@ const PointsManager: React.FC = () => {
         </Typography>
       </Paper>
       <Paper elevation={3} sx={{ ...boxStyles, width: '40%' }}>
-        <Typography variant="body3" color="white">Profil</Typography>
+        <Typography variant="body2" color="white">Profil</Typography>
       </Paper>
       <Paper elevation={3} sx={{ ...boxStyles }}>
-        <Typography variant="body3" color="white" sx={{ marginRight: 1 }}>
+        <Typography variant="body2" color="white" sx={{ marginRight: 1 }}>
           <animated.span
             style={{
               ...pointsAnimation,
