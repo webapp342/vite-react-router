@@ -36,16 +36,16 @@ const PointsManager: React.FC = () => {
 
   const spinPointsAnimation = useSpring({
     from: { number: prevSpinPoints, fontSize: '1rem' },
-    to: { number: spinPoints, fontSize: '1.5rem' },
-    config: { duration: 3000 },
+    to: { number: spinPoints, fontSize: '2rem' },
+    config: { duration: 1500 },
     onStart: () => setSpinPointsColor('lightgreen'),
     onRest: () => setSpinPointsColor('white')
   });
 
   const pointsAnimation = useSpring({
     from: { number: prevPoints, fontSize: '1rem' },
-    to: { number: points, fontSize: '1.5rem' },
-    config: { duration: 3000 },
+    to: { number: points, fontSize: '2rem' },
+    config: { duration: 1500 },
     onStart: () => setPointsColor('lightgreen'),
     onRest: () => setPointsColor('white')
   });
