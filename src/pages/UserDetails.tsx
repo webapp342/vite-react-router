@@ -218,15 +218,15 @@ const CountdownTimer: React.FC = () => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)', // Ortalamak için
-    padding: '100px', // Daha büyük padding
+    padding: '50px', // Daha büyük padding
     fontSize: '16px',
     textAlign: 'center',
     backgroundColor: '#007bff',
     color: 'white',
     border: 'none',
     borderRadius: '50%', // Yuvarlak şekil
-    width: '120px', // Butonun boyutunu belirleyin
-    height: '120px',
+    width: '220px', // Butonun boyutunu belirleyin
+    height: '220px',
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
     display: 'flex',
