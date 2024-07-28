@@ -233,7 +233,7 @@ const CountdownTimer: React.FC = () => {
 
   const scoreStyle: React.CSSProperties = {
     position: 'absolute',
-    top: '42%', // Adjust this value to position it further above the button
+    top: '20%', // Adjust this value to position it further above the button
     left: '50%',
     transform: 'translate(-50%, -50%)', // Center align and move above
     fontSize: '18px',
@@ -243,7 +243,7 @@ const CountdownTimer: React.FC = () => {
 
   const counterStyle: React.CSSProperties = {
     position: 'absolute',
-    top: '58%', // Adjust this value to position it further below the button
+    top: '75%', // Adjust this value to position it further below the button
     left: '50%',
     transform: 'translate(-50%, -50%)', // Center align
     fontSize: '18px',
