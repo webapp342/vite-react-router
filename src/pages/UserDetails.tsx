@@ -231,9 +231,31 @@ const CountdownTimer: React.FC = () => {
     transition: 'background-color 0.3s ease'
   };
 
+  const scoreStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: '45%', // Adjust this value to position it slightly above the button
+    left: '50%',
+    transform: 'translate(-50%, -100%)', // Center align and move above
+    fontSize: '18px',
+    color: 'white',
+    textAlign: 'center'
+  };
+
+  const counterStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: '55%', // Adjust this value to position it slightly below the button
+    left: '50%',
+    transform: 'translate(-50%, 0)', // Center align
+    fontSize: '18px',
+    color: 'white',
+    textAlign: 'center'
+  };
+
   return (
     <div style={containerStyle}>
-      
+      <div style={scoreStyle}>
+        <p>Mevcut Skor: {userScore}</p>
+      </div>
       <button onClick={startCountdown} disabled={buttonDisabled} style={buttonStyle}>
         {buttonDisabled ? (
           <>
@@ -244,9 +266,7 @@ const CountdownTimer: React.FC = () => {
           <span style={{ display: 'block' }}>Başlat</span>
         )}
       </button>
-      <div>
-        
-        <p>Mevcut Skor: {userScore}</p>
+      <div style={counterStyle}>
         <p>{counterValue.toFixed(2)} Puan</p>
       </div>
     </div>
