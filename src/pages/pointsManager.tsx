@@ -54,13 +54,11 @@ const PointsManager: React.FC = () => {
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: '#333',
-    borderRadius: '12px',
+    backgroundColor: 'black',
     width: '28%',
     height: '50px',
     boxSizing: 'border-box',
     justifyContent: 'center',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
   };
 
   return (
@@ -74,7 +72,7 @@ const PointsManager: React.FC = () => {
       display="flex"
       justifyContent="space-between"
       alignItems="center"
-      sx={{ boxSizing: 'border-box', backgroundColor: '#121212' }}
+      sx={{ boxSizing: 'border-box' }}
     >
       <Paper elevation={3} sx={{ ...boxStyles }}>
         <SportsEsportsIcon sx={{ marginRight: 1, fontSize: '1rem', color: 'white' }} />
