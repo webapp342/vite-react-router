@@ -37,7 +37,7 @@ const PointsManager: React.FC = () => {
   const spinPointsAnimation = useSpring({
     from: { number: prevSpinPoints, fontSize: '1rem' },
     to: { number: spinPoints, fontSize: '1.5rem' },
-    config: { duration: 5000 },
+    config: { duration: 3000 },
     onStart: () => setSpinPointsColor('lightgreen'),
     onRest: () => setSpinPointsColor('white')
   });
@@ -45,7 +45,7 @@ const PointsManager: React.FC = () => {
   const pointsAnimation = useSpring({
     from: { number: prevPoints, fontSize: '1rem' },
     to: { number: points, fontSize: '1.5rem' },
-    config: { duration: 5000 },
+    config: { duration: 3000 },
     onStart: () => setPointsColor('lightgreen'),
     onRest: () => setPointsColor('white')
   });
