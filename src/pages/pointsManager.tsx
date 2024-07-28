@@ -3,7 +3,7 @@ import { onSnapshot, doc } from 'firebase/firestore';
 import { db } from './firebaseConfig';
 import { Box, Typography, Paper } from '@mui/material';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import logo from '../assets/ton_logo_dark_background.svg';
 import { useSpring, animated } from '@react-spring/web';
 
@@ -76,8 +76,8 @@ const PointsManager: React.FC = () => {
       sx={{ boxSizing: 'border-box' }}
     >
       <Paper elevation={3} sx={{ ...boxStyles }}>
-        <SportsEsportsIcon sx={{ marginRight: 1, fontSize: '1.25rem', color: 'white' }} />
-        <Typography variant="body2" color="white">
+        <SportsEsportsIcon sx={{ marginRight: 1, fontSize: '1rem', color: 'white' }} />
+        <Typography variant="body3" color="white">
           <animated.span
             style={{
               ...spinPointsAnimation,
@@ -89,11 +89,10 @@ const PointsManager: React.FC = () => {
         </Typography>
       </Paper>
       <Paper elevation={3} sx={{ ...boxStyles, width: '40%' }}>
-        <AccountCircleIcon sx={{ marginRight: 1, fontSize: '1.25rem', color: 'white' }} />
-        <Typography variant="body2" color="white">Profil</Typography>
+        <Typography variant="body3" color="white">Profil</Typography>
       </Paper>
       <Paper elevation={3} sx={{ ...boxStyles }}>
-        <Typography variant="body2" color="white" sx={{ marginRight: 1 }}>
+        <Typography variant="body3" color="white" sx={{ marginRight: 1 }}>
           <animated.span
             style={{
               ...pointsAnimation,
