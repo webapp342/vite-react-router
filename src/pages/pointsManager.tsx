@@ -3,7 +3,6 @@ import { onSnapshot, doc } from 'firebase/firestore';
 import { db } from './firebaseConfig';
 import { Box, Typography, Paper } from '@mui/material';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import logo from '../assets/ton_logo_dark_background.svg';
 import { useSpring, animated } from '@react-spring/web';
 
@@ -36,7 +35,7 @@ const PointsManager: React.FC = () => {
 
   const spinPointsAnimation = useSpring({
     from: { number: prevSpinPoints, fontSize: '1rem' },
-    to: { number: spinPoints, fontSize: '2rem' },
+    to: { number: spinPoints, fontSize: '1.5rem' },
     config: { duration: 1500 },
     onStart: () => setSpinPointsColor('lightgreen'),
     onRest: () => setSpinPointsColor('white')
@@ -44,7 +43,7 @@ const PointsManager: React.FC = () => {
 
   const pointsAnimation = useSpring({
     from: { number: prevPoints, fontSize: '1rem' },
-    to: { number: points, fontSize: '2rem' },
+    to: { number: points, fontSize: '1.5rem' },
     config: { duration: 1500 },
     onStart: () => setPointsColor('lightgreen'),
     onRest: () => setPointsColor('white')
@@ -77,7 +76,7 @@ const PointsManager: React.FC = () => {
     >
       <Paper elevation={3} sx={{ ...boxStyles }}>
         <SportsEsportsIcon sx={{ marginRight: 1, fontSize: '1rem', color: 'white' }} />
-        <Typography variant="body2" color="white">
+        <Typography variant="h6" color="white" sx={{ fontFamily: 'Arial', fontWeight: 'bold' }}>
           <animated.span
             style={{
               ...spinPointsAnimation,
@@ -89,10 +88,10 @@ const PointsManager: React.FC = () => {
         </Typography>
       </Paper>
       <Paper elevation={3} sx={{ ...boxStyles, width: '40%' }}>
-        <Typography variant="body2" color="white">Profil</Typography>
+        <Typography variant="h6" color="white" sx={{ fontFamily: 'Arial', fontWeight: 'bold' }}>Profil</Typography>
       </Paper>
       <Paper elevation={3} sx={{ ...boxStyles }}>
-        <Typography variant="body2" color="white" sx={{ marginRight: 1 }}>
+        <Typography variant="h6" color="white" sx={{ marginRight: 1, fontFamily: 'Arial', fontWeight: 'bold' }}>
           <animated.span
             style={{
               ...pointsAnimation,
