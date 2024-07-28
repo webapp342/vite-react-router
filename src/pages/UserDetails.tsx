@@ -218,7 +218,7 @@ const CountdownTimer: React.FC = () => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)', // Ortalamak için
-    padding: '30px', // Daha büyük padding
+    padding: '100px', // Daha büyük padding
     fontSize: '16px',
     textAlign: 'center',
     backgroundColor: '#007bff',
