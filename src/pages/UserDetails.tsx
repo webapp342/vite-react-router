@@ -218,33 +218,37 @@ const CountdownTimer: React.FC = () => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)', // Ortalamak için
-    padding: '20px', // Daha büyük padding
+    padding: '30px', // Daha büyük padding
     fontSize: '16px',
     textAlign: 'center',
     backgroundColor: '#007bff',
     color: 'white',
     border: 'none',
     borderRadius: '50%', // Yuvarlak şekil
-    width: '100px', // Butonun boyutunu belirleyin
-    height: '100px',
+    width: '120px', // Butonun boyutunu belirleyin
+    height: '120px',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease'
+    transition: 'background-color 0.3s ease',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
   };
 
   return (
     <div style={containerStyle}>
       <div>
-        <h1>Geri Sayım: {formatTime(seconds)}</h1>
+        
         <p>Mevcut Skor: {userScore}</p>
       </div>
       <button onClick={startCountdown} disabled={buttonDisabled} style={buttonStyle}>
         {buttonDisabled ? (
           <>
-            <span style={{ flex: 1, textAlign: 'center' }}>Başlatıldı</span>
+            <span>Başlatıldı</span>
             <span>{formatTime(seconds)}</span>
           </>
         ) : (
-          <span style={{ flex: 1, textAlign: 'center' }}>Başlat</span>
+          <span>Başlat</span>
         )}
       </button>
       <div style={{ marginTop: '20px' }}>
