@@ -218,15 +218,15 @@ const CountdownTimer: React.FC = () => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)', // Ortalamak için
-    padding: '50px', // Daha büyük padding
+    padding: '30px', // Daha büyük padding
     fontSize: '16px',
     textAlign: 'center',
     backgroundColor: '#007bff',
     color: 'white',
     border: 'none',
     borderRadius: '50%', // Yuvarlak şekil
-    width: '220px', // Butonun boyutunu belirleyin
-    height: '220px',
+    width: '60%', // Genişliği %60 yap
+    height: 'auto',
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
     display: 'flex',
@@ -238,8 +238,8 @@ const CountdownTimer: React.FC = () => {
   return (
     <div style={containerStyle}>
       <div>
-        
-        <p>Mevcut Skor: {userScore}</p>
+        <h2>Sayıcı Değeri</h2>
+        <p>{counterValue.toFixed(2)} Puan</p>
       </div>
       <button onClick={startCountdown} disabled={buttonDisabled} style={buttonStyle}>
         {buttonDisabled ? (
@@ -252,8 +252,8 @@ const CountdownTimer: React.FC = () => {
         )}
       </button>
       <div style={{ marginTop: '20px' }}>
-        <h2>Sayıcı Değeri</h2>
-        <p>{counterValue.toFixed(2)} Puan</p>
+        <h1>Geri Sayım: {formatTime(seconds)}</h1>
+        <p>Mevcut Skor: {userScore}</p>
       </div>
     </div>
   );
