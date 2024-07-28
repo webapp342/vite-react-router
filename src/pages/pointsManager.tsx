@@ -5,6 +5,7 @@ import { Box, Typography, Paper } from '@mui/material';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import logo from '../assets/ton_logo_dark_background.svg';
 import { useSpring, animated } from '@react-spring/web';
+import '@fontsource/roboto'; // Import Roboto font
 
 const PointsManager: React.FC = () => {
   const [spinPoints, setSpinPoints] = useState<number>(0);
@@ -34,16 +35,16 @@ const PointsManager: React.FC = () => {
   }, [userId, spinPoints, points]);
 
   const spinPointsAnimation = useSpring({
-    from: { number: prevSpinPoints, fontSize: '1rem' },
-    to: { number: spinPoints, fontSize: '1.5rem' },
+    from: { number: prevSpinPoints, fontSize: '0.75rem' },
+    to: { number: spinPoints, fontSize: '1rem' },
     config: { duration: 1500 },
     onStart: () => setSpinPointsColor('lightgreen'),
     onRest: () => setSpinPointsColor('white')
   });
 
   const pointsAnimation = useSpring({
-    from: { number: prevPoints, fontSize: '1rem' },
-    to: { number: points, fontSize: '1.5rem' },
+    from: { number: prevPoints, fontSize: '0.75rem' },
+    to: { number: points, fontSize: '1rem' },
     config: { duration: 1500 },
     onStart: () => setPointsColor('lightgreen'),
     onRest: () => setPointsColor('white')
@@ -76,7 +77,7 @@ const PointsManager: React.FC = () => {
     >
       <Paper elevation={3} sx={{ ...boxStyles }}>
         <SportsEsportsIcon sx={{ marginRight: 1, fontSize: '1rem', color: 'white' }} />
-        <Typography variant="h6" color="white" sx={{ fontFamily: 'Arial', fontWeight: 'bold' }}>
+        <Typography variant="subtitle1" color="white" sx={{ fontFamily: 'Roboto', fontWeight: 'bold' }}>
           <animated.span
             style={{
               ...spinPointsAnimation,
@@ -88,10 +89,10 @@ const PointsManager: React.FC = () => {
         </Typography>
       </Paper>
       <Paper elevation={3} sx={{ ...boxStyles, width: '40%' }}>
-        <Typography variant="h6" color="white" sx={{ fontFamily: 'Arial', fontWeight: 'bold' }}>Profil</Typography>
+        <Typography variant="subtitle1" color="white" sx={{ fontFamily: 'Roboto', fontWeight: 'bold' }}>Profil</Typography>
       </Paper>
       <Paper elevation={3} sx={{ ...boxStyles }}>
-        <Typography variant="h6" color="white" sx={{ marginRight: 1, fontFamily: 'Arial', fontWeight: 'bold' }}>
+        <Typography variant="subtitle1" color="white" sx={{ marginRight: 1, fontFamily: 'Roboto', fontWeight: 'bold' }}>
           <animated.span
             style={{
               ...pointsAnimation,
