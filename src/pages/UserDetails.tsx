@@ -254,11 +254,4 @@ const CountdownTimer: React.FC = () => {
       </button>
       <div style={{ marginTop: '20px' }}>
         <h1>Geri Sayım: {formatTime(seconds)}</h1>
-        <p>Mevcut Skor: {userScore}</p>
-      </div>
-    </div>
-  );
-};
-
-export default CountdownTimer;
-
+        <p>Mevcut Skor: {userScore}</p
