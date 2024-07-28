@@ -12,6 +12,8 @@ const PointsManager: React.FC = () => {
   const [points, setPoints] = useState<number>(0);
   const [prevSpinPoints, setPrevSpinPoints] = useState<number>(0);
   const [prevPoints, setPrevPoints] = useState<number>(0);
+  const [spinPointsColor, setSpinPointsColor] = useState<string>('white');
+  const [pointsColor, setPointsColor] = useState<string>('white');
   const userId = localStorage.getItem('telegramUserId') || '';
 
   useEffect(() => {
@@ -33,15 +35,19 @@ const PointsManager: React.FC = () => {
   }, [userId, spinPoints, points]);
 
   const spinPointsAnimation = useSpring({
-    from: { number: prevSpinPoints },
-    to: { number: spinPoints },
-    config: { duration: 500 },
+    from: { number: prevSpinPoints, transform: 'translateY(100%)', fontSize: '1rem' },
+    to: { number: spinPoints, transform: 'translateY(0%)', fontSize: '1.5rem' },
+    config: { duration: 1000 },
+    onStart: () => setSpinPointsColor('lightgreen'),
+    onRest: () => setSpinPointsColor('white')
   });
 
   const pointsAnimation = useSpring({
-    from: { number: prevPoints },
-    to: { number: points },
-    config: { duration: 500 },
+    from: { number: prevPoints, transform: 'translateY(100%)', fontSize: '1rem' },
+    to: { number: points, transform: 'translateY(0%)', fontSize: '1.5rem' },
+    config: { duration: 1000 },
+    onStart: () => setPointsColor('lightgreen'),
+    onRest: () => setPointsColor('white')
   });
 
   const boxStyles = {
@@ -50,7 +56,7 @@ const PointsManager: React.FC = () => {
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: 'black',
-    width: '27%',
+    width: '28%',
     height: '50px',
     boxSizing: 'border-box',
     justifyContent: 'center',
@@ -72,7 +78,9 @@ const PointsManager: React.FC = () => {
       <Paper elevation={3} sx={{ ...boxStyles }}>
         <SportsEsportsIcon sx={{ marginRight: 1, fontSize: '1.25rem', color: 'white' }} />
         <Typography variant="body2" color="white">
-          <animated.span>{spinPointsAnimation.number.to(n => n.toFixed(0))}</animated.span>
+          <animated.span style={{ ...spinPointsAnimation, color: spinPointsColor }}>
+            {spinPointsAnimation.number.to(n => n.toFixed(0))}
+          </animated.span>
         </Typography>
       </Paper>
       <Paper elevation={3} sx={{ ...boxStyles, width: '40%' }}>
@@ -81,7 +89,9 @@ const PointsManager: React.FC = () => {
       </Paper>
       <Paper elevation={3} sx={{ ...boxStyles }}>
         <Typography variant="body2" color="white" sx={{ marginRight: 1 }}>
-          <animated.span>{pointsAnimation.number.to(n => n.toFixed(0))}</animated.span>
+          <animated.span style={{ ...pointsAnimation, color: pointsColor }}>
+            {pointsAnimation.number.to(n => n.toFixed(0))}
+          </animated.span>
         </Typography>
         <img src={logo} alt="Ton Logo" style={{ width: 28, height: 28 }} />
       </Paper>
