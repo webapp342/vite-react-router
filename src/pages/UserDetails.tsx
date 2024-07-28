@@ -233,10 +233,7 @@ const CountdownTimer: React.FC = () => {
 
   return (
     <div style={containerStyle}>
-      <div>
-        <h1>Geri Sayım: {formatTime(seconds)}</h1>
-        <p>Mevcut Skor: {userScore}</p>
-      </div>
+      
       <button onClick={startCountdown} disabled={buttonDisabled} style={buttonStyle}>
         {buttonDisabled ? (
           <>
@@ -247,8 +244,9 @@ const CountdownTimer: React.FC = () => {
           <span style={{ display: 'block' }}>Başlat</span>
         )}
       </button>
-      <div style={{ marginTop: '20px' }}>
-        <h2>Sayıcı Değeri</h2>
+      <div>
+        
+        <p>Mevcut Skor: {userScore}</p>
         <p>{counterValue.toFixed(2)} Puan</p>
       </div>
     </div>
