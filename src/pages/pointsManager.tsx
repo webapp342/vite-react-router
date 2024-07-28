@@ -89,9 +89,9 @@ const PointsManager: React.FC = () => {
           </animated.span>
         </Typography>
       </Paper>
-      <Paper elevation={3} sx={{ ...boxStyles, width: '40%' }}>
-        <Typography variant="subtitle2" color="white" sx={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>Profil</Typography>
-      </Paper>
+      <Typography variant="h6" color="white" sx={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>
+        MATRIX
+      </Typography>
       <Paper elevation={3} sx={{ ...boxStyles }}>
         <Typography variant="subtitle2" color="white" sx={{ marginRight: 1, fontFamily: 'sans-serif', fontWeight: 'bold' }}>
           <animated.span
