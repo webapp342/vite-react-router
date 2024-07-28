@@ -34,16 +34,16 @@ const PointsManager: React.FC = () => {
   }, [userId, spinPoints, points]);
 
   const spinPointsAnimation = useSpring({
-    from: { number: prevSpinPoints, fontSize: '1rem' },
-    to: { number: spinPoints, fontSize: '1.5rem' },
+    from: { number: prevSpinPoints, fontSize: '0.75rem' },
+    to: { number: spinPoints, fontSize: '1rem' },
     config: { duration: 1500 },
     onStart: () => setSpinPointsColor('lightgreen'),
     onRest: () => setSpinPointsColor('white')
   });
 
   const pointsAnimation = useSpring({
-    from: { number: prevPoints, fontSize: '1rem' },
-    to: { number: points, fontSize: '1.5rem' },
+    from: { number: prevPoints, fontSize: '0.75rem' },
+    to: { number: points, fontSize: '1rem' },
     config: { duration: 1500 },
     onStart: () => setPointsColor('lightgreen'),
     onRest: () => setPointsColor('white')
@@ -54,11 +54,13 @@ const PointsManager: React.FC = () => {
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: 'black',
+    backgroundColor: '#333',
+    borderRadius: '12px',
     width: '28%',
     height: '50px',
     boxSizing: 'border-box',
     justifyContent: 'center',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
   };
 
   return (
@@ -72,11 +74,11 @@ const PointsManager: React.FC = () => {
       display="flex"
       justifyContent="space-between"
       alignItems="center"
-      sx={{ boxSizing: 'border-box' }}
+      sx={{ boxSizing: 'border-box', backgroundColor: '#121212' }}
     >
       <Paper elevation={3} sx={{ ...boxStyles }}>
         <SportsEsportsIcon sx={{ marginRight: 1, fontSize: '1rem', color: 'white' }} />
-        <Typography variant="body2" color="white" sx={{ fontFamily: 'Arial', fontWeight: 'bold' }}>
+        <Typography variant="subtitle2" color="white" sx={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>
           <animated.span
             style={{
               ...spinPointsAnimation,
@@ -88,10 +90,10 @@ const PointsManager: React.FC = () => {
         </Typography>
       </Paper>
       <Paper elevation={3} sx={{ ...boxStyles, width: '40%' }}>
-        <Typography variant="body2" color="white" sx={{ fontFamily: 'Arial', fontWeight: 'bold' }}>Profil</Typography>
+        <Typography variant="subtitle2" color="white" sx={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>Profil</Typography>
       </Paper>
       <Paper elevation={3} sx={{ ...boxStyles }}>
-        <Typography variant="body2" color="white" sx={{ marginRight: 1, fontFamily: 'Arial', fontWeight: 'bold' }}>
+        <Typography variant="subtitle2" color="white" sx={{ marginRight: 1, fontFamily: 'sans-serif', fontWeight: 'bold' }}>
           <animated.span
             style={{
               ...pointsAnimation,
