@@ -74,7 +74,7 @@ const PointsManager: React.FC = () => {
       display="flex"
       justifyContent="space-between"
       alignItems="center"
-      sx={{ boxSizing: 'border-box', backgroundColor: '#121212' }}
+      sx={{ boxSizing: 'border-box', backgroundColor: 'black' }}
     >
       <Paper elevation={3} sx={{ ...boxStyles }}>
         <SportsEsportsIcon sx={{ marginRight: 1, fontSize: '1rem', color: 'white' }} />
