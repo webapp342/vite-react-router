@@ -4,7 +4,6 @@ import { doc, setDoc, onSnapshot, Timestamp, updateDoc, increment, DocumentRefer
 
 // İçe aktarılan arka plan resimlerini tanımlayın
 import backgroundGif from '../assets/background.gif';
-import backgroundJpg from '../assets/background.jpg';
 
 interface CountdownData {
   endTime: Timestamp | null;
@@ -199,7 +198,8 @@ const CountdownTimer: React.FC = () => {
   };
 
   const containerStyle: React.CSSProperties = {
-    backgroundImage: isRunning ? `url(${backgroundGif})` : `url(${backgroundJpg})`,
+    backgroundImage: isRunning ? `url(${backgroundGif})` : 'none',
+    backgroundColor: isRunning ? 'none' : 'black',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     height: '100vh',
