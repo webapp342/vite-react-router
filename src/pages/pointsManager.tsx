@@ -3,7 +3,6 @@ import { onSnapshot, doc } from 'firebase/firestore';
 import { db } from './firebaseConfig';
 import { Box, Typography, Paper } from '@mui/material';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import logo from '../assets/ton_logo_dark_background.svg';
 import { useSpring, animated } from '@react-spring/web';
 
@@ -35,16 +34,16 @@ const PointsManager: React.FC = () => {
   }, [userId, spinPoints, points]);
 
   const spinPointsAnimation = useSpring({
-    from: { number: prevSpinPoints, fontSize: '1rem' },
-    to: { number: spinPoints, fontSize: '2rem' },
+    from: { number: prevSpinPoints, fontSize: '0.75rem' },
+    to: { number: spinPoints, fontSize: '1rem' },
     config: { duration: 1500 },
     onStart: () => setSpinPointsColor('lightgreen'),
     onRest: () => setSpinPointsColor('white')
   });
 
   const pointsAnimation = useSpring({
-    from: { number: prevPoints, fontSize: '1rem' },
-    to: { number: points, fontSize: '2rem' },
+    from: { number: prevPoints, fontSize: '0.75rem' },
+    to: { number: points, fontSize: '1rem' },
     config: { duration: 1500 },
     onStart: () => setPointsColor('lightgreen'),
     onRest: () => setPointsColor('white')
@@ -55,11 +54,13 @@ const PointsManager: React.FC = () => {
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: 'black',
+    backgroundColor: '#333',
+    borderRadius: '12px',
     width: '28%',
     height: '50px',
     boxSizing: 'border-box',
     justifyContent: 'center',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
   };
 
   return (
@@ -73,11 +74,11 @@ const PointsManager: React.FC = () => {
       display="flex"
       justifyContent="space-between"
       alignItems="center"
-      sx={{ boxSizing: 'border-box' }}
+      sx={{ boxSizing: 'border-box', backgroundColor: 'black' }}
     >
       <Paper elevation={3} sx={{ ...boxStyles }}>
-        <SportsEsportsIcon sx={{ marginRight: 1, fontSize: '1.25rem', color: 'white' }} />
-        <Typography variant="body2" color="white">
+        <SportsEsportsIcon sx={{ marginRight: 1, fontSize: '1rem', color: 'white' }} />
+        <Typography variant="subtitle2" color="white" sx={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>
           <animated.span
             style={{
               ...spinPointsAnimation,
@@ -88,12 +89,11 @@ const PointsManager: React.FC = () => {
           </animated.span>
         </Typography>
       </Paper>
-      <Paper elevation={3} sx={{ ...boxStyles, width: '40%' }}>
-        <AccountCircleIcon sx={{ marginRight: 1, fontSize: '1.25rem', color: 'white' }} />
-        <Typography variant="body2" color="white">Profil</Typography>
-      </Paper>
+      <Typography variant="h6" color="white" sx={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>
+        MATRIX
+      </Typography>
       <Paper elevation={3} sx={{ ...boxStyles }}>
-        <Typography variant="body2" color="white" sx={{ marginRight: 1 }}>
+        <Typography variant="subtitle2" color="white" sx={{ marginRight: 1, fontFamily: 'sans-serif', fontWeight: 'bold' }}>
           <animated.span
             style={{
               ...pointsAnimation,

@@ -215,39 +215,58 @@ const CountdownTimer: React.FC = () => {
 
   const buttonStyle: React.CSSProperties = {
     position: 'absolute',
-    bottom: '13%', // Alttan %20 yukarıda olacak şekilde ayarlandı
-    left: '50%', // Ortalamak için
-    transform: 'translateX(-50%)', // Ortalamak için
-    padding: '10px 20px',
-    fontSize: '16px',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)', // Ortalamak için
+    padding: '20px', // Daha büyük padding
+    fontSize: '20px', // Daha büyük yazı boyutu
     textAlign: 'center',
     backgroundColor: '#007bff',
     color: 'white',
     border: 'none',
-width : '90%',
-    borderRadius: '5px',
+    borderRadius: '50%', // Yuvarlak şekil
+    width: '150px', // Butonun boyutunu belirleyin
+    height: '150px',
     cursor: 'pointer',
     transition: 'background-color 0.3s ease'
   };
 
+  const scoreStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: '20%', // Adjust this value to position it further above the button
+    left: '50%',
+    transform: 'translate(-50%, -50%)', // Center align and move above
+    fontSize: '18px',
+    color: 'white',
+    textAlign: 'center'
+  };
+
+  const counterStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: '75%', // Adjust this value to position it further below the button
+    left: '50%',
+    transform: 'translate(-50%, -50%)', // Center align
+    fontSize: '18px',
+    color: 'white',
+    textAlign: 'center'
+  };
+
   return (
     <div style={containerStyle}>
-      <div>
-        <h1>Geri Sayım: {formatTime(seconds)}</h1>
+      <div style={scoreStyle}>
         <p>Mevcut Skor: {userScore}</p>
       </div>
       <button onClick={startCountdown} disabled={buttonDisabled} style={buttonStyle}>
         {buttonDisabled ? (
           <>
-            <span style={{ flex: 1, textAlign: 'left' }}>Başlatıldı</span>
+            <span style={{ display: 'block', marginBottom: '10px' }}>Başlatıldı</span>
             <span>{formatTime(seconds)}</span>
           </>
         ) : (
-          <span style={{ flex: 1, textAlign: 'center' }}>Başlat</span>
+          <span style={{ display: 'block' }}>Başlat</span>
         )}
       </button>
-      <div style={{ marginTop: '20px' }}>
-        <h2>Sayıcı Değeri</h2>
+      <div style={counterStyle}>
         <p>{counterValue.toFixed(2)} Puan</p>
       </div>
     </div>
