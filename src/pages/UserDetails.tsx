@@ -2,9 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { db } from './firebaseConfig';
 import { doc, setDoc, onSnapshot, Timestamp, updateDoc, increment, DocumentReference } from 'firebase/firestore';
 
-// İçe aktarılan arka plan resimlerini tanımlayın
-import backgroundGif from '../assets/background.gif';
-
 interface CountdownData {
   endTime: Timestamp | null;
   isRunning: boolean;
@@ -198,44 +195,45 @@ const CountdownTimer: React.FC = () => {
   };
 
   const containerStyle: React.CSSProperties = {
-    backgroundImage: isRunning ? `url(${backgroundGif})` : 'none',
-    backgroundColor: isRunning ? 'none' : 'black',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundColor: 'black',
     height: '100vh',
     width: '100vw',
     display: 'flex',
-    backgroundAttachment: 'fixed',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'relative', // Important for absolute positioning of the button
-    transition: 'background-image 0.5s ease'
+    position: 'relative',
+    transition: 'background-color 0.5s ease'
   };
 
   const buttonStyle: React.CSSProperties = {
     position: 'absolute',
     top: '50%',
     left: '50%',
-    transform: 'translate(-50%, -50%)', // Ortalamak için
-    padding: '20px', // Daha büyük padding
-    fontSize: '20px', // Daha büyük yazı boyutu
+    transform: 'translate(-50%, -50%)',
+    padding: '20px',
+    fontSize: '20px',
     textAlign: 'center',
-    backgroundColor: '#007bff',
-    color: 'white',
-    border: 'none',
-    borderRadius: '50%', // Yuvarlak şekil
-    width: '150px', // Butonun boyutunu belirleyin
+    backgroundColor: 'black',
+    color: isRunning ? 'green' : 'white',
+    border: `2px solid ${isRunning ? 'green' : 'red'}`,
+    borderRadius: '50%',
+    width: '150px',
     height: '150px',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease'
+    boxShadow: `
+      0px 50px 100px -20px ${isRunning ? 'rgba(0, 255, 0, 0.5)' : 'rgba(255, 0, 0, 0.5)'},
+      0px 30px 60px -30px ${isRunning ? 'rgba(0, 255, 0, 0.4)' : 'rgba(255, 0, 0, 0.4)'},
+      0px -2px 6px 0px inset ${isRunning ? 'rgba(0, 255, 0, 0.35)' : 'rgba(255, 0, 0, 0.35)'}
+    `,
+    transition: 'background-color 0.3s ease, border 0.3s ease, box-shadow 0.3s ease'
   };
 
   const scoreStyle: React.CSSProperties = {
     position: 'absolute',
-    top: '20%', // Adjust this value to position it further above the button
+    top: '20%',
     left: '50%',
-    transform: 'translate(-50%, -50%)', // Center align and move above
+    transform: 'translate(-50%, -50%)',
     fontSize: '18px',
     color: 'white',
     textAlign: 'center'
@@ -243,9 +241,9 @@ const CountdownTimer: React.FC = () => {
 
   const counterStyle: React.CSSProperties = {
     position: 'absolute',
-    top: '75%', // Adjust this value to position it further below the button
+    top: '75%',
     left: '50%',
-    transform: 'translate(-50%, -50%)', // Center align
+    transform: 'translate(-50%, -50%)',
     fontSize: '18px',
     color: 'white',
     textAlign: 'center'
@@ -257,7 +255,7 @@ const CountdownTimer: React.FC = () => {
         <p>Mevcut Skor: {userScore}</p>
       </div>
       <button onClick={startCountdown} disabled={buttonDisabled} style={buttonStyle}>
-        {buttonDisabled ? (
+        {isRunning ? (
           <>
             <span style={{ display: 'block', marginBottom: '10px' }}>Başlatıldı</span>
             <span>{formatTime(seconds)}</span>
