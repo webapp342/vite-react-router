@@ -95,14 +95,6 @@ const Game: React.FC = () => {
   }, [score, tumbleCount]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      handleTumble();
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [handleTumble]);
-
-  useEffect(() => {
     // Save score and tumbleCount to localStorage
     localStorage.setItem('score', score.toFixed(2));
     localStorage.setItem('tumbleCount', tumbleCount.toString());
@@ -110,8 +102,11 @@ const Game: React.FC = () => {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <h2>Score: ${score.toFixed(2)}</h2>
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${gridSize}, 50px)`, gap: '5px', justifyContent: 'center' }}>
+      <h2>Balance: ${score.toFixed(2)}</h2>
+      <button onClick={handleTumble} disabled={score < tumbleCost}>
+        Tumble
+      </button>
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${gridSize}, 50px)`, gap: '5px', justifyContent: 'center', marginTop: '20px' }}>
         {grid.flat().map((symbol, index) => (
           <animated.div
             key={index}
