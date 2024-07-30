@@ -7,8 +7,9 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 //import Home  from "./pages/Home.tsx"; 
 import  FarmComponent  from "./pages/FarmComponent.tsx";
 import UserDetails from "./pages/UserDetails.tsx";
-import UserProfilePage from "./pages/UserProfilePage.tsx";
+// import UserProfilePage from "./pages/UserProfilePage.tsx";
 import WheelSpin from "./pages/WheelSpin.tsx";
+import TumbleSlotGame from './pages/TumbleSlotGame.tsx';
 
 
 
