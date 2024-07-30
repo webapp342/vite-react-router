@@ -1,114 +1,144 @@
-import React, { useState, useEffect } from 'react';
-import SlotGrid from './SlotGrid';
-import './styles.css';
+// src/components/Game.tsx
+import React, { useState, useEffect, useCallback } from 'react';
+import { useSpring, animated } from '@react-spring/web';
 
-const generateRandomSymbol = (): string => {
-  const symbols = ['🍒', '🍋', '🍉', '🍇', '🍓', '⭐'];
-  const randomIndex = Math.floor(Math.random() * symbols.length);
-  return symbols[randomIndex];
+const gridSize = 6;
+const numSymbols = 4;
+const symbolTypes = ['🍎', '🍌', '🍒', '🍉'];
+const bonusInterval = 5;
+const tumbleCost = 10;
+
+const generateGrid = () => {
+  const grid: string[][] = [];
+  for (let i = 0; i < gridSize; i++) {
+    const row: string[] = [];
+    for (let j = 0; j < gridSize; j++) {
+      row.push(symbolTypes[Math.floor(Math.random() * numSymbols)]);
+    }
+    grid.push(row);
+  }
+  return grid;
 };
 
-const generateRandomSymbols = (): string[] => {
-  return Array.from({ length: 30 }, () => generateRandomSymbol());
-};
+// Function to find clusters and clear them
+const checkClusters = (grid: string[][]) => {
+  const newGrid = grid.map(row => [...row]);
+  const symbolCount = symbolTypes.reduce((acc, symbol) => {
+    acc[symbol] = 0;
+    return acc;
+  }, {} as { [key: string]: number });
 
-const findClusters = (slots: (string | null)[]): number[][] => {
-  const width = 6;
-  const clusters: number[][] = [];
-  const visited = new Array(slots.length).fill(false);
+  // Count occurrences of each symbol
+  for (let i = 0; i < gridSize; i++) {
+    for (let j = 0; j < gridSize; j++) {
+      symbolCount[newGrid[i][j]]++;
+    }
+  }
 
-  const getNeighbors = (index: number): number[] => {
-    const neighbors: number[] = [];
-    const row = Math.floor(index / width);
-    const col = index % width;
-
-    if (row > 0) neighbors.push(index - width); // Up
-    if (row < 4) neighbors.push(index + width); // Down
-    if (col > 0) neighbors.push(index - 1);     // Left
-    if (col < 5) neighbors.push(index + 1);     // Right
-
-    return neighbors;
-  };
-
-  const dfs = (index: number, symbol: string | null, cluster: number[]): void => {
-    visited[index] = true;
-    cluster.push(index);
-
-    const neighbors = getNeighbors(index);
-    neighbors.forEach((neighbor) => {
-      if (!visited[neighbor] && slots[neighbor] === symbol) {
-        dfs(neighbor, symbol, cluster);
-      }
-    });
-  };
-
-  for (let i = 0; i < slots.length; i++) {
-    if (!visited[i] && slots[i] !== null) {
-      const cluster: number[] = [];
-      dfs(i, slots[i], cluster);
-      if (cluster.length >= 8) {
-        clusters.push(cluster);
+  // Clear clusters
+  for (const symbol in symbolCount) {
+    if (symbolCount[symbol] >= 8) { // Example threshold for clearing
+      for (let i = 0; i < gridSize; i++) {
+        for (let j = 0; j < gridSize; j++) {
+          if (newGrid[i][j] === symbol) {
+            newGrid[i][j] = symbolTypes[Math.floor(Math.random() * numSymbols)];
+          }
+        }
       }
     }
   }
 
-  return clusters;
+  return newGrid;
 };
 
-const TumbleSlotGame: React.FC = () => {
-  const [slots, setSlots] = useState<(string | null)[]>(generateRandomSymbols());
-  const [isSpinning, setIsSpinning] = useState(false);
-  const [hasWinningCombination, setHasWinningCombination] = useState(false);
+// Function to calculate score
+const calculateScore = (grid: string[][], tumbleCount: number) => {
+  const totalSymbols = grid.flat().length;
+  let baseScore = totalSymbols * 10;
+
+  // Bonus score every 5 tumbles
+  if (tumbleCount % bonusInterval === 0) {
+    baseScore += 100; // Bonus amount, adjust as needed
+  }
+
+  return baseScore;
+};
+
+const Game: React.FC = () => {
+  // Load or initialize game state
+  const [grid, setGrid] = useState(generateGrid());
+  const [score, setScore] = useState(() => {
+    const savedScore = localStorage.getItem('score');
+    return savedScore ? parseFloat(savedScore) : 500;
+  });
+  const [tumbleCount, setTumbleCount] = useState(() => {
+    const savedTumbleCount = localStorage.getItem('tumbleCount');
+    return savedTumbleCount ? parseInt(savedTumbleCount, 10) : 0;
+  });
+
+  const handleTumble = useCallback(() => {
+    if (score < tumbleCost) {
+      alert("Not enough funds to continue.");
+      return;
+    }
+
+    setGrid(prevGrid => {
+      const newGrid = checkClusters(prevGrid);
+      const newScore = score - tumbleCost; // Deduct $10 for each tumble
+      const earnedScore = calculateScore(newGrid, tumbleCount + 1);
+      const updatedScore = newScore + earnedScore;
+
+      setScore(updatedScore);
+      return newGrid;
+    });
+    setTumbleCount(prevCount => prevCount + 1);
+  }, [score, tumbleCount]);
 
   useEffect(() => {
-    if (isSpinning) {
-      const clusters = findClusters(slots);
-      if (clusters.length > 0) {
-        setHasWinningCombination(true);
-        const newSlots = [...slots];
-        clusters.forEach(cluster => {
-          cluster.forEach(index => {
-            newSlots[index] = null;
-          });
-        });
+    const interval = setInterval(() => {
+      handleTumble();
+    }, 2000);
 
-        setTimeout(() => {
-          let updatedSlots = [...newSlots];
-          for (let i = 29; i >= 0; i--) {
-            if (updatedSlots[i] === null) {
-              let j = i;
-              while (j >= 6 && updatedSlots[j] === null) {
-                updatedSlots[j] = updatedSlots[j - 6];
-                updatedSlots[j - 6] = null;
-                j -= 6;
-              }
-              updatedSlots[j] = generateRandomSymbol();
-            }
-          }
-          setSlots(updatedSlots);
-          setIsSpinning(false);
-        }, 500);
-      } else {
-        setIsSpinning(false);
-        setHasWinningCombination(false);
-      }
-    }
-  }, [isSpinning, slots]);
+    return () => clearInterval(interval);
+  }, [handleTumble]);
 
-  const tumble = () => {
-    setIsSpinning(true);
-    setSlots(generateRandomSymbols());
-    setHasWinningCombination(false);
-  };
+  useEffect(() => {
+    // Save score and tumbleCount to localStorage
+    localStorage.setItem('score', score.toFixed(2));
+    localStorage.setItem('tumbleCount', tumbleCount.toString());
+  }, [score, tumbleCount]);
 
   return (
-    <div className="App">
-      <h1>Tumble Slot Game</h1>
-      <SlotGrid slots={slots} />
-      <button onClick={tumble} disabled={isSpinning || hasWinningCombination}>Spin</button>
-      {hasWinningCombination && <p>Winning Combination! Keep spinning...</p>}
+    <div style={{ textAlign: 'center' }}>
+      <h2>Score: ${score.toFixed(2)}</h2>
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${gridSize}, 50px)`, gap: '5px', justifyContent: 'center' }}>
+        {grid.flat().map((symbol, index) => (
+          <animated.div
+            key={index}
+            style={{
+              width: '50px',
+              height: '50px',
+              backgroundColor: '#fff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '24px',
+              color: 'black',
+              border: '1px solid #ddd',
+              borderRadius: '5px',
+              ...useSpring({
+                opacity: 1,
+                from: { opacity: 0 },
+                reset: true
+              })
+            }}
+          >
+            {symbol}
+          </animated.div>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default TumbleSlotGame;
+export default Game;
