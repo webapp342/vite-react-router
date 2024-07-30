@@ -20,52 +20,88 @@ const generateGrid = () => {
   return grid;
 };
 
-// Function to find clusters and clear them
-const checkClusters = (grid: string[][]) => {
-  const newGrid = grid.map(row => [...row]);
-  const symbolCount = symbolTypes.reduce((acc, symbol) => {
-    acc[symbol] = 0;
-    return acc;
-  }, {} as { [key: string]: number });
+const findClusters = (grid: string[][]) => {
+  const clusters: { x: number, y: number }[] = [];
+  const visited = Array.from({ length: gridSize }, () => Array(gridSize).fill(false));
 
-  // Count occurrences of each symbol
+  const directions = [
+    { x: 1, y: 0 },
+    { x: 0, y: 1 },
+    { x: -1, y: 0 },
+    { x: 0, y: -1 }
+  ];
+
+  const dfs = (x: number, y: number, symbol: string) => {
+    const stack = [{ x, y }];
+    const cluster = [];
+
+    while (stack.length > 0) {
+      const { x, y } = stack.pop()!;
+      if (x < 0 || y < 0 || x >= gridSize || y >= gridSize || visited[x][y] || grid[x][y] !== symbol) continue;
+
+      visited[x][y] = true;
+      cluster.push({ x, y });
+
+      for (const dir of directions) {
+        stack.push({ x: x + dir.x, y: y + dir.y });
+      }
+    }
+
+    if (cluster.length >= 8) {
+      clusters.push(...cluster);
+    }
+  };
+
   for (let i = 0; i < gridSize; i++) {
     for (let j = 0; j < gridSize; j++) {
-      symbolCount[newGrid[i][j]]++;
-    }
-  }
-
-  // Clear clusters
-  for (const symbol in symbolCount) {
-    if (symbolCount[symbol] >= 8) { // Example threshold for clearing
-      for (let i = 0; i < gridSize; i++) {
-        for (let j = 0; j < gridSize; j++) {
-          if (newGrid[i][j] === symbol) {
-            newGrid[i][j] = symbolTypes[Math.floor(Math.random() * numSymbols)];
-          }
-        }
+      if (!visited[i][j]) {
+        dfs(i, j, grid[i][j]);
       }
     }
   }
 
-  return newGrid;
+  return clusters;
 };
 
-// Function to calculate score
-const calculateScore = (grid: string[][], tumbleCount: number) => {
-  const totalSymbols = grid.flat().length;
-  let baseScore = totalSymbols * 10;
+const removeClusters = (grid: string[][], clusters: { x: number, y: number }[]) => {
+  clusters.forEach(({ x, y }) => {
+    grid[x][y] = '';
+  });
 
-  // Bonus score every 5 tumbles
+  for (let j = 0; j < gridSize; j++) {
+    let emptySpaces = 0;
+    for (let i = gridSize - 1; i >= 0; i--) {
+      if (grid[i][j] === '') {
+        emptySpaces++;
+      } else if (emptySpaces > 0) {
+        grid[i + emptySpaces][j] = grid[i][j];
+        grid[i][j] = '';
+      }
+    }
+  }
+
+  for (let j = 0; j < gridSize; j++) {
+    for (let i = 0; i < gridSize; i++) {
+      if (grid[i][j] === '') {
+        grid[i][j] = symbolTypes[Math.floor(Math.random() * numSymbols)];
+      }
+    }
+  }
+
+  return grid;
+};
+
+const calculateScore = (clusters: { x: number, y: number }[], tumbleCount: number) => {
+  let baseScore = clusters.length * 10;
+
   if (tumbleCount % bonusInterval === 0) {
-    baseScore += 100; // Bonus amount, adjust as needed
+    baseScore += 100;
   }
 
   return baseScore;
 };
 
 const Game: React.FC = () => {
-  // Load or initialize game state
   const [grid, setGrid] = useState(generateGrid());
   const [score, setScore] = useState(() => {
     const savedScore = localStorage.getItem('score');
@@ -82,17 +118,21 @@ const Game: React.FC = () => {
       return;
     }
 
-    setGrid(prevGrid => {
-      const newGrid = checkClusters(prevGrid);
-      const newScore = score - tumbleCost; // Deduct $10 for each tumble
-      const earnedScore = calculateScore(newGrid, tumbleCount + 1);
-      const updatedScore = newScore + earnedScore;
+    let newGrid = [...grid];
+    let clusters = findClusters(newGrid);
 
+    if (clusters.length > 0) {
+      newGrid = removeClusters(newGrid, clusters);
+      const earnedScore = calculateScore(clusters, tumbleCount + 1);
+      const updatedScore = score - tumbleCost + earnedScore;
       setScore(updatedScore);
-      return newGrid;
-    });
-    setTumbleCount(prevCount => prevCount + 1);
-  }, [score, tumbleCount]);
+      setGrid(newGrid);
+      setTumbleCount(tumbleCount + 1);
+    } else {
+      setScore(score - tumbleCost);
+      setTumbleCount(tumbleCount + 1);
+    }
+  }, [grid, score, tumbleCount]);
 
   useEffect(() => {
     // Save score and tumbleCount to localStorage
