@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/vite-react-router/user-profile-page",
-        element: <UserProfilePage />,
+        element: <TumbleSlotGame />,
       },
     ],
   },
