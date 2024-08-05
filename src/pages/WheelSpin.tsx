@@ -88,6 +88,14 @@ const WheelSpin: React.FC = () => {
           textColors={['white']}
           onStopSpinning={handleStopSpinning}
         />
+        <div className="button-grid">
+          <button className="grid-button">+10</button>
+          <button className="grid-button">+100</button>
+          <button className="grid-button">+1000</button>
+          <button className="grid-button">X2</button>
+          <button className="grid-button">1/2</button>
+          <button className="grid-button">MAX</button>
+        </div>
         <button className="spin-button" onClick={handleSpinClick} disabled={isSpinning}>
           Spin
         </button>

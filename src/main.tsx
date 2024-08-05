@@ -7,8 +7,9 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 //import Home  from "./pages/Home.tsx"; 
 import  FarmComponent  from "./pages/FarmComponent.tsx";
 import UserDetails from "./pages/UserDetails.tsx";
-import UserProfilePage from "./pages/UserProfilePage.tsx";
+// import UserProfilePage from "./pages/UserProfilePage.tsx";
 import WheelSpin from "./pages/WheelSpin.tsx";
+import SlotMachine from "./pages/slot/SlotMachine.tsx";
 
 
 
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/vite-react-router/user-profile-page",
-        element: <UserProfilePage />,
+        element: <SlotMachine />,
       },
     ],
   },

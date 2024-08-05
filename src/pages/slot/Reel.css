@@ -1,0 +1,126 @@
+.slot-machine {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 600px;
+  }
+  
+  .reels-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  
+  .reel {
+    display: grid;
+    grid-template-rows: repeat(5, 1fr); /* 5 rows */
+    grid-template-columns: 1fr; /* 1 column per reel */
+    gap: 5px;
+    height: 250px; /* Adjust as needed */
+    width: 50px; /* Adjust width to match symbol size */
+    position: relative; /* For positioning */
+  }
+  
+  .symbol {
+    width: 100%; /* Full width of the grid cell */
+    height: 100%; /* Full height of the grid cell */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #fff;
+    border-radius: 5px;
+    background-color: transparent;
+    position: absolute; /* Absolute positioning within the reel */
+    top: -100px; /* Start above the reel */
+    opacity: 0; /* Start invisible */
+    animation: fall 0.5s ease-out forwards, visibility 0.5s ease-in forwards;
+  }
+  
+  .symbol.winning {
+    background-color: #ffd700; /* Gold highlight */
+    border: 2px solid #ff0000; /* Red border */
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); /* Enhanced glow */
+    transform: scale(1.2); /* Slightly larger scale */
+    animation: bounce 1s ease-out, highlight 2s ease-in-out;
+  }
+  
+  .symbol.winning:hover {
+    background-color: #ffecb3; /* Light gold on hover */
+    box-shadow: 0 0 30px rgba(255, 215, 0, 1); /* Enhanced glow on hover */
+    cursor: pointer; /* Pointer cursor on hover */
+  }
+  
+  @keyframes fall {
+    from {
+      top: -100px; /* Start from above the reel */
+      opacity: 0; /* Start invisible */
+    }
+    to {
+      top: 0; /* End at the top of the cell */
+      opacity: 1; /* End visible */
+    }
+  }
+  
+  @keyframes visibility {
+    from {
+      opacity: 0; /* Start invisible */
+    }
+    to {
+      opacity: 1; /* End visible */
+    }
+  }
+  
+  @keyframes highlight {
+    0% { box-shadow: 0 0 10px #ffd700; }
+    50% { box-shadow: 0 0 20px #ffd700; }
+    100% { box-shadow: 0 0 10px #ffd700; }
+  }
+  
+  @keyframes bounce {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+  }
+  
+  /* Result message */
+  .result-message {
+    margin: 20px 0;
+  }
+  
+  /* Spin button */
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button:disabled {
+    background-color: #ccc; /* Gray when disabled */
+    cursor: not-allowed;
+  }
+  
+  /* z-index adjustments for stacking */
+  .reel .symbol {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .reel .symbol.winning {
+    z-index: 2; /* Ensure winning symbols appear above others */
+    animation: pulse 1s infinite;
+  }
+  
+  /* Enhanced visibility for winning symbols */
+  .reel .symbol.winning::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 215, 0, 0.5); /* Yellow highlight */
+    border-radius: 5px;
+    z-index: -1; /* Behind the symbol */
+  }
+  
