@@ -9,7 +9,11 @@ import  FarmComponent  from "./pages/FarmComponent.tsx";
 import UserDetails from "./pages/UserDetails.tsx";
 // import UserProfilePage from "./pages/UserProfilePage.tsx";
 import WheelSpin from "./pages/WheelSpin.tsx";
+<<<<<<< HEAD
 import SlotMachine from "./pages/slot/SlotMachine.tsx";
+=======
+import TumbleSlotGame from './pages/TumbleSlotGame.tsx';
+>>>>>>> bc88c8a77d82ec8233367f94e1d46925609f5b71
 
 
 
@@ -32,7 +36,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/vite-react-router/user-profile-page",
+<<<<<<< HEAD
         element: <SlotMachine />,
+=======
+        element: <TumbleSlotGame />,
+>>>>>>> bc88c8a77d82ec8233367f94e1d46925609f5b71
       },
     ],
   },
