@@ -192,7 +192,7 @@ const SlotMachine: React.FC = () => {
     return updatedReels;
   };
 
-  const calculateReward = (reels: string[][], winningSymbols: { reel: number; index: number; symbol: string }[]) => {
+  const calculateReward = (_reels: string[][], winningSymbols: { reel: number; index: number; symbol: string }[]) => {
     const symbolCounts = winningSymbols.reduce((acc, ws) => {
       acc[ws.symbol] = (acc[ws.symbol] || 0) + 1;
       return acc;
