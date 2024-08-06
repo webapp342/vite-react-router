@@ -10,7 +10,7 @@ import loseSound from './sounds/lose.wav';
 
 const fruitSymbols = [
   '🍒', '🍋', '🍉', '🍇', '🍍', '🍎', '🍏', '🍊', '🍑', '🥭',
-  '🍈', '🍐', '🥝', '🍅', '🍆', '🌽', '🥥',  '🥑', '🍈'
+  '🍈', '🍐', '🥝', '🍅', '🍆', '🌽', '🥥', '🥑', '🍈'
 ];
 
 const fruitPoints: Record<string, number> = {
@@ -96,6 +96,8 @@ const SlotMachine: React.FC = () => {
       await wait(2000);
 
       if (winningSymbols.length > 0) {
+        await animateWinningSymbols(winningSymbols);
+        
         const { reward } = calculateReward(newReels, winningSymbols);
         totalReward += reward;
 
@@ -146,6 +148,29 @@ const SlotMachine: React.FC = () => {
     });
 
     return { updatedReels, winningSymbols };
+  };
+
+  const animateWinningSymbols = async (winningSymbols: { reel: number; index: number; symbol: string }[]) => {
+    // Apply animation to winning symbols before making them empty
+    setReels(prevReels => prevReels.map((reel, reelIndex) => 
+      reel.map((symbol, index) => 
+        winningSymbols.some(ws => ws.reel === reelIndex && ws.index === index) 
+          ? symbol
+          : symbol
+      )
+    ));
+
+    // Wait for animation to complete
+    await wait(2000);
+    
+    // Now update symbols to empty
+    setReels(prevReels => prevReels.map((reel, reelIndex) => 
+      reel.map((symbol, index) => 
+        winningSymbols.some(ws => ws.reel === reelIndex && ws.index === index) 
+          ? ''
+          : symbol
+      )
+    ));
   };
 
   const applyGravity = (reels: string[][]): string[][] => {
@@ -216,14 +241,7 @@ const SlotMachine: React.FC = () => {
       </motion.button>
       <div className="reels-container">
         {reels.map((reel, reelIndex) => (
-          <Reel 
-            key={reelIndex}
-            symbols={reel}
-            winningSymbols={showResults ? winningSymbols.filter(ws => ws.reel === reelIndex) : []}
-            showWinning={showResults}
-            isSpinning={isSpinning}
-            spinKey={spinKey}
-          />
+          <Reel key={reelIndex} symbols={reel} isSpinning={isSpinning} winningSymbols={winningSymbols.filter(ws => ws.reel === reelIndex)} />
         ))}
       </div>
     </div>
