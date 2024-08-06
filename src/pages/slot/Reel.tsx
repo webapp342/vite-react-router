@@ -1,39 +1,65 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import './Reel.css';
 
 interface ReelProps {
   symbols: string[];
-  winningSymbols: { index: number }[];
+  winningSymbols: { reel: number; index: number; symbol: string }[];
   showWinning: boolean;
   isSpinning: boolean;
   spinKey: number;
 }
 
 const Reel: React.FC<ReelProps> = ({ symbols, winningSymbols, showWinning, isSpinning, spinKey }) => {
+  const [animatedSymbols, setAnimatedSymbols] = useState<{ symbol: string; key: string; falling: boolean }[]>(() =>
+    symbols.map((symbol, index) => ({
+      symbol,
+      key: `${spinKey}-${index}`,
+      falling: false
+    }))
+  );
+
   useEffect(() => {
-    // Ensure the animation starts when spinning
-  }, [isSpinning, spinKey]);
+    if (isSpinning) {
+      // Start spinning animation
+      const newSymbols = symbols.map((symbol, index) => ({
+        symbol,
+        key: `${spinKey}-${index}`,
+        falling: true
+      }));
+      setAnimatedSymbols(newSymbols);
+    } else if (showWinning) {
+      // Handle winning state
+      const handleWinning = async () => {
+        await new Promise(resolve => setTimeout(resolve, 500)); // Initial delay for showing winning symbols
+        const updatedSymbols = symbols.map((symbol, index) => ({
+          symbol,
+          key: `${spinKey}-${index}`,
+          falling: false
+        }));
+        setAnimatedSymbols(updatedSymbols);
+      };
+      handleWinning();
+    } else {
+      // Handle normal updates
+      const updatedSymbols = symbols.map((symbol, index) => ({
+        symbol,
+        key: `${spinKey}-${index}`,
+        falling: false
+      }));
+      setAnimatedSymbols(updatedSymbols);
+    }
+  }, [symbols, spinKey, isSpinning, showWinning]);
 
   return (
     <div className="reel">
-      {symbols.map((symbol, index) => (
+      {animatedSymbols.map(({ symbol, key, falling }, index) => (
         <motion.div
-          key={`${spinKey}-${index}`}
-          className={`symbol ${showWinning && winningSymbols.some(ws => ws.index === index) ? 'winning' : ''}`}
-          initial={{ opacity: 0, y: -150 }}
-          animate={{
-            opacity: 1,
-            y: 0,
-            scale: showWinning && winningSymbols.some(ws => ws.index === index) ? [1, 1.1, 1] : 1,
-            rotate: showWinning && winningSymbols.some(ws => ws.index === index) ? [0, 10, -10, 0] : 0
-          }}
-          transition={{
-            duration: 0.6,
-            type: 'spring',
-            stiffness: 250,
-            delay: index * 0.1
-          }}
+          key={key}
+          className={`symbol ${showWinning && winningSymbols.some(ws => ws.index === index) ? 'winning' : ''} ${falling ? 'falling' : ''}`}
+          initial={{ opacity: 0, y: -100 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: falling ? 0.1 * index : 0 }}
         >
           {symbol}
         </motion.div>

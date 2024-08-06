@@ -10,7 +10,7 @@ import loseSound from './sounds/lose.wav';
 
 const fruitSymbols = [
   '🍒', '🍋', '🍉', '🍇', '🍍', '🍎', '🍏', '🍊', '🍑', '🥭',
-  '🍈', '🍐', '🥝', '🍅', '🍆', '🌽', '🥥', '🫐', '🥑', '🍈'
+  '🍈', '🍐', '🥝', '🍅', '🍆', '🌽', '🥥',  '🥑', '🍈'
 ];
 
 const fruitPoints: Record<string, number> = {
@@ -31,7 +31,6 @@ const fruitPoints: Record<string, number> = {
   '🍆': 20,
   '🌽': 20,
   '🥥': 20,
-  '🫐': 20
 };
 
 const generateNewReels = (): string[][] => {
@@ -50,11 +49,11 @@ const generateNewReels = (): string[][] => {
 const SlotMachine: React.FC = () => {
   const [reels, setReels] = useState<string[][]>(generateNewReels());
   const [score, setScore] = useState<number>(0);
-  const [winningSymbols, setWinningSymbols] = useState<{ reel: number; index: number }[]>([]);
+  const [winningSymbols, setWinningSymbols] = useState<{ reel: number; index: number; symbol: string }[]>([]);
   const [isSpinning, setIsSpinning] = useState<boolean>(false);
   const [showResults, setShowResults] = useState<boolean>(false);
   const [totalReward, setTotalReward] = useState<number>(0);
-  const [spinKey, setSpinKey] = useState(0);
+  const [spinKey, setSpinKey] = useState<number>(0);
 
   const [playSpin] = useSound(spinSound);
   const [playWin] = useSound(winSound);
@@ -82,7 +81,10 @@ const SlotMachine: React.FC = () => {
 
     while (hasWinningCluster) {
       const { updatedReels, winningSymbols } = getWinningClusters(newReels);
-      setWinningSymbols(winningSymbols);
+      setWinningSymbols(winningSymbols.map(ws => ({
+        ...ws,
+        symbol: reels[ws.reel][ws.index]
+      })));
       setReels(updatedReels);
 
       if (winningSymbols.length > 0) {
@@ -99,9 +101,10 @@ const SlotMachine: React.FC = () => {
 
         setScore(prevScore => prevScore + reward);
 
-        newReels = stumbleReels(updatedReels, winningSymbols);
+        newReels = applyGravity(updatedReels);
         setReels(newReels);
 
+        // Add a delay for the gravity effect to be visible
         await wait(500);
       }
 
@@ -128,15 +131,15 @@ const SlotMachine: React.FC = () => {
         if (symbol === sym) {
           const reelIndex = Math.floor(index / 5);
           const rowIndex = index % 5;
-          acc.push({ reel: reelIndex, index: rowIndex });
+          acc.push({ reel: reelIndex, index: rowIndex, symbol });
         }
         return acc;
-      }, [] as { reel: number; index: number }[]));
+      }, [] as { reel: number; index: number; symbol: string }[]));
 
     const updatedReels = reels.map((reel, reelIndex) => {
       return reel.map((symbol, index) => {
         if (winningSymbols.some(ws => ws.reel === reelIndex && ws.index === index)) {
-          return '';
+          return ''; // Temporarily empty the winning symbols
         }
         return symbol;
       });
@@ -145,21 +148,28 @@ const SlotMachine: React.FC = () => {
     return { updatedReels, winningSymbols };
   };
 
-  const stumbleReels = (reels: string[][], winningSymbols: { reel: number; index: number }[]) => {
-    return reels.map((reel, reelIndex) => {
-      return reel.map((symbol, index) => {
-        if (winningSymbols.some(ws => ws.reel === reelIndex && ws.index === index)) {
-          return fruitSymbols[Math.floor(Math.random() * fruitSymbols.length)];
-        }
-        return symbol;
-      });
+  const applyGravity = (reels: string[][]): string[][] => {
+    const updatedReels = reels.map(reel => {
+      const nonEmptySymbols = reel.filter(symbol => symbol !== '');
+      const emptySpaces = reel.length - nonEmptySymbols.length;
+      return [...Array(emptySpaces).fill(''), ...nonEmptySymbols];
     });
+
+    // Fill empty spaces with new symbols
+    for (let reel = 0; reel < updatedReels.length; reel++) {
+      for (let row = 0; row < updatedReels[reel].length; row++) {
+        if (updatedReels[reel][row] === '') {
+          updatedReels[reel][row] = fruitSymbols[Math.floor(Math.random() * fruitSymbols.length)];
+        }
+      }
+    }
+
+    return updatedReels;
   };
 
-  const calculateReward = (reels: string[][], winningSymbols: { reel: number; index: number }[]) => {
+  const calculateReward = (reels: string[][], winningSymbols: { reel: number; index: number; symbol: string }[]) => {
     const symbolCounts = winningSymbols.reduce((acc, ws) => {
-      const symbol = reels[ws.reel][ws.index];
-      acc[symbol] = (acc[symbol] || 0) + 1;
+      acc[ws.symbol] = (acc[ws.symbol] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
 
@@ -182,6 +192,8 @@ const SlotMachine: React.FC = () => {
         run={showResults && totalReward > 0}
       />
       <h2>Score: {score}</h2>
+      <h2>Score: {score}</h2>
+
       <div className="result-message">
         {showResults && (
           <>
