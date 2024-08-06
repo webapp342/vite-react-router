@@ -74,49 +74,50 @@ const SlotMachine: React.FC = () => {
     await handleClusterPays(newReels);
   }, [isSpinning, playSpin, spinKey]);
 
-  const handleClusterPays = async (reels: string[][]) => {
-    let newReels = [...reels];
-    let hasWinningCluster = true;
-    let totalReward = 0;
+  const handleClusterPays = async () => {
+  let newReels = [...reels];
+  let hasWinningCluster = true;
+  let totalReward = 0;
 
-    while (hasWinningCluster) {
-      const { updatedReels, winningSymbols } = getWinningClusters(newReels);
-      setWinningSymbols(winningSymbols.map(ws => ({
-        ...ws,
-        symbol: reels[ws.reel][ws.index]
-      })));
-      setReels(updatedReels);
+  while (hasWinningCluster) {
+    const { updatedReels, winningSymbols } = getWinningClusters(newReels);
+    setWinningSymbols(winningSymbols.map(ws => ({
+      ...ws,
+      symbol: newReels[ws.reel][ws.index] // Burada reels yerine newReels kullanıyoruz
+    })));
+    setReels(updatedReels);
 
-      if (winningSymbols.length > 0) {
-        playWin();
-      } else {
-        playLose();
-      }
-
-      await wait(2000);
-
-      if (winningSymbols.length > 0) {
-        await animateWinningSymbols(winningSymbols);
-        
-        const { reward } = calculateReward(newReels, winningSymbols);
-        totalReward += reward;
-
-        setScore(prevScore => prevScore + reward);
-
-        newReels = applyGravity(updatedReels);
-        setReels(newReels);
-
-        // Add a delay for the gravity effect to be visible
-        await wait(500);
-      }
-
-      hasWinningCluster = winningSymbols.length > 0;
+    if (winningSymbols.length > 0) {
+      playWin();
+    } else {
+      playLose();
     }
 
-    setTotalReward(totalReward);
-    setShowResults(true);
-    setIsSpinning(false);
-  };
+    await wait(2000);
+
+    if (winningSymbols.length > 0) {
+      await animateWinningSymbols(winningSymbols);
+      
+      const { reward } = calculateReward(newReels, winningSymbols);
+      totalReward += reward;
+
+      setScore(prevScore => prevScore + reward);
+
+      newReels = applyGravity(updatedReels);
+      setReels(newReels);
+
+      // Add a delay for the gravity effect to be visible
+      await wait(500);
+    }
+
+    hasWinningCluster = winningSymbols.length > 0;
+  }
+
+  setTotalReward(totalReward);
+  setShowResults(true);
+  setIsSpinning(false);
+};
+
 
   const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
