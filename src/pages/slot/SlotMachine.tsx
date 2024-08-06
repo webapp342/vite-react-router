@@ -74,8 +74,8 @@ const SlotMachine: React.FC = () => {
     await handleClusterPays(newReels);
   }, [isSpinning, playSpin, spinKey]);
 
-  const handleClusterPays = async () => {
-    let newReels = [...reels];
+  const handleClusterPays = async (initialReels: string[][]) => {
+    let newReels = [...initialReels];
     let hasWinningCluster = true;
     let totalReward = 0;
 
@@ -232,14 +232,14 @@ const SlotMachine: React.FC = () => {
         onClick={spinReels} 
         disabled={isSpinning}
         initial={{ opacity: 1 }}
-        animate={{ opacity: isSpinning ? 0.5 : 1 }}
+                animate={{ opacity: isSpinning ? 0.5 : 1 }}
         transition={{ duration: 0.3 }}
       >
         {isSpinning ? 'Spinning...' : 'Spin'}
       </motion.button>
       <div className="reels-container">
         {reels.map((reel, reelIndex) => (
-                    <Reel key={reelIndex} symbols={reel} isSpinning={isSpinning} winningSymbols={winningSymbols.filter(ws => ws.reel === reelIndex)} />
+          <Reel key={reelIndex} symbols={reel} isSpinning={isSpinning} winningSymbols={winningSymbols.filter(ws => ws.reel === reelIndex)} />
         ))}
       </div>
     </div>
@@ -247,3 +247,4 @@ const SlotMachine: React.FC = () => {
 };
 
 export default SlotMachine;
+
