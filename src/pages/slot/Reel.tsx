@@ -19,7 +19,7 @@ const Reel: React.FC<ReelProps> = ({ symbols, isSpinning, winningSymbols }) => {
             className={`symbol ${isWinning ? 'winning' : ''}`}
             initial={isSpinning ? { scale: 1.2, rotate: 0 } : { scale: 1, rotate: 0 }}
             animate={isSpinning ? { scale: 1, rotate: [0, 10, -10, 0] } : {}}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            transition={{ duration: 1, ease: "easeInOut" }}
           >
             {symbol}
           </motion.div>

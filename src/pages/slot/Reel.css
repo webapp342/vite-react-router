@@ -18,7 +18,7 @@
     height: 50px;
     background-color: transparent;
     border-radius: 5px;
-    transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+    transition:  background-color 0.3s, box-shadow 0.3s;
   }
   
   .symbol.falling {
@@ -37,9 +37,6 @@
   }
   
   .symbol.winning {
-    background-color: #ffd700; /* Gold color highlight */
-    border: 2px solid #ff0000; /* Red border */
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); /* Glowing effect */
     transform: scale(1); /* Start with normal size */
     animation: scaleUp 0.5s ease-in forwards;
   }

@@ -69,7 +69,8 @@ const SlotMachine: React.FC = () => {
     setTotalReward(0);
     setSpinKey(spinKey + 1);
 
-    await wait(3000);
+    // Spin süresi (örneğin 3 saniye)
+    await wait(1000);
 
     await handleClusterPays(newReels);
   }, [isSpinning, playSpin, spinKey]);
@@ -80,12 +81,11 @@ const SlotMachine: React.FC = () => {
     let totalReward = 0;
 
     while (hasWinningCluster) {
-      const { updatedReels, winningSymbols } = getWinningClusters(newReels);
+      const { winningSymbols } = getWinningClusters(newReels);
       setWinningSymbols(winningSymbols.map(ws => ({
         ...ws,
         symbol: reels[ws.reel][ws.index]
       })));
-      setReels(updatedReels);
 
       if (winningSymbols.length > 0) {
         playWin();
@@ -93,21 +93,26 @@ const SlotMachine: React.FC = () => {
         playLose();
       }
 
-      await wait(2000);
+      // Kazanan semboller için animasyon süresi (örneğin 2 saniye)
+      await wait(3000);
 
       if (winningSymbols.length > 0) {
         await animateWinningSymbols(winningSymbols);
-        
+
         const { reward } = calculateReward(newReels, winningSymbols);
         totalReward += reward;
 
         setScore(prevScore => prevScore + reward);
 
-        newReels = applyGravity(updatedReels);
+        // Kazanan sembolleri boşalt
+        newReels = removeWinningSymbols(newReels, winningSymbols);
         setReels(newReels);
 
-        // Add a delay for the gravity effect to be visible
-        await wait(500);
+        // Boş alanları yukarı çek
+        newReels = applyGravity(newReels);
+        setReels(newReels);
+
+       
       }
 
       hasWinningCluster = winningSymbols.length > 0;
@@ -118,36 +123,15 @@ const SlotMachine: React.FC = () => {
     setIsSpinning(false);
   };
 
-  const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-  const getWinningClusters = (reels: string[][]) => {
-    const flatReels = reels.flat();
-    const symbolCounts = flatReels.reduce((acc, symbol) => {
-      acc[symbol] = (acc[symbol] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-
-    const winningSymbols = Object.keys(symbolCounts)
-      .filter(symbol => symbolCounts[symbol] >= 4)
-      .flatMap(symbol => flatReels.reduce((acc, sym, index) => {
-        if (symbol === sym) {
-          const reelIndex = Math.floor(index / 5);
-          const rowIndex = index % 5;
-          acc.push({ reel: reelIndex, index: rowIndex, symbol });
-        }
-        return acc;
-      }, [] as { reel: number; index: number; symbol: string }[]));
-
-    const updatedReels = reels.map((reel, reelIndex) => {
+  const removeWinningSymbols = (reels: string[][], winningSymbols: { reel: number; index: number }[]) => {
+    return reels.map((reel, reelIndex) => {
       return reel.map((symbol, index) => {
         if (winningSymbols.some(ws => ws.reel === reelIndex && ws.index === index)) {
-          return ''; // Temporarily empty the winning symbols
+          return ''; // Kazanan sembolleri boşalt
         }
         return symbol;
       });
     });
-
-    return { updatedReels, winningSymbols };
   };
 
   const animateWinningSymbols = async (winningSymbols: { reel: number; index: number; symbol: string }[]) => {
@@ -160,10 +144,10 @@ const SlotMachine: React.FC = () => {
       )
     ));
 
-    // Wait for animation to complete
-    await wait(2000);
+    // Kazanan semboller için animasyon süresi (örneğin 2 saniye)
+    await wait(3000);
     
-    // Now update symbols to empty
+    // Kazanan semboller boşaltılıyor
     setReels(prevReels => prevReels.map((reel, reelIndex) => 
       reel.map((symbol, index) => 
         winningSymbols.some(ws => ws.reel === reelIndex && ws.index === index) 
@@ -180,7 +164,7 @@ const SlotMachine: React.FC = () => {
       return [...Array(emptySpaces).fill(''), ...nonEmptySymbols];
     });
 
-    // Fill empty spaces with new symbols
+    // Boş alanları yeni semboller ile doldur
     for (let reel = 0; reel < updatedReels.length; reel++) {
       for (let row = 0; row < updatedReels[reel].length; row++) {
         if (updatedReels[reel][row] === '') {
@@ -208,6 +192,29 @@ const SlotMachine: React.FC = () => {
     return { reward: totalReward };
   };
 
+  const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+  const getWinningClusters = (reels: string[][]) => {
+    const flatReels = reels.flat();
+    const symbolCounts = flatReels.reduce((acc, symbol) => {
+      acc[symbol] = (acc[symbol] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    const winningSymbols = Object.keys(symbolCounts)
+      .filter(symbol => symbolCounts[symbol] >= 4)
+      .flatMap(symbol => flatReels.reduce((acc, sym, index) => {
+        if (symbol === sym) {
+          const reelIndex = Math.floor(index / 5);
+          const rowIndex = index % 5;
+          acc.push({ reel: reelIndex, index: rowIndex, symbol });
+        }
+        return acc;
+      }, [] as { reel: number; index: number; symbol: string }[]));
+
+    return { winningSymbols };
+  };
+
   return (
     <div className="slot-machine">
       <Confetti
@@ -217,8 +224,6 @@ const SlotMachine: React.FC = () => {
         run={showResults && totalReward > 0}
       />
       <h2>Score: {score}</h2>
-      <h2>Score: {score}</h2>
-
       <div className="result-message">
         {showResults && (
           <>
@@ -241,7 +246,12 @@ const SlotMachine: React.FC = () => {
       </motion.button>
       <div className="reels-container">
         {reels.map((reel, reelIndex) => (
-          <Reel key={reelIndex} symbols={reel} isSpinning={isSpinning} winningSymbols={winningSymbols.filter(ws => ws.reel === reelIndex)} />
+          <Reel 
+            key={reelIndex} 
+            symbols={reel} 
+            isSpinning={isSpinning} 
+            winningSymbols={winningSymbols.filter(ws => ws.reel === reelIndex)} 
+          />
         ))}
       </div>
     </div>
