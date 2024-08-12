@@ -13,13 +13,15 @@ const Reel: React.FC<ReelProps> = ({ symbols, isSpinning, winningSymbols }) => {
     <div className="reel">
       {symbols.map((symbol, index) => {
         const isWinning = winningSymbols.some(ws => ws.index === index);
+        const isNewSymbol = !isSpinning && symbol === ''; // Yeni semboller
+
         return (
           <motion.div
             key={index}
-            className={`symbol ${isWinning ? 'winning' : ''}`}
-            initial={isSpinning ? { scale: 1.2, rotate: 0 } : { scale: 1, rotate: 0 }}
-            animate={isSpinning ? { scale: 1, rotate: [0, 10, -10, 0] } : {}}
-            transition={{ duration: 1, ease: "easeInOut" }}
+            className={`symbol ${isWinning ? 'winning' : ''} ${isNewSymbol ? 'falling' : ''}`}
+            initial={{ scale: 1, opacity: isNewSymbol ? 0 : 1 }}
+            animate={{ scale: isNewSymbol ? 1 : 1 }}
+            transition={{ duration: isNewSymbol ? 0.5 : 0, ease: "easeOut" }}
           >
             {symbol}
           </motion.div>
