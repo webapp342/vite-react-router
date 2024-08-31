@@ -33,12 +33,16 @@
 }
 
 .symbol.falling {
+<<<<<<< HEAD
   animation: fall 0.8s ease-out forwards;
   opacity: 0;
 }
 
 .symbol.falling {
   animation: fall 0.8s ease-out forwards;
+=======
+  animation: fall 2s ease-out forwards;
+>>>>>>> 830c52e7c76343624b93121291356083a6482ca4
 }
 
 @keyframes fall {
