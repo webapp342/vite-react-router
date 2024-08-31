@@ -14,14 +14,19 @@ const Reel: React.FC<ReelProps> = ({ symbols, isSpinning, winningSymbols }) => {
       {symbols.map((symbol, index) => {
         const isWinning = winningSymbols.some(ws => ws.index === index);
         const isNewSymbol = !isSpinning && symbol === ''; // Yeni semboller
+        const isFalling = !isSpinning && symbol !== ''; // Düşme animasyonuna tabi olan semboller
 
         return (
           <motion.div
             key={index}
             className={`symbol ${isWinning ? 'winning' : ''} ${isNewSymbol ? 'falling' : ''}`}
-            initial={{ scale: 1, opacity: isNewSymbol ? 0 : 1 }}
-            animate={{ scale: isNewSymbol ? 1 : 1 }}
-            transition={{ duration: isNewSymbol ? 0.5 : 0, ease: "easeOut" }}
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              duration: 0.8, 
+              ease: "easeOut", 
+              delay: isFalling ? index * 0.1 : 0 // Her sembol için gecikme ekliyoruz
+            }}
           >
             {symbol}
           </motion.div>

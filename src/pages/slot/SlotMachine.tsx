@@ -224,6 +224,8 @@ const SlotMachine: React.FC = () => {
         run={showResults && totalReward > 0}
       />
       <h2>Score: {score}</h2>
+      <h2>Score: {score}</h2>
+
       <div className="result-message">
         {showResults && (
           <>
