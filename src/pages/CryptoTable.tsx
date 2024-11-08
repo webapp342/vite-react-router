@@ -16,7 +16,6 @@ interface CryptoData {
   symbol: string;
   priceChangePercent: string;
   lastPrice: string;
-  quoteVolume: string; // Piyasa değeri için hacim
 }
 
 const CryptoTable: React.FC = () => {
@@ -65,20 +64,25 @@ const CryptoTable: React.FC = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Rank</TableCell>
-                <TableCell>Kripto Para Çifti</TableCell>
+                <TableCell>Kripto Para</TableCell>
                 <TableCell>Son Fiyat (USD)</TableCell>
                 <TableCell>24 Saat Değişim (%)</TableCell>
-                <TableCell>Piyasa Hacmi (24h)</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {cryptos.map((crypto, index) => (
                 <TableRow key={crypto.symbol}>
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>{crypto.symbol}</TableCell>
+                  <TableCell>
+                    <img
+                      src={`https://cryptologos.cc/logos/${crypto.symbol.toLowerCase()}.png`}
+                      alt={crypto.symbol}
+                      style={{ width: '20px', height: '20px', marginRight: '8px' }}
+                    />
+                    {crypto.symbol}
+                  </TableCell>
                   <TableCell>${parseFloat(crypto.lastPrice).toLocaleString()}</TableCell>
                   <TableCell>{parseFloat(crypto.priceChangePercent).toFixed(2)}%</TableCell>
-                  <TableCell>${parseFloat(crypto.quoteVolume).toLocaleString()}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
