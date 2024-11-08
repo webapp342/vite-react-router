@@ -5,10 +5,10 @@ import "./index.css";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 //import Home  from "./pages/Home.tsx"; 
-import  FarmComponent  from "./pages/FarmComponent.tsx";
+import  CryptoTable  from "./pages/CryptoTable.tsx";
 import UserDetails from "./pages/UserDetails.tsx";
 // import UserProfilePage from "./pages/UserProfilePage.tsx";
-// import WheelSpin from "./pages/WheelSpin.tsx";
+//import WheelSpin from "./pages/WheelSpin.tsx";
 import SlotMachine from "./pages/slot/SlotMachine.tsx";
 import LocalStorageViewer from "./pages/localStorage.tsx";
 
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/vite-react-router/farm",
-        element: <FarmComponent />,
+        element: <CryptoTable />,
       },
       {
         path: "/vite-react-router/user-details",
