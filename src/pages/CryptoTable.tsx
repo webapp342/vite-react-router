@@ -14,7 +14,9 @@ import {
 
 interface CryptoData {
   symbol: string;
-  price: string;
+  priceChangePercent: string;
+  lastPrice: string;
+  quoteVolume: string; // Piyasa değeri için hacim
 }
 
 const CryptoTable: React.FC = () => {
@@ -24,14 +26,17 @@ const CryptoTable: React.FC = () => {
   useEffect(() => {
     const fetchCryptos = async () => {
       try {
-        // Binance API'den fiyatları al
+        // Binance API'den piyasa verilerini al
         const response = await axios.get(
-          'https://api.binance.com/api/v3/ticker/price'
+          'https://api.binance.com/api/v3/ticker/24hr'
         );
 
-        // İlk 10 kripto parayı almak için sadece ilk 10 elemanı seçiyoruz
-        const topCryptos = response.data.slice(0, 10);
-        setCryptos(topCryptos);
+        // Verileri piyasa değerine göre sıralayın ve en yüksek 10'u seçin
+        const sortedCryptos = response.data
+          .sort((a: CryptoData, b: CryptoData) => parseFloat(b.quoteVolume) - parseFloat(a.quoteVolume))
+          .slice(0, 10);
+
+        setCryptos(sortedCryptos);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching crypto data:', error);
@@ -51,7 +56,7 @@ const CryptoTable: React.FC = () => {
 
   return (
     <Container>
-      <h2>İlk 10 Kripto Para</h2>
+      <h2>En Yüksek Piyasa Değerine Sahip Kripto Para Çiftleri</h2>
       {loading ? (
         <CircularProgress />
       ) : (
@@ -60,9 +65,10 @@ const CryptoTable: React.FC = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Rank</TableCell>
-                <TableCell>Kripto Para</TableCell>
-                <TableCell>Simge</TableCell>
-                <TableCell>Fiyat (USD)</TableCell>
+                <TableCell>Kripto Para Çifti</TableCell>
+                <TableCell>Son Fiyat (USD)</TableCell>
+                <TableCell>24 Saat Değişim (%)</TableCell>
+                <TableCell>Piyasa Hacmi (24h)</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -70,8 +76,9 @@ const CryptoTable: React.FC = () => {
                 <TableRow key={crypto.symbol}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{crypto.symbol}</TableCell>
-                  <TableCell>{crypto.symbol}</TableCell>
-                  <TableCell>${parseFloat(crypto.price).toLocaleString()}</TableCell>
+                  <TableCell>${parseFloat(crypto.lastPrice).toLocaleString()}</TableCell>
+                  <TableCell>{parseFloat(crypto.priceChangePercent).toFixed(2)}%</TableCell>
+                  <TableCell>${parseFloat(crypto.quoteVolume).toLocaleString()}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
