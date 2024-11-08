@@ -248,7 +248,7 @@ const SlotMachine: React.FC = () => {
       </motion.button>
       <div className="reels-container">
         {reels.map((reel, reelIndex) => (
-          <Reel 
+          <Reel
             key={reelIndex} 
             symbols={reel} 
             isSpinning={isSpinning} 
