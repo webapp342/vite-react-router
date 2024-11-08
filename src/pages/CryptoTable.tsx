@@ -26,7 +26,6 @@ const CryptoTable: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    // Fetch the initial data when the component is mounted
     const fetchCryptos = async () => {
       try {
         const response = await axios.get(
@@ -50,14 +49,6 @@ const CryptoTable: React.FC = () => {
     };
 
     fetchCryptos();
-
-    // Set an interval to update crypto data every 10 seconds
-    const intervalId = setInterval(fetchCryptos, 10000);
-
-    // Cleanup interval on component unmount
-    return () => {
-      clearInterval(intervalId);
-    };
   }, []);
 
   // Price change color logic
