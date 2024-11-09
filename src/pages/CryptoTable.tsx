@@ -86,7 +86,6 @@ const CryptoTable: React.FC = () => {
                 <TableCell>Kripto Para Çifti</TableCell>
                 <TableCell>Son Fiyat (USD)</TableCell>
                 <TableCell>24 Saat Değişim (%)</TableCell>
-                <TableCell>Piyasa Hacmi (24h)</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -106,7 +105,6 @@ const CryptoTable: React.FC = () => {
                   </TableCell>
                   <TableCell>${parseFloat(crypto.lastPrice).toLocaleString()}</TableCell>
                   <TableCell>{parseFloat(crypto.priceChangePercent).toFixed(2)}%</TableCell>
-                  < TableCell>${parseFloat(crypto.quoteVolume).toLocaleString()}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
