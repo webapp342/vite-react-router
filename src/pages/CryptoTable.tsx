@@ -24,6 +24,12 @@ const CryptoTable: React.FC = () => {
   const [cryptos, setCryptos] = useState<CryptoData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const selectedCryptos = [
+    'BTC', 'ETH', 'BNB', 'SOL', 'XRP', 'DOGE', 'STETH', 'ADA',
+    'TRX', 'WSTETH', 'TON', 'AVAX', 'WBTC', 'SHIB', 'WETH',
+    'LINK', 'BCH', 'SUI', 'DOT', 'LEO', 'LTC', 'WEETH'
+  ];
+
   useEffect(() => {
     const fetchCryptos = async () => {
       try {
@@ -32,10 +38,15 @@ const CryptoTable: React.FC = () => {
           'https://api.binance.com/api/v3/ticker/24hr'
         );
 
-        // Verileri piyasa değerine göre sıralayın ve en yüksek 50'yi seçin
-        const sortedCryptos = response.data
-          .sort((a: CryptoData, b: CryptoData) => parseFloat(b.quoteVolume) - parseFloat(a.quoteVolume))
-          .slice(0, 50);
+        // Sadece seçilen kripto paraları filtreleyin
+        const filteredCryptos = response.data.filter((crypto: CryptoData) =>
+          selectedCryptos.includes(crypto.symbol)
+        );
+
+        // Verileri piyasa değerine göre sıralayın
+        const sortedCryptos = filteredCryptos.sort((a: CryptoData, b: CryptoData) =>
+          parseFloat(b.quoteVolume) - parseFloat(a.quoteVolume)
+        );
 
         // Her kripto para için logo URL'si ekleyin
         const cryptosWithLogos = sortedCryptos.map((crypto: CryptoData) => ({
@@ -63,7 +74,7 @@ const CryptoTable: React.FC = () => {
 
   return (
     <Container>
-      <h2>En Yüksek Piyasa Değerine Sahip Kripto Para Çiftleri</h2>
+      <h2>Seçilen Kripto Para Çiftleri</h2>
       {loading ? (
         <CircularProgress />
       ) : (
@@ -95,7 +106,7 @@ const CryptoTable: React.FC = () => {
                   </TableCell>
                   <TableCell>${parseFloat(crypto.lastPrice).toLocaleString()}</TableCell>
                   <TableCell>{parseFloat(crypto.priceChangePercent).toFixed(2)}%</TableCell>
-                  <TableCell>${parseFloat(crypto.quoteVolume).toLocaleString()}</TableCell>
+                  < TableCell>${parseFloat(crypto.quoteVolume).toLocaleString()}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
