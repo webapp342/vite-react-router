@@ -35,6 +35,10 @@ const router = createBrowserRouter([
         path: "/vite-react-router/user-profile-page",
         element: <CryptoTable />,
       },
+      {
+        path: "/vite-react-router/WheelSpin",
+        element: <CryptoTable />,
+      },
     ],
   },
 ]);

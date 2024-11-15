@@ -9,7 +9,7 @@ html, body, #root {
   overflow: hidden;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background: linear-gradient(112.1deg, rgb(32, 38, 57) 11.4%, rgb(72, 86, 129) 70.2%);  }
+  background: #131313  }
 
 a {
   font-weight: 500;
