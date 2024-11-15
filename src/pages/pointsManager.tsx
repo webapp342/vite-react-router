@@ -122,9 +122,10 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       p={2}
       zIndex={1000}
       display="flex"
+      
       justifyContent="space-between"
       alignItems="center"
-      sx={{ boxSizing: 'border-box'}}
+      sx={{ backgroundColor: "#131313",boxSizing: 'border-box'}}
     >
       <StyledDiv>      
        
