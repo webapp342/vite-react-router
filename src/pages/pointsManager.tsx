@@ -100,10 +100,11 @@ align-items: center;
 
 
 width: 10%;
-
+ 
 height: 10%;
 
      display="flex"
+     padding : "12px";
 
 
 justify-content: center;
@@ -144,7 +145,7 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }} 
 />
 <StyledDiv2>        
-        <img src={profile} alt="Ton Logo"  style={{color:"#8f8f8f", width: "100%", height: "100% "}} />
+        <img src={profile} alt="Ton Logo"  style={{ width: "100%", height: "100% "}} />
 
       </ StyledDiv2>
     </Box>
