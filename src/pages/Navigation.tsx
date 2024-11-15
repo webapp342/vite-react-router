@@ -6,8 +6,9 @@ import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import Diversity1RoundedIcon from '@mui/icons-material/Diversity1Rounded';
 import WalletIcon from '@mui/icons-material/Wallet';
-import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
+// import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
 import { Box } from '@mui/material';
+
 
 export default function SimpleBottomNavigation() {
   const [value, setValue] = React.useState<number>(0);
@@ -39,6 +40,7 @@ export default function SimpleBottomNavigation() {
   return (
     <Box
      sx={{   
+      bgcolor: '#131313' ,
           display: 'flex',
           justifyContent: 'center',
           borderRadius: 6,
@@ -50,104 +52,94 @@ export default function SimpleBottomNavigation() {
         showLabels
         className="bottom-navigation"
         sx={{
-          border: 2,
-          borderColor: 'white',
-          gap: 5,
+          
+          borderColor: '#cff008',
+          gap: 1,
+          bgcolor: '#212121',
           mb: 6,
           padding:1,
-          borderRadius: 6,
-          boxShadow: 10,
+          borderRadius: 10,
+          boxShadow: 3,
           maxWidth: '90%',
         }} // Adjust this value if needed
       >
+        
         <BottomNavigationAction
-                  className="bottom-navigation-action"
-
-          icon={ <HomeRoundedIcon fontSize='large'/>}
+          icon={ <HomeRoundedIcon  />}
           sx={{
-            border:1,
-            color: value === 0 ? 'white' : 'grey',
-            minWidth: 0,
+            
+            borderRadius: value === 0 ? 10 : 10,
+            padding: 2,
+            color: value === 0 ? '#131313' : '#616161',
+            bgcolor: value === 0 ? 'white' : '#424242',
+            minWidth: 5,
             margin: 0,
             '& .MuiBottomNavigationAction-label': {
               color: value === 0 ? 'white' : 'grey',
             },
             '& .MuiSvgIcon-root': {
-              color: value === 0 ? 'white' : 'grey',
+              color: value === 0 ? 'black' : '#9E9E9E',
             },
           }}
         />
         <BottomNavigationAction
-                  className="bottom-navigation-action"
 
-          icon={<WalletIcon fontSize='large' />}
+          icon={<WalletIcon />}
           sx={{
-            border:1,
-
-            color: value === 1 ? 'white' : 'grey',
-            minWidth: 0,
+            
+            borderRadius: value === 0 ? 12 : 12,
+            padding: 2,
+            color: value ===  1 ? '#131313' : '#616161',
+            bgcolor: value ===  1 ? '#cff008' : '#424242',
+            minWidth: 2,
             margin: 0,
             '& .MuiBottomNavigationAction-label': {
-              color: value === 1 ? 'white' : 'grey',
+              color: value ===  1 ? 'white' : 'grey',
             },
             '& .MuiSvgIcon-root': {
-              color: value === 1 ? 'white' : 'grey',
+              color: value ===  1 ? '#131313' : '#9E9E9E',
             },
           }}
-        />
+        /> 
         <BottomNavigationAction
-                  className="bottom-navigation-action"
 
-          icon={<TaskOutlinedIcon fontSize='large'/>}
+          icon={<TaskOutlinedIcon />}
           sx={{
-            border:1,
-
-            color: value === 2 ? 'white' : 'grey',
-            minWidth: 0,
+            
+            borderRadius: value === 0 ? 10 : 10,
+            padding: 2,
+            color: value ===   2 ? '#131313' : '#616161',
+            bgcolor: value ===   2 ? '#cff008' : '#424242',
+            minWidth: 2,
             margin: 0,
             '& .MuiBottomNavigationAction-label': {
-              color: value === 2 ? 'white' : 'grey',
+              color: value ===   2 ? 'white' : 'grey',
             },
             '& .MuiSvgIcon-root': {
-              color: value === 2 ? 'white' : 'grey',
+              color: value ===   2 ? '#131313' : '#9E9E9E',
             },
           }}
-        />
+        /> 
         <BottomNavigationAction
-                  className="bottom-navigation-action"
 
-          icon={<Diversity1RoundedIcon fontSize='large' />}
-          sx={{
-            border:1,
-
-            color: value === 3 ? 'white' : 'grey',
-            minWidth: 0,
+          icon={<Diversity1RoundedIcon  />}
+        sx={{
+            
+            borderRadius: value === 0 ? 10 : 10,
+            padding:2,
+            color: value ===   3 ? '#131313' : '#616161',
+            bgcolor: value ===   3 ? 'white' : '#424242',
+            minWidth: 2,
             margin: 0,
             '& .MuiBottomNavigationAction-label': {
-              color: value === 3 ? 'white' : 'grey',
+              color: value ===   3 ? 'white' : 'grey',
             },
             '& .MuiSvgIcon-root': {
-              color: value === 3 ? 'white' : 'grey',
+              color: value ===   3 ? '#131313' : '#9E9E9E',
             },
           }}
-        />
-        <BottomNavigationAction
-          className="bottom-navigation-action"
-          icon={<AccountBalanceWalletOutlinedIcon fontSize='large' />}
-          sx={{
-            border:1,
-
-            color: value === 4 ? 'white' : 'grey',
-            minWidth: 0,
-            margin: 0,
-            '& .MuiBottomNavigationAction-label': {
-              color: value === 4 ? 'white' : 'grey',
-            },
-            '& .MuiSvgIcon-root': {
-              color: value === 4 ? 'white' : 'grey',
-            },
-          }}
-        />
+        />  
+       
       </BottomNavigation>
     </Box>
   );

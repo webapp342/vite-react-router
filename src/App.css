@@ -37,8 +37,6 @@ html, body {
   bottom: 0%;
   right: 0%;
 
- 
-  background: linear-gradient(to right, #131313, #252424); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     z-index: 1000;
 }
 
@@ -48,5 +46,7 @@ html, body {
 .bottom-navigation-action:focus {
   outline: none !important;
   border: none !important;
+  border-radius: 20%;
 }
 
+ 
