@@ -32,21 +32,7 @@ html, body {
   display: none; /* WebKit-based browsers */
 }
 
-.bottom-navigation {
-  left: 0%;
-  bottom: 0%;
-  right: 0%;
-
-    z-index: 1000;
-}
 
 
-
-
-.bottom-navigation-action:focus {
-  outline: none !important;
-  border: none !important;
-  border-radius: 20%;
-}
 
  

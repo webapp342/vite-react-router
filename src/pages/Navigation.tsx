@@ -66,16 +66,17 @@ export default function SimpleBottomNavigation() {
         
         <BottomNavigationAction
           icon={ <HomeRoundedIcon  />}
+          label='home'
           sx={{
-            
+            showlabel: value === 0 ? 'showlabel' : '',
             borderRadius: value === 0 ? 10 : 10,
             padding: 2,
             color: value === 0 ? '#131313' : '#616161',
-            bgcolor: value === 0 ? 'white' : '#424242',
+            bgcolor: value === 0 ? '#cff008' : '#424242',
             minWidth: 5,
             margin: 0,
             '& .MuiBottomNavigationAction-label': {
-              color: value === 0 ? 'white' : 'grey',
+              color: value === 0 ? 'black' : '',
             },
             '& .MuiSvgIcon-root': {
               color: value === 0 ? 'black' : '#9E9E9E',
