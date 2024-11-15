@@ -3,7 +3,9 @@ import { onSnapshot, doc } from 'firebase/firestore';
 import { db } from './firebaseConfig';
 import { Box, Typography, Paper } from '@mui/material';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-import logo from '../assets/ton_logo_dark_background.svg';
+import ton from '../assets/ton_logo_dark_background.svg';
+import logo from '../assets/SVG.svg';
+
 import { useSpring, animated } from '@react-spring/web';
 
 const PointsManager: React.FC = () => {
@@ -50,17 +52,19 @@ const PointsManager: React.FC = () => {
   });
 
   const boxStyles = {
-    padding: 1,
+    padding: 2,
+    color: 'black',
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: '#333',
-    borderRadius: '12px',
-    width: '28%',
-    height: '50px',
+    backgroundColor: 'black',
+    borderRadius: '6px',
+    width: '20%',
+    height: '35px',
     boxSizing: 'border-box',
+    border: '1px solid white' ,
     justifyContent: 'center',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+   boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
   };
 
   return (
@@ -74,11 +78,11 @@ const PointsManager: React.FC = () => {
       display="flex"
       justifyContent="space-between"
       alignItems="center"
-      sx={{ boxSizing: 'border-box', backgroundColor: 'black' }}
+      sx={{ boxSizing: 'border-box'}}
     >
       <Paper elevation={3} sx={{ ...boxStyles }}>
-        <SportsEsportsIcon sx={{ marginRight: 1, fontSize: '1rem', color: 'white' }} />
-        <Typography variant="subtitle2" color="white" sx={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>
+        <SportsEsportsIcon sx={{ marginRight: 1, fontSize: '2rem', color: 'white' }} />
+        <Typography variant="subtitle2" color="black" sx={{    fontFamily: 'sans-serif', fontWeight: 'bold' }}>
           <animated.span
             style={{
               ...spinPointsAnimation,
@@ -89,9 +93,17 @@ const PointsManager: React.FC = () => {
           </animated.span>
         </Typography>
       </Paper>
-      <Typography variant="h6" color="white" sx={{ fontFamily: 'sans-serif', fontWeight: 'bold' }}>
-        MATRIX
-      </Typography>
+      <img 
+    src={logo} 
+    alt="Ton Logo" 
+    style={{ 
+    padding:2,   
+    marginLeft: 2, 
+    width: 180,  
+    height: 32, 
+    // border: '1px solid white' // Burada border ekleniyor
+  }} 
+/>
       <Paper elevation={3} sx={{ ...boxStyles }}>
         <Typography variant="subtitle2" color="white" sx={{ marginRight: 1, fontFamily: 'sans-serif', fontWeight: 'bold' }}>
           <animated.span
@@ -103,7 +115,7 @@ const PointsManager: React.FC = () => {
             {pointsAnimation.number.to(n => n.toFixed(0))}
           </animated.span>
         </Typography>
-        <img src={logo} alt="Ton Logo" style={{ width: 28, height: 28 }} />
+        <img src={ton} alt="Ton Logo" style={{ width: 28, height: 28 }} />
       </Paper>
     </Box>
   );

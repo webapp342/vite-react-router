@@ -76,8 +76,11 @@ const UsdtMarketTable: React.FC = () => {
   }, []);
 
   return (
-    <Container>
-      <h2>USDT ile İşlem Gören İlk 100 Kripto Para</h2>
+    <Container sx={{ mt: '180px' , textAlign: 'center'}} >
+      <h2>
+        TOP TOKENS
+     </h2>
+      
       {loading ? (
         <CircularProgress />
       ) : (

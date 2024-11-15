@@ -9,7 +9,6 @@ import  CryptoTable  from "./pages/CryptoTable.tsx";
 import UserDetails from "./pages/UserDetails.tsx";
 // import UserProfilePage from "./pages/UserProfilePage.tsx";
 //import WheelSpin from "./pages/WheelSpin.tsx";
-import SlotMachine from "./pages/slot/SlotMachine.tsx";
 import LocalStorageViewer from "./pages/localStorage.tsx";
 
 
@@ -34,8 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/vite-react-router/user-profile-page",
-        element: <SlotMachine />,
-
+        element: <CryptoTable />,
       },
     ],
   },

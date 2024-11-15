@@ -1,3 +1,4 @@
+import { Container } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 
 // Local Storage verilerini saklamak için kullanılan arayüz
@@ -65,7 +66,7 @@ const LocalStorageViewer: React.FC = () => {
   }
 
   return (
-    <div>
+    <Container sx={{textAlign: 'center'}} >
       <h2>Local Storage Data</h2>
       {Object.keys(localStorageData).length === 0 ? (
         <p>No data found in localStorage.</p>
@@ -81,7 +82,7 @@ const LocalStorageViewer: React.FC = () => {
           ))}
         </ul>
       )}
-    </div>
+    </Container>
   );
 };
 

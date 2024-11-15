@@ -1,3 +1,11 @@
+import { Container, 
+  TableCell, 
+  TableContainer, 
+  TableHead, 
+  TableRow , 
+  TableBody,
+  Paper,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
 const LocalStorageViewer: React.FC = () => {
@@ -16,25 +24,26 @@ const LocalStorageViewer: React.FC = () => {
   }, []);
 
   return (
-    <div className="local-storage-viewer">
+    <Container sx={{textAlign: 'center', marginTop: "180px"}} >
       <h2>Local Storage Viewer</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Key</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
+      <TableContainer component={Paper} sx={{alignItems: 'center', textAlign: 'center'}}>
+      <TableHead>
+          <TableRow>
+            <TableCell>Value</TableCell>
+            <TableCell>Key</TableCell>
+            
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {Object.entries(localStorageData).map(([key, value]) => (
-            <tr key={key}>
-              <td>{key}</td>
-              <td>{value}</td>
-            </tr>
+            <TableRow key={key}>
+              <TableCell>{value}</TableCell>
+              <TableCell>{key}</TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </TableBody>
+      </TableContainer>
+    </Container>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from './firebaseConfig';
 import WebApp from '@twa-dev/sdk';
+import { Skeleton, Box } from '@mui/material';
 
 const Loading: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -65,16 +66,38 @@ const Loading: React.FC = () => {
   }, []);
 
   return (
-    <div>
+
+    <Box 
+
+      display="flex" 
+
+      justifyContent="center" 
+
+      alignItems="center" 
+
+      height="100vh"
+
+    >
+
       {loading ? (
-        <p>Loading...</p>
+
+        <Skeleton variant="rectangular" width={210} height={118} />
+
       ) : error ? (
+
         <p>{error}</p>
+
       ) : (
+
         <p>Data has been successfully fetched and saved to local storage.</p>
+
       )}
-    </div>
+
+    </Box>
+
   );
+
 };
+
 
 export default Loading;
