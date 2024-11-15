@@ -38,10 +38,13 @@ html, body {
   bottom: 0;
   right: 0;
   width: 100%;
-  background-color: #000000 !important; /* Navigation background color */
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+  background: #141E30;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #243B55, #141E30);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #243B55, #141E30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    z-index: 1000;
 }
+
+
 
 
 
