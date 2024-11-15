@@ -64,7 +64,6 @@ const PointsManager: React.FC = () => {
     background: #cff008;
 border-radius: 50%;
 
-border: 1px solid #cff008;
 
     align-items: center;
 
@@ -88,13 +87,10 @@ border: 1px solid #cff008;
 const StyledDiv2 = styled.div`
 
 
-color: black;
 
 display: flex;
-background: #2aff32;
 border-radius: 50%;
 
-border: 1px solid #2aff32;
 
 align-items: center;
 
@@ -125,7 +121,7 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       
       justifyContent="space-between"
       alignItems="center"
-      sx={{ backgroundColor: "#131313",boxSizing: 'border-box'}}
+      sx={{ backgroundColor: "#212121",boxSizing: 'border-box'}}
     >
       <StyledDiv>      
        
