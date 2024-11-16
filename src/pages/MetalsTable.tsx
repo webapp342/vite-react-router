@@ -14,67 +14,78 @@ import {
   Avatar,
 } from '@mui/material';
 
-interface TickerResponse {
+// Metal verisi için tip tanımı
+interface MetalData {
   symbol: string;
-  priceChange: string;
-  priceChangePercent: string;
-  lastPrice: string;
-  volume: string;
+  name: string;
+  price: number;
+  logo: string;
 }
 
-interface MarketData {
+// API yanıtı için tip tanımı
+interface QuoteResult {
   symbol: string;
-  price: string;
-  volume: string;
-  priceChangePercent: string;
-  marketCap: number;
+  regularMarketPrice: number;
 }
 
-const logos: Record<string, string> = {
-  BTC: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png',
-  ETH: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
-  USDT: 'https://cryptologos.cc/logos/tether-usdt-logo.png',
-  BNB: 'https://cryptologos.cc/logos/binance-coin-bnb-logo.png',
-  SOL: 'https://cryptologos.cc/logos/solana-sol-logo.png',
-  SUI: 'https://cryptologos.cc/logos/sui-token-logo.png',
-  XRP: 'https://cryptologos.cc/logos/xrp-xrp-logo.png',
+// Metal sembolleri ve logoları
+const metals: Record<string, { name: string; logo: string }> = {
+  "XAUUSD=X": {
+    name: "Gold (XAU)",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Gold_bar_icon.svg",
+  },
+  "XAGUSD=X": {
+    name: "Silver (XAG)",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Silver_ingot_icon.svg",
+  },
+  "XPTUSD=X": {
+    name: "Platinum (XPT)",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/4/45/Platinum_bar_icon.svg",
+  },
+  "XPDUSD=X": {
+    name: "Palladium (XPD)",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/c/c7/Palladium_bar_icon.svg",
+  },
 };
 
-const allowedSymbols = [
-  //"BTCUSDT", "ETHUSDT",
-   "BNBUSDT", "SOLUSDT", "SUIUSDT", "XRPUSDT"];
-
-const getBaseSymbol = (pair: string) => pair.replace('USDT', '');
-
 const MetalsTable: React.FC = () => {
-  const [markets, setMarkets] = useState<MarketData[]>([]);
+  const [metalData, setMetalData] = useState<MetalData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchMarkets = async () => {
+    const fetchMetals = async () => {
       try {
-        const response = await axios.get<TickerResponse[]>('https://api.binance.com/api/v3/ticker/24hr');
-        const usdtMarkets = response.data.filter(item =>
-          item.symbol.endsWith('USDT') && allowedSymbols.includes(item.symbol) // Sadece izin verilenler
+        setError(null); // Hata mesajını sıfırla
+        const response = await axios.get<{ quoteResponse: { result: QuoteResult[] } }>(
+          'https://query1.finance.yahoo.com/v7/finance/quote?symbols=XAUUSD=X,XAGUSD=X,XPTUSD=X,XPDUSD=X'
         );
-        const marketData: MarketData[] = usdtMarkets.map(item => ({
+
+        const fetchedMetals = response.data.quoteResponse.result;
+
+        if (!fetchedMetals || fetchedMetals.length === 0) {
+          setError('API’den veri alınamadı. Lütfen daha sonra tekrar deneyin.');
+          return;
+        }
+
+        const formattedData: MetalData[] = fetchedMetals.map((item) => ({
           symbol: item.symbol,
-          price: item.lastPrice,
-          volume: item.volume,
-          priceChangePercent: item.priceChangePercent,
-          marketCap: parseFloat(item.lastPrice) * parseFloat(item.volume),
+          name: metals[item.symbol]?.name || item.symbol,
+          price: item.regularMarketPrice,
+          logo: metals[item.symbol]?.logo || "",
         }));
 
-        setMarkets(marketData);
+        setMetalData(formattedData);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching market data:', error);
+        console.error('Error fetching metal data:', error);
+        setError('Veri yüklenirken bir hata oluştu. Lütfen bağlantınızı kontrol edin.');
         setLoading(false);
       }
     };
 
-    fetchMarkets();
-    const intervalId = setInterval(fetchMarkets, 3000);
+    fetchMetals();
+    const intervalId = setInterval(fetchMetals, 3000); // Her 3 saniyede bir güncelleme
 
     return () => {
       clearInterval(intervalId);
@@ -82,105 +93,77 @@ const MetalsTable: React.FC = () => {
   }, []);
 
   return (
-    <Box
-      zIndex={1000}
-      justifyContent="space-between"
-      alignItems="center"
-      sx={{ boxSizing: 'border-box' }}
-    >
+    <Box>
       {loading ? (
         <CircularProgress />
+      ) : error ? (
+        <Typography variant="h6" color="error" align="center">
+          {error}
+        </Typography>
       ) : (
         <TableContainer component={Paper}>
-          <Table sx={{ borderCollapse: 'collapse' }}>
+          <Table>
             <TableHead>
               <TableRow>
-                {/* <TableCell
+                <TableCell
                   sx={{
                     backgroundColor: '#1976d2',
                     color: 'white',
                     fontWeight: 'bold',
-                    borderBottom: 'none',
                     textAlign: 'left',
                   }}
                 >
-                  İşlem Çifti
+                  Metal
                 </TableCell>
                 <TableCell
                   sx={{
                     backgroundColor: '#1976d2',
                     color: 'white',
                     fontWeight: 'bold',
-                    borderBottom: 'none',
                     textAlign: 'right',
                   }}
                 >
-                  Son Fiyat (USD)
-                </TableCell> */}
+                  Fiyat (USD)
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {markets.map((market) => {
-                const priceChangePercent = parseFloat(market.priceChangePercent);
-                const changeColor = priceChangePercent > 0 ? 'green' : priceChangePercent < 0 ? 'red' : 'black';
-                const baseSymbol = getBaseSymbol(market.symbol);
-
-                return (
-                  <TableRow
-                    key={market.symbol}
+              {metalData.map((metal) => (
+                <TableRow
+                  key={metal.symbol}
+                  sx={{
+                    '&:nth-of-type(odd)': { backgroundColor: '#f6f5f0' },
+                    '&:nth-of-type(even)': { backgroundColor: '#ffffff' },
+                    '&:hover': { backgroundColor: '#e3f2fd' },
+                  }}
+                >
+                  <TableCell
                     sx={{
-                      '&:nth-of-type(odd)': { backgroundColor: '#f6f5f0' },
-                      '&:nth-of-type(even)': { backgroundColor: '#ffffff' },
-                      '&:hover': { backgroundColor: '#e3f2fd' },
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1,
                       borderBottom: 'none',
                     }}
                   >
-                    <TableCell
-                      sx={{
-                        borderBottom: 'none',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 1,
-                      }}
-                    >
-                      <Avatar
-                        src={logos[baseSymbol]}
-                        alt={baseSymbol}
-                        sx={{ width: 40, height: 40 }}
-                      />
-                      <Box>
-                        <Typography variant="body1" component="div">
-                          {market.symbol}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          component="div"
-                          sx={{ fontSize: '0.8rem', color: 'gray' }}
-                        >
-                          {baseSymbol}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell sx={{ borderBottom: 'none', textAlign: 'right' }}>
-                      <Box>
-                        <Typography variant="body1" component="span">
-                          ${parseFloat(market.price).toLocaleString()}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          component="div"
-                          sx={{
-                            fontSize: '0.8rem',
-                            color: changeColor,
-                          }}
-                        >
-                          {priceChangePercent.toFixed(2)}%
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                    <Avatar
+                      src={metal.logo}
+                      alt={metal.name}
+                      sx={{ width: 40, height: 40 }}
+                    />
+                    <Typography variant="body1">{metal.name}</Typography>
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      textAlign: 'right',
+                      borderBottom: 'none',
+                    }}
+                  >
+                    <Typography variant="body1">
+                      ${metal.price.toFixed(2)}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>

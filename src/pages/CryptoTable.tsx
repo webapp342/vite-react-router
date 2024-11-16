@@ -36,7 +36,7 @@ const logos: Record<string, string> = {
   USDT: 'https://cryptologos.cc/logos/tether-usdt-logo.png',
   BNB: 'https://cryptologos.cc/logos/binance-coin-bnb-logo.png',
   SOL: 'https://cryptologos.cc/logos/solana-sol-logo.png',
-  SUI: 'https://cryptologos.cc/logos/sui-token-logo.png',
+  SUI: 'https://cryptologos.cc/logos/sui-sui-logo.png?v=035',
   XRP: 'https://cryptologos.cc/logos/xrp-xrp-logo.png',
 };
 
