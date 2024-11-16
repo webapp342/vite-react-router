@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
-  Container,
   Table,
   TableBody,
   TableCell,
@@ -10,9 +9,11 @@ import {
   TableRow,
   Paper,
   CircularProgress,
+  Typography,
+  Box,
+  Avatar,
 } from '@mui/material';
 
-// Binance API'den dönen verilerin yapısını tanımlayın
 interface TickerResponse {
   symbol: string;
   priceChange: string;
@@ -26,8 +27,22 @@ interface MarketData {
   price: string;
   volume: string;
   priceChangePercent: string;
-  marketCap: number; // Piyasa değeri
+  marketCap: number;
 }
+
+const logos: Record<string, string> = {
+  BTC: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png',
+  ETH: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
+  USDT: 'https://cryptologos.cc/logos/tether-usdt-logo.png',
+  BNB: 'https://cryptologos.cc/logos/binance-coin-bnb-logo.png',
+  SOL: 'https://cryptologos.cc/logos/solana-sol-logo.png',
+  SUI: 'https://cryptologos.cc/logos/sui-token-logo.png',
+  XRP: 'https://cryptologos.cc/logos/xrp-xrp-logo.png',
+};
+
+const allowedSymbols = ["BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "SUIUSDT", "XRPUSDT"];
+
+const getBaseSymbol = (pair: string) => pair.replace('USDT', '');
 
 const UsdtMarketTable: React.FC = () => {
   const [markets, setMarkets] = useState<MarketData[]>([]);
@@ -36,28 +51,19 @@ const UsdtMarketTable: React.FC = () => {
   useEffect(() => {
     const fetchMarkets = async () => {
       try {
-        // Binance API'den piyasa verilerini al
         const response = await axios.get<TickerResponse[]>('https://api.binance.com/api/v3/ticker/24hr');
-
-        // USDT ile işlem görenleri filtreleyin
-        const usdtMarkets = response.data.filter(item => item.symbol.endsWith('USDT'));
-
-        // Market verilerini ayıklayın ve piyasa değerini hesaplayın
+        const usdtMarkets = response.data.filter(item =>
+          item.symbol.endsWith('USDT') && allowedSymbols.includes(item.symbol) // Sadece izin verilenler
+        );
         const marketData: MarketData[] = usdtMarkets.map(item => ({
           symbol: item.symbol,
           price: item.lastPrice,
           volume: item.volume,
           priceChangePercent: item.priceChangePercent,
-          marketCap: parseFloat(item.lastPrice) * parseFloat(item.volume), // Piyasa değerini hesaplayın
+          marketCap: parseFloat(item.lastPrice) * parseFloat(item.volume),
         }));
 
-        // Piyasa değerine göre sıralayın
-        const sortedMarkets = marketData.sort((a, b) => b.marketCap - a.marketCap);
-
-        // İlk 100'ünü alın
-        const top100Markets = sortedMarkets.slice(0, 100);
-
-        setMarkets(top100Markets);
+        setMarkets(marketData);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching market data:', error);
@@ -66,50 +72,118 @@ const UsdtMarketTable: React.FC = () => {
     };
 
     fetchMarkets();
-
-    // Fiyatları her 3 saniyede bir güncelle
     const intervalId = setInterval(fetchMarkets, 3000);
-    
+
     return () => {
       clearInterval(intervalId);
     };
   }, []);
 
   return (
-    <Container sx={{ mt: '180px' , textAlign: 'center'}} >
-      <h2>
-        TOP TOKENS
-     </h2>
-      
+    <Box
+      zIndex={1000}
+      justifyContent="space-between"
+      alignItems="center"
+      sx={{ boxSizing: 'border-box' }}
+    >
       {loading ? (
         <CircularProgress />
       ) : (
         <TableContainer component={Paper}>
-          <Table>
+          <Table sx={{ borderCollapse: 'collapse' }}>
             <TableHead>
               <TableRow>
-                <TableCell>İşlem Çifti</TableCell>
-                <TableCell>Son Fiyat (USD)</TableCell>
-                <TableCell>24 Saat Hacmi</TableCell>
-                <TableCell>24 Saat Değişim (%)</TableCell>
-                <TableCell>Piyasa Değeri (USD)</TableCell>
+                <TableCell
+                  sx={{
+                    backgroundColor: '#1976d2',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    borderBottom: 'none',
+                    textAlign: 'left',
+                  }}
+                >
+                  İşlem Çifti
+                </TableCell>
+                <TableCell
+                  sx={{
+                    backgroundColor: '#1976d2',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    borderBottom: 'none',
+                    textAlign: 'right',
+                  }}
+                >
+                  Son Fiyat (USD)
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {markets.map(market => (
-                <TableRow key={market.symbol}>
-                  <TableCell>{market.symbol}</TableCell>
-                  <TableCell>${parseFloat(market.price).toLocaleString()}</TableCell>
-                  <TableCell>{parseFloat(market.volume).toLocaleString()}</TableCell>
-                  <TableCell>{parseFloat(market.priceChangePercent).toFixed(2)}%</TableCell>
-                  <TableCell>${market.marketCap.toLocaleString()}</TableCell>
-                </TableRow>
-              ))}
+              {markets.map((market) => {
+                const priceChangePercent = parseFloat(market.priceChangePercent);
+                const changeColor = priceChangePercent > 0 ? 'green' : priceChangePercent < 0 ? 'red' : 'black';
+                const baseSymbol = getBaseSymbol(market.symbol);
+
+                return (
+                  <TableRow
+                    key={market.symbol}
+                    sx={{
+                      '&:nth-of-type(odd)': { backgroundColor: '#f6f5f0' },
+                      '&:nth-of-type(even)': { backgroundColor: '#ffffff' },
+                      '&:hover': { backgroundColor: '#e3f2fd' },
+                      borderBottom: 'none',
+                    }}
+                  >
+                    <TableCell
+                      sx={{
+                        borderBottom: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                      }}
+                    >
+                      <Avatar
+                        src={logos[baseSymbol]}
+                        alt={baseSymbol}
+                        sx={{ width: 40, height: 40 }}
+                      />
+                      <Box>
+                        <Typography variant="body1" component="div">
+                          {market.symbol}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          component="div"
+                          sx={{ fontSize: '0.8rem', color: 'gray' }}
+                        >
+                          {baseSymbol}
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell sx={{ borderBottom: 'none', textAlign: 'right' }}>
+                      <Box>
+                        <Typography variant="body1" component="span">
+                          ${parseFloat(market.price).toLocaleString()}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          component="div"
+                          sx={{
+                            fontSize: '0.8rem',
+                            color: changeColor,
+                          }}
+                        >
+                          {priceChangePercent.toFixed(2)}%
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>
       )}
-    </Container>
+    </Box>
   );
 };
 

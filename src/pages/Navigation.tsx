@@ -33,9 +33,9 @@ export default function SimpleBottomNavigation() {
         showLabels
         className="bottom-navigation"
         sx={{
-          borderColor: '#cff008',
+         
       gap: 3,
-          bgcolor: 'white',
+          bgcolor: '#f6f5f0',
           mb: 0,
           px: 4,
           pb: 0,

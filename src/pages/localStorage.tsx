@@ -8,6 +8,7 @@ import { Box, Typography, IconButton, Stack } from '@mui/material';
 import BellIcon from '@mui/icons-material/Notifications'; // MUI'den bildirim ikonu
 import {  Person as PersonIcon, AttachMoney as MoneyIcon, AccountBalanceWallet as WalletIcon, ArrowUpward, ArrowDownward } from '@mui/icons-material';
 import IkinciKart from './ikincikart.tsx';
+import Three from './Three.tsx';
 
 
 // import { useSpring, animated } from '@react-spring/web';
@@ -65,61 +66,84 @@ const PointsManager: React.FC = () => {
     <Box>
     {/* Üst Kısım */}
     <Box
-      width="100%"
-      p={1}
-      mb={2}
+     
+      p={2}
+      
+      bgcolor={'#f6f5f0'}
       zIndex={1000}
       display="flex"
       justifyContent="space-between"
       alignItems="center"
-      sx={{ backgroundColor: "#141718", boxSizing: 'border-box' }}
+      sx={{  boxSizing: 'border-box' }}
     >
-      <Typography 
-        variant="h6" 
-        sx={{ color: 'white', fontWeight: 'light' }}
+      <Box
+      flexDirection={'column'}
       >
-        Dashboard
+      <Typography 
+        variant="body2" 
+        
+        sx={{ color: '#8d8c85', fontWeight: 'light' }}
+      >
+        Welcome Back,
+        
       </Typography>
+
+      <Typography 
+        variant="body1" 
+        
+        sx={{ color: 'black', fontWeight: 'bold' }}
+      >
+        Alireza Dehqan
+        
+      </Typography>
+      </Box>
+      
+      
       <Box display="flex" alignItems="center">
-        <IconButton sx={{ color: 'white', marginRight: 2 }}>
+        <IconButton sx={{ color: 'black', marginRight: 2 }}>
           <BellIcon />
         </IconButton>
-        <IconButton sx={{ color: 'white' }}>
+        <IconButton sx={{ color: 'black' }}>
           <PersonIcon />
         </IconButton>
       </Box>
     </Box>
 
   {/* Ana İçerik */}
-  <Box sx={{}}>
+  <Box sx={{
+  }}>
         {/* TOTAL SAVINGS Kısmı */}
         <Box
           display="flex"
           flexDirection="column"
           justifyContent="center"
           alignItems="flex-start"
-          sx={{ backgroundColor: "#2c2c2c", padding: 2, borderRadius: 1, marginBottom: 2 }}
+          sx={{
+            
+            backgroundColor: "#f6f5f0", padding: 2, marginBottom: 2 }}
         >
-          <Typography sx={{ color: 'white' }}>TOTAL SAVINGS</Typography>
+          <Typography sx={{ mt:2, color: '#8d8c85', fontWeight: 'light', fontSize: '0.8rem' }}>Total Balance</Typography>
           <Box display="flex" flexDirection="column" width="100%">
             <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
-              <Typography sx={{ color: 'white' }}>$7,500.00</Typography>
+              <Typography sx={{ color: 'black', fontWeight: 'bold', fontSize: '2rem' }}>$ 7,500.00</Typography>
               <Box display="flex" alignItems="center">
-                <IconButton sx={{ color: 'white' }}>
+                <IconButton sx={{ color: 'black' }}>
                   <ArrowUpward />
                 </IconButton>
-                <IconButton sx={{ color: 'white' }}>
+                <IconButton sx={{ color: 'black' }}>
                   <ArrowDownward />
                 </IconButton>
               </Box>
             </Box>
-            <Typography sx={{ color: 'white', marginTop: 1 }}>Withdraw limit: $700</Typography>
+            <Typography sx={{color: '#8d8c85', fontWeight: 'light', fontSize: '0.8rem', marginBottom: 1 }}>Withdraw limit: $700</Typography>
 
 
             
             <Box
       borderRadius={2}
-      sx={{ padding: 2, backgroundColor: "white", width: '100%', boxSizing: 'border-box' }} // Arka plan rengi beyaz
+      sx={{
+        mt:3
+        , padding: 3, backgroundColor: "white", width: '100%', boxSizing: 'border-box' }} // Arka plan rengi beyaz
     >
       <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between" width="100%">
         
@@ -138,8 +162,8 @@ const PointsManager: React.FC = () => {
             <MoneyIcon sx={{ color: 'white' }} />
           </Box>
           <Box sx={{ marginLeft: 1 }}>
-            <Typography sx={{ color: '#424242', fontSize: '0.6rem' }}>APY</Typography>
-            <Typography sx={{ color: 'black', fontWeight: 'bold', fontSize: '1rem' }}>27,40%</Typography>
+            <Typography sx={{ color: '#8d8c85', fontWeight: 'light', fontSize: '0.6rem', }}>APY</Typography>
+            <Typography sx={{ color: 'black', fontWeight: 'light', fontSize: '1rem' }}>27,40%</Typography>
           </Box>
         </Stack>
 
@@ -167,8 +191,8 @@ const PointsManager: React.FC = () => {
             <WalletIcon sx={{ color: 'white' }} />
           </Box>
           <Box sx={{ marginLeft: 1 }}>
-            <Typography sx={{ color: '#424242', fontSize: '0.6rem', fontWeight: 'light' }}>Profit</Typography>
-            <Typography sx={{ color: 'black', fontWeight: 'bold', fontSize: '1rem' }}>$700,00</Typography>
+            <Typography sx={{  color: '#8d8c85', fontWeight: 'light', fontSize: '0.6rem', }}>Profit</Typography>
+            <Typography sx={{ color: 'black', fontWeight: 'light', fontSize: '1rem' }}>$700,00</Typography>
           </Box>
         </Stack>
       </Stack>
@@ -192,10 +216,14 @@ const PointsManager: React.FC = () => {
 
 const App = () => {
   return (
-    <Box sx={{ margin: 2 }}>
+    <Box sx={{  }}>
       <PointsManager />
-      <IkinciKart />
+      <IkinciKart  />
+      <Three />
+
       
+    
+   
       {/* Buraya başka içerikler ekleyebilirsiniz */}
     </Box>
   );
