@@ -7,7 +7,8 @@ import SimpleBottomNavigation from "./pages/Navigation";
 import WebApp from "@twa-dev/sdk";
 import Loading from "./pages/Loading"; // Loading bileşenini import edin
 import './index.css'; // Global stil dosyasını import edin
-import PointsManager from "./pages/pointsManager";
+//import PointsManager from "./pages/pointsManager";
+//import { Box } from "@mui/material";
 
 function App() {
     const [loading, setLoading] = useState(true);
@@ -25,11 +26,15 @@ function App() {
 
     return (
         <div id="root">
+        
+           
+
             {loading && <Loading />}
+
             <div className={`main-content ${loading ? 'hidden' : ''}`}>
+                
                 <Outlet />
             </div>
-            <PointsManager />
 
             <SimpleBottomNavigation />
         </div>

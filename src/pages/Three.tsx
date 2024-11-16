@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { onSnapshot, doc } from 'firebase/firestore';
-
 import { db } from './firebaseConfig';
 import { Box, Typography, IconButton, Stack } from '@mui/material';
 //import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 // import ton from '../assets/ton_logo_dark_background.svg';
 import BellIcon from '@mui/icons-material/Notifications'; // MUI'den bildirim ikonu
 import {  Person as PersonIcon, AttachMoney as MoneyIcon, AccountBalanceWallet as WalletIcon, ArrowUpward, ArrowDownward } from '@mui/icons-material';
-import IkinciKart from './ikincikart.tsx';
 
 
 // import { useSpring, animated } from '@react-spring/web';
 // import styled from 'styled-components';
 
 
-const PointsManager: React.FC = () => {
+const Three: React.FC = () => {
   const [spinPoints, setSpinPoints] = useState<number>(0);
   const [points, setPoints] = useState<number>(0);
  // const [prevSpinPoints, setPrevSpinPoints] = useState<number>(0);
@@ -168,7 +166,7 @@ const PointsManager: React.FC = () => {
           </Box>
           <Box sx={{ marginLeft: 1 }}>
             <Typography sx={{ color: '#424242', fontSize: '0.6rem', fontWeight: 'light' }}>Profit</Typography>
-            <Typography sx={{ color: 'black', fontWeight: 'bold', fontSize: '1rem' }}>$700,00</Typography>
+            <Typography sx={{ color: 'black', fontWeight: 'bold', fontSize: '1rem' }}>$800,00</Typography>
           </Box>
         </Stack>
       </Stack>
@@ -190,15 +188,5 @@ const PointsManager: React.FC = () => {
 
 };
 
-const App = () => {
-  return (
-    <Box sx={{ margin: 2 }}>
-      <PointsManager />
-      <IkinciKart />
-      
-      {/* Buraya başka içerikler ekleyebilirsiniz */}
-    </Box>
-  );
-};
 
-export default App;
+export default Three ;
