@@ -93,7 +93,7 @@ const UsdtMarketTable: React.FC = () => {
           <Table sx={{ borderCollapse: 'collapse' }}>
             <TableHead>
               <TableRow>
-                <TableCell
+                {/* <TableCell
                   sx={{
                     backgroundColor: '#1976d2',
                     color: 'white',
@@ -114,7 +114,7 @@ const UsdtMarketTable: React.FC = () => {
                   }}
                 >
                   Son Fiyat (USD)
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
