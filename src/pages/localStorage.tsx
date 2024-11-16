@@ -7,7 +7,7 @@ import { Box, Typography, IconButton, Stack } from '@mui/material';
 // import ton from '../assets/ton_logo_dark_background.svg';
 import BellIcon from '@mui/icons-material/Notifications'; // MUI'den bildirim ikonu
 import {  Person as PersonIcon, AttachMoney as MoneyIcon, AccountBalanceWallet as WalletIcon, ArrowUpward, ArrowDownward } from '@mui/icons-material';
-import IkinciKart from './ikincikart.tsx';
+
 import Three from './Three.tsx';
 
 
@@ -223,7 +223,6 @@ const App = () => {
   return (
     <Box sx={{  }}>
       <PointsManager />
-      <IkinciKart  />
       <Three />
 
       

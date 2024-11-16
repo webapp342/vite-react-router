@@ -40,11 +40,13 @@ const logos: Record<string, string> = {
   XRP: 'https://cryptologos.cc/logos/xrp-xrp-logo.png',
 };
 
-const allowedSymbols = ["BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "SUIUSDT", "XRPUSDT"];
+const allowedSymbols = [
+  //"BTCUSDT",
+   "ETHUSDT", "BNBUSDT", "SOLUSDT", "SUIUSDT", "XRPUSDT"];
 
 const getBaseSymbol = (pair: string) => pair.replace('USDT', '');
 
-const UsdtMarketTable: React.FC = () => {
+const ForexTable: React.FC = () => {
   const [markets, setMarkets] = useState<MarketData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -187,4 +189,4 @@ const UsdtMarketTable: React.FC = () => {
   );
 };
 
-export default UsdtMarketTable;
+export default ForexTable;

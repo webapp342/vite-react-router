@@ -1,90 +1,63 @@
-import React, { useState, useEffect } from 'react';
-import { onSnapshot, doc } from 'firebase/firestore';
-import { db } from './firebaseConfig';
-import { Box} from '@mui/material';
+import React, { useState } from 'react';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
+import { Box } from '@mui/material';
 import CryptoTable from './CryptoTable.tsx';
-//import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-// import ton from '../assets/ton_logo_dark_background.svg';
+import MetalsTable from './MetalsTable.tsx';
+import ForexTable from './ForexTable.tsx';
 
-
-
-// import { useSpring, animated } from '@react-spring/web';
-// import styled from 'styled-components';
-
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  borderRadius: 8,
+  textAlign: 'center',
+  width: '100%',
+  color: theme.palette.text.secondary,
+  cursor: 'pointer',
+  '&:hover': {
+    backgroundColor: theme.palette.action.hover,
+  },
+}));
 
 const Three: React.FC = () => {
-  const [spinPoints, setSpinPoints] = useState<number>(0);
-  const [points, setPoints] = useState<number>(0);
- // const [prevSpinPoints, setPrevSpinPoints] = useState<number>(0);
-  // const [prevPoints, setPrevPoints] = useState<number>(0);
- // const [spinPointsColor, setSpinPointsColor] = useState<string>('white');
- // const [pointsColor, setPointsColor] = useState<string>('white');
-  const userId = localStorage.getItem('telegramUserId') || '';
+  const [activeTab, setActiveTab] = useState<'crypto' | 'forex' | 'metals'>('crypto');
 
-  useEffect(() => {
-    if (userId) {
-      const userRef = doc(db, 'users', userId);
-
-      const unsubscribe = onSnapshot(userRef, (docSnapshot) => {
-        if (docSnapshot.exists()) {
-          const data = docSnapshot.data();
-         // setPrevSpinPoints(spinPoints);
-       //   setPrevPoints(points);
-          setSpinPoints(data?.spinPoints || 0);
-          setPoints(data?.points || 0);
-        }
-      });
-
-      return () => unsubscribe();
+  const renderTable = () => {
+    switch (activeTab) {
+      case 'crypto':
+        return <CryptoTable />;
+      case 'forex':
+        return <ForexTable />;
+      case 'metals':
+        return <MetalsTable />;
+      default:
+        return null;
     }
-  }, [userId, spinPoints, points]);
-
-  // const spinPointsAnimation = useSpring({
-    // from: { number: prevSpinPoints, fontSize: '0.75rem' },
-    // to: { number: spinPoints, fontSize: '1rem' },
-      // config: { duration: 1500 },
-    // onStart: () => setSpinPointsColor('lightgreen'),
-  // onRest: () => setSpinPointsColor('white')
- // });
-
- // const pointsAnimation = useSpring({
-  //  from: { number: prevPoints, fontSize: '0.75rem' },
-  //  to: { number: points, fontSize: '1rem' },
-  //  config: { duration: 1500 },
-  //  onStart: () => setPointsColor('lightgreen'),
- //   onRest: () => setPointsColor('white')
-//  });
-  
-
-
-
+  };
 
   return (
     <Box>
-    {/* Üst Kısım */}
-    <Box
-      width="100%"
-      zIndex={1000}
-      justifyContent="space-between"
-      alignItems="center"
-      sx={{ boxSizing: 'border-box' }}
-    >
-           <CryptoTable />
+      {/* Üst Menü */}
+      <Box mb={2} m={1}>
+        <Stack direction="row" spacing={2}>
+          <Item onClick={() => setActiveTab('crypto')} sx={{ backgroundColor: activeTab === 'crypto' ? ' #f6f5f0' : '#fff', color: activeTab === 'crypto' ? 'black' : 'dark' , fontWeight: activeTab === 'crypto' ? 'bold' : 'light'}}>
+            CRYPTO
+          </Item>
+          <Item onClick={() => setActiveTab('forex')} sx={{ backgroundColor: activeTab === 'forex' ? ' #f6f5f0' : '#fff', color: activeTab === 'forex' ? 'black' : 'dark' , fontWeight: activeTab === 'forex' ? 'bold' : 'light'}}>
+            FOREX
+          </Item>
+          <Item onClick={() => setActiveTab('metals')} sx={{ backgroundColor: activeTab === 'metals' ? ' #f6f5f0' : '#fff', color: activeTab === 'metals' ? 'black' : 'dark' , fontWeight: activeTab === 'metals' ? 'bold' : 'light'}}>
+            METALS
+          </Item> 
+        </Stack>
+      </Box>
 
-     
+      {/* Seçilen Tablo */}
+      <Box>{renderTable()}</Box>
     </Box>
-
-  {/* Ana İçerik */}
-  
-
-       
-        
-        </Box>
-    
-
   );
-
 };
 
-
-export default Three ;
+export default Three;
