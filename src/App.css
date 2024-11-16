@@ -15,17 +15,6 @@ html, body {
   overflow-y: auto; /* Enables content scrolling */
   scrollbar-width: none; /* Firefox */
 }
-.matrix {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  color: #0f0;
-  font-family: monospace;
-  font-size: 10px;
-}
 
 
 .main-content::-webkit-scrollbar {
