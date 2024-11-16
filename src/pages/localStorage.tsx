@@ -63,13 +63,12 @@ const PointsManager: React.FC = () => {
 
 
   return (
-    <Box>
+    <Box
+    >
     {/* Üst Kısım */}
     <Box
-     
-      p={2}
-      
-      bgcolor={'#f6f5f0'}
+      m={1}
+      p={1}
       zIndex={1000}
       display="flex"
       justifyContent="space-between"
@@ -80,9 +79,11 @@ const PointsManager: React.FC = () => {
       flexDirection={'column'}
       >
       <Typography 
-        variant="body2" 
+        variant="subtitle2" 
         
-        sx={{ color: '#8d8c85', fontWeight: 'light' }}
+        sx={{ 
+          fontFamily: 'helvetica',
+          color: '#8d8c85', fontWeight: 'light' }}
       >
         Welcome Back,
         
@@ -114,12 +115,16 @@ const PointsManager: React.FC = () => {
   }}>
         {/* TOTAL SAVINGS Kısmı */}
         <Box
+borderRadius={5}
+p={2}
+m={1}
+
           display="flex"
           flexDirection="column"
           justifyContent="center"
           alignItems="flex-start"
           sx={{
-            
+            boxShadow: 3,
             backgroundColor: "#f6f5f0", padding: 2, marginBottom: 2 }}
         >
           <Typography sx={{ mt:2, color: '#8d8c85', fontWeight: 'light', fontSize: '0.8rem' }}>Total Balance</Typography>
@@ -150,7 +155,7 @@ const PointsManager: React.FC = () => {
         {/* APY Kısmı */}
         <Stack direction="row" alignItems="center">
           <Box sx={{ 
-            backgroundColor: 'blue', 
+            backgroundColor: '#e9ebef ', 
             borderRadius: '50%', 
             padding: 0.1,
             display: 'flex', // Flexbox kullanarak içeriği ortala
@@ -159,7 +164,7 @@ const PointsManager: React.FC = () => {
             width: '40px', // Yuvarlağın genişliği
             height: '40px', // Yuvarlağın yüksekliği
           }}>
-            <MoneyIcon sx={{ color: 'white' }} />
+            <MoneyIcon sx={{ color: 'black' }} />
           </Box>
           <Box sx={{ marginLeft: 1 }}>
             <Typography sx={{ color: '#8d8c85', fontWeight: 'light', fontSize: '0.6rem', }}>APY</Typography>
@@ -179,7 +184,7 @@ const PointsManager: React.FC = () => {
         {/* Profit Kısmı */}
         <Stack direction="row" alignItems="center">
           <Box sx={{ 
-            backgroundColor: 'blue', 
+            backgroundColor: '#e9ebef ', 
             borderRadius: '50%', 
             padding: 0.1,
             display: 'flex', // Flexbox kullanarak içeriği ortala
@@ -188,7 +193,7 @@ const PointsManager: React.FC = () => {
             width: '40px', // Yuvarlağın genişliği
             height: '40px', // Yuvarlağın yüksekliği
           }}>
-            <WalletIcon sx={{ color: 'white' }} />
+            <WalletIcon sx={{ color: 'black' }} />
           </Box>
           <Box sx={{ marginLeft: 1 }}>
             <Typography sx={{  color: '#8d8c85', fontWeight: 'light', fontSize: '0.6rem', }}>Profit</Typography>
