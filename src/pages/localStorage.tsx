@@ -6,9 +6,11 @@ import { Box, Typography, IconButton, Stack } from '@mui/material';
 //import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 // import ton from '../assets/ton_logo_dark_background.svg';
 import BellIcon from '@mui/icons-material/Notifications'; // MUI'den bildirim ikonu
-import {  Person as PersonIcon, AttachMoney as MoneyIcon, AccountBalanceWallet as WalletIcon, ArrowUpward, ArrowDownward } from '@mui/icons-material';
-
+import {  Person as PersonIcon,  ArrowUpward, ArrowDownward } from '@mui/icons-material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import Three from './Three.tsx';
+import AddIcon from '@mui/icons-material/Add';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 
 // import { useSpring, animated } from '@react-spring/web';
@@ -67,13 +69,14 @@ const PointsManager: React.FC = () => {
     >
     {/* Üst Kısım */}
     <Box
-      m={1}
-      p={1}
+      p={2}
+      
+      bgcolor={'white'}
       zIndex={1000}
       display="flex"
       justifyContent="space-between"
       alignItems="center"
-      sx={{  boxSizing: 'border-box' }}
+      sx={{ borderBottomRightRadius:20, borderBottomLeftRadius:20, boxSizing: 'border-box' }}
     >
       <Box
       flexDirection={'column'}
@@ -115,91 +118,118 @@ const PointsManager: React.FC = () => {
   }}>
         {/* TOTAL SAVINGS Kısmı */}
         <Box
-borderRadius={5}
-p={2}
-m={1}
-
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="flex-start"
-          sx={{
-            boxShadow: 3,
-            backgroundColor: "#f6f5f0", padding: 2, marginBottom: 2 }}
-        >
-          <Typography sx={{ mt:2, color: '#8d8c85', fontWeight: 'light', fontSize: '0.8rem' }}>Total Balance</Typography>
+  borderRadius={5}
+  mt={0.5}
+  p={2}
+  display="flex"
+  flexDirection="column"
+  justifyContent="center"
+  alignItems="flex-start"
+  sx={{
+    boxShadow: 3,
+    background: 'linear-gradient(109.6deg, rgb(36, 45, 57) 11.2%, rgb(16, 37, 60) 51.2%, rgb(0, 0, 0) 98.6%)',
+  }}
+>
+          <Typography sx={{ mt:2, color: '#909eae', fontWeight: 'light', fontSize: '1' }}>Total Investment</Typography>
           <Box display="flex" flexDirection="column" width="100%">
+
             <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
-              <Typography sx={{ color: 'black', fontWeight: 'bold', fontSize: '2rem' }}>$ 7,500.00</Typography>
+              <Typography sx={{ color: 'white', fontWeight: 'light', fontSize: '2rem' }}>$7,500.00{' '}
+  <Typography component="span" sx={{ color: 'lightgreen', fontWeight: 'light', fontSize: '1rem' }}>
+    +5.76%
+  </Typography></Typography>
               <Box display="flex" alignItems="center">
-                <IconButton sx={{ color: 'black' }}>
-                  <ArrowUpward />
+                <IconButton sx={{ color: 'white' }}>
+                  <VisibilityIcon />
                 </IconButton>
-                <IconButton sx={{ color: 'black' }}>
-                  <ArrowDownward />
-                </IconButton>
+                
               </Box>
             </Box>
-            <Typography sx={{color: '#8d8c85', fontWeight: 'light', fontSize: '0.8rem', marginBottom: 1 }}>Withdraw limit: $700</Typography>
+            <Typography sx={{ color: '#909eae', fontWeight: 'light', fontSize: '1rem', marginBottom: 1 }}>
+  Your profit is  {' '}
+  <Typography component="span" sx={{ color: 'lightblue', fontWeight: 'light', fontSize: '1.1rem' }}>
+     $19.053
+  </Typography>
+</Typography>
 
 
             
-            <Box
+<Box
       borderRadius={2}
       sx={{
-        mt:3
-        , padding: 3, backgroundColor: "white", width: '100%', boxSizing: 'border-box' }} // Arka plan rengi beyaz
+mt : 2,
+        width: '100%',
+      }}
     >
-      <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between" width="100%">
+      <Stack  direction="row" alignItems="center" justifyContent="space-between" width="100%">
+
+         {/* Yukarı Yönlü İkon */}
+         <Stack direction="column" alignItems="center" width="60%">
+        <Box sx={{
+                      padding: 1, // Daha geniş padding
+
+            backgroundColor: '#e9ebef',
+            borderRadius: 4,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '70%', // Genişliği tamamen doldur
+          }}>
+            <ArrowUpward sx={{ color: 'black' }} />
+          </Box>
+          <Typography sx={{ mt: 1, color: 'white', fontWeight: 'light', fontSize: '0.9rem' }}>Profit</Typography>
+        </Stack>
+
+        {/* Aşağı Yönlü İkon */}
+        <Stack direction="column" alignItems="center" width="60%">
+        <Box sx={{
+            backgroundColor: '#e9ebef',
+            borderRadius: 4,
+            padding: 1, // Daha geniş padding
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '70%', // Genişliği tamamen doldur
+          }}>
+            <ArrowDownward sx={{ color: 'black' }} />
+          </Box>
+          <Typography sx={{ mt: 1, color: 'white', fontWeight: 'light', fontSize: '0.9rem' }}>Profit</Typography>
+        </Stack>
+
         
         {/* APY Kısmı */}
-        <Stack direction="row" alignItems="center">
-          <Box sx={{ 
-            backgroundColor: '#e9ebef ', 
-            borderRadius: '50%', 
-            padding: 0.1,
-            display: 'flex', // Flexbox kullanarak içeriği ortala
-            alignItems: 'center', // Dikey olarak ortala
-            justifyContent: 'center', // Yatay olarak ortala
-            width: '40px', // Yuvarlağın genişliği
-            height: '40px', // Yuvarlağın yüksekliği
+        <Stack direction="column" alignItems="center" width="60%">
+          <Box sx={{
+            backgroundColor: '#e9ebef',
+            borderRadius: 4,
+            padding: 1, // Daha geniş padding
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '70%', // Genişliği tamamen doldur
           }}>
-            <MoneyIcon sx={{ color: 'black' }} />
+            <AddIcon  sx={{ color: 'black' }} />
           </Box>
-          <Box sx={{ marginLeft: 1 }}>
-            <Typography sx={{ color: '#8d8c85', fontWeight: 'light', fontSize: '0.6rem', }}>APY</Typography>
-            <Typography sx={{ color: 'black', fontWeight: 'light', fontSize: '1rem' }}>27,40%</Typography>
-          </Box>
+          <Typography sx={{ mt: 1, color: 'white', fontWeight: 'light', fontSize: '0.9rem' }}>Profit</Typography>
         </Stack>
-
-        {/* Dikey Çizgi */}
-        <Box
-          sx={{
-            height: '40px', // Çizginin yüksekliği
-            width: '2px',   // Çizginin kalınlığı
-            backgroundColor: 'black', // Çizginin rengi
-          }}
-        />
 
         {/* Profit Kısmı */}
-        <Stack direction="row" alignItems="center">
-          <Box sx={{ 
-            backgroundColor: '#e9ebef ', 
-            borderRadius: '50%', 
-            padding: 0.1,
-            display: 'flex', // Flexbox kullanarak içeriği ortala
-            alignItems: 'center', // Dikey olarak ortala
-            justifyContent: 'center', // Yatay olarak ortala
-            width: '40px', // Yuvarlağın genişliği
-            height: '40px', // Yuvarlağın yüksekliği
+        <Stack direction="column" alignItems="center" width="60%">
+        <Box sx={{
+            backgroundColor: '#e9ebef',
+            borderRadius: 4,
+            padding: 1, // Daha geniş padding
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '70%', // Genişliği tamamen doldur
           }}>
-            <WalletIcon sx={{ color: 'black' }} />
+            <DashboardIcon sx={{ color: 'black' }} />
           </Box>
-          <Box sx={{ marginLeft: 1 }}>
-            <Typography sx={{  color: '#8d8c85', fontWeight: 'light', fontSize: '0.6rem', }}>Profit</Typography>
-            <Typography sx={{ color: 'black', fontWeight: 'light', fontSize: '1rem' }}>$700,00</Typography>
-          </Box>
+          <Typography sx={{ mt: 1, color: 'white', fontWeight: 'light', fontSize: '0.9rem' }}>Profit</Typography>
         </Stack>
+
+       
       </Stack>
     </Box>
 

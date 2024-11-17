@@ -1,18 +1,25 @@
-// firestoreUtils.ts
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import {  getDocs, collection, DocumentData } from 'firebase/firestore';
 import { db } from './firebaseConfig';
-import { ExtendedWebAppUser } from './types';
 
-export async function saveUserData(user: ExtendedWebAppUser) {
-  const userRef = doc(db, 'users', user.id.toString());
-  const userDoc = await getDoc(userRef);
+export async function fetchCollectionData(collectionPath: string) {
+  const collectionRef = collection(db, collectionPath);
+  const snapshot = await getDocs(collectionRef);
 
-  if (!userDoc.exists()) {
-    await setDoc(userRef, user);
-  } else {
-    // Kullanıcının first_name alanını ekle
-    await updateDoc(userRef, {
-      first_name: user.first_name,
-    });
-  }
+  return snapshot.docs.map((doc: DocumentData) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+}
+
+export async function fetchSubCollectionData(
+  parentPath: string,
+  subCollectionName: string
+) {
+  const subCollectionRef = collection(db, `${parentPath}/${subCollectionName}`);
+  const snapshot = await getDocs(subCollectionRef);
+
+  return snapshot.docs.map((doc: DocumentData) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 }

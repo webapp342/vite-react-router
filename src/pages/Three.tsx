@@ -49,7 +49,7 @@ const Three: React.FC = () => {
             FOREX
           </Item>
           <Item onClick={() => setActiveTab('metals')} sx={{ backgroundColor: activeTab === 'metals' ? ' #f6f5f0' : '#fff', color: activeTab === 'metals' ? 'black' : 'dark' , fontWeight: activeTab === 'metals' ? 'bold' : 'light'}}>
-            METALS
+            COMMODITIES
           </Item> 
         </Stack>
       </Box>

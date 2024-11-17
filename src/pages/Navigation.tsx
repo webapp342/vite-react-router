@@ -3,16 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import Diversity1RoundedIcon from '@mui/icons-material/Diversity1Rounded';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import QueryStatsOutlinedIcon from '@mui/icons-material/QueryStatsOutlined';
 import WalletIcon from '@mui/icons-material/Wallet';
 // import { Box } from '@mui/material';
 
 const navItems = [
-  { label: 'HOME', icon: <HomeRoundedIcon />, path: '/vite-react-router/' },
+  { label: 'HOME', icon: <HomeOutlinedIcon />, path: '/vite-react-router/' },
   { label: 'WALLET', icon: <WalletIcon />, path: '/vite-react-router/farm' },
   { label: 'TASKS', icon: <TaskOutlinedIcon />, path: '/vite-react-router/user-details' },
-  { label: 'PROFILE', icon: <Diversity1RoundedIcon />, path: '/vite-react-router/user-profile-page' },
+  { label: 'PROFILE', icon: <QueryStatsOutlinedIcon />, path: '/vite-react-router/user-profile-page' },
 
 ];
 
