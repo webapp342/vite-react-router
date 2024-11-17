@@ -13,6 +13,8 @@ const navItems = [
   { label: 'WALLET', icon: <WalletIcon />, path: '/vite-react-router/farm' },
   { label: 'TASKS', icon: <TaskOutlinedIcon />, path: '/vite-react-router/user-details' },
   { label: 'PROFILE', icon: <QueryStatsOutlinedIcon />, path: '/vite-react-router/user-profile-page' },
+  { label: 'WALLET', icon: <WalletIcon />, path: '/vite-react-router/farm' },
+
 
 ];
 
@@ -34,13 +36,11 @@ export default function SimpleBottomNavigation() {
         className="bottom-navigation"
         sx={{
          
-      gap: 3,
+      gap: 5,
           bgcolor: '#f6f5f0',
-          mb: 0,
           px: 4,
-          pb: 0,
-        
-        
+          pb: 1,
+          
           maxWidth: "100%",
         }}
       >
@@ -55,8 +55,8 @@ export default function SimpleBottomNavigation() {
               color: value === index ? 'white' : '#616161',
               minWidth: 2,
               '& .MuiSvgIcon-root': {
-                fontSize: value === index ? '2rem' : '1.5rem', // Change font size based on selection
-                color: value === index ? 'blue' : '#9E9E9E',
+                fontSize: value === index ? '2.2rem' : '2rem', // Change font size based on selection
+                color: value === index ? '#436893' : '#9E9E9E',
                 
               },
             }}
