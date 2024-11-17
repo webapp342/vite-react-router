@@ -70,13 +70,16 @@ const PointsManager: React.FC = () => {
     {/* Üst Kısım */}
     <Box
       p={2}
+      m={1}
+      mt={0}
       
-      bgcolor={'white'}
       zIndex={1000}
       display="flex"
       justifyContent="space-between"
       alignItems="center"
-      sx={{ borderBottomRightRadius:15, borderBottomLeftRadius:15, boxSizing: 'border-box' }}
+      sx={{
+            backgroundColor:'white',
+        borderBottomRightRadius:15, borderBottomLeftRadius:15, boxSizing: 'border-box' }}
     >
       <Box
       flexDirection={'column'}
@@ -120,15 +123,17 @@ const PointsManager: React.FC = () => {
         <Box
   borderRadius={3}
   mt={0.5}
+  m={1}
   p={2}
   display="flex"
   flexDirection="column"
   justifyContent="center"
   alignItems="flex-start"
   sx={{
-    boxShadow: 3,
-    background: 'linear-gradient(109.6deg, rgb(36, 45, 57) 11.2%, rgb(16, 37, 60) 51.2%, rgb(0, 0, 0) 98.6%)',
-  }}
+    background:
+    'radial-gradient(circle at 50% 0%, hsl(220, 20%, 20%), hsl(220, 30%, 16%))',
+    boxShadow: 2,
+}}
 >
           <Typography sx={{ mt:2, color: '#909eae', fontWeight: 'light', fontSize: '1' }}>Total Investment</Typography>
           <Box display="flex" flexDirection="column" width="100%">
