@@ -76,7 +76,7 @@ const PointsManager: React.FC = () => {
       display="flex"
       justifyContent="space-between"
       alignItems="center"
-      sx={{ borderBottomRightRadius:20, borderBottomLeftRadius:20, boxSizing: 'border-box' }}
+      sx={{ borderBottomRightRadius:15, borderBottomLeftRadius:15, boxSizing: 'border-box' }}
     >
       <Box
       flexDirection={'column'}
@@ -118,7 +118,7 @@ const PointsManager: React.FC = () => {
   }}>
         {/* TOTAL SAVINGS Kısmı */}
         <Box
-  borderRadius={5}
+  borderRadius={3}
   mt={0.5}
   p={2}
   display="flex"
