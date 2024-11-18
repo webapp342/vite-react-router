@@ -36,7 +36,7 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   color: theme.palette.text.secondary,
   borderRadius: theme.spacing(2),
-  width: '90%',
+  width: '89%',
 }));
 
 export default function BasicStack() {

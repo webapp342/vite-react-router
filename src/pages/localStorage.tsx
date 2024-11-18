@@ -39,12 +39,12 @@ const PointsManager: React.FC = () => {
 
 
   return (
-    <Box>
+    <Box 
+>
       {/* Üst Başlık ve İçerik Birleşik */}
       <Box
     
       
-     
         p={1}
         display="flex"
         flexDirection="column"
