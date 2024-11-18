@@ -1,29 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { onSnapshot, doc } from 'firebase/firestore';
-
 import { db } from './firebaseConfig';
-import { Box, Typography, IconButton, Stack } from '@mui/material';
-//import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-// import ton from '../assets/ton_logo_dark_background.svg';
-import BellIcon from '@mui/icons-material/Notifications'; // MUI'den bildirim ikonu
-import {  Person as PersonIcon,  ArrowUpward, ArrowDownward } from '@mui/icons-material';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import Three from './Three.tsx';
-import AddIcon from '@mui/icons-material/Add';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import { Box, Typography,  Stack } from '@mui/material';
+import { Person as PersonIcon, ArrowUpward} from '@mui/icons-material';
+//import VisibilityIcon from '@mui/icons-material/Visibility';
+import AutoGraphRoundedIcon from '@mui/icons-material/AutoGraphRounded';
+import AssuredWorkloadRoundedIcon from '@mui/icons-material/AssuredWorkloadRounded';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import BasicStack from './Earn';
 
 
-// import { useSpring, animated } from '@react-spring/web';
-// import styled from 'styled-components';
+
+
+
+
 
 
 const PointsManager: React.FC = () => {
   const [spinPoints, setSpinPoints] = useState<number>(0);
   const [points, setPoints] = useState<number>(0);
- // const [prevSpinPoints, setPrevSpinPoints] = useState<number>(0);
-  // const [prevPoints, setPrevPoints] = useState<number>(0);
- // const [spinPointsColor, setSpinPointsColor] = useState<string>('white');
- // const [pointsColor, setPointsColor] = useState<string>('white');
   const userId = localStorage.getItem('telegramUserId') || '';
 
   useEffect(() => {
@@ -33,8 +28,6 @@ const PointsManager: React.FC = () => {
       const unsubscribe = onSnapshot(userRef, (docSnapshot) => {
         if (docSnapshot.exists()) {
           const data = docSnapshot.data();
-         // setPrevSpinPoints(spinPoints);
-       //   setPrevPoints(points);
           setSpinPoints(data?.spinPoints || 0);
           setPoints(data?.points || 0);
         }
@@ -44,226 +37,265 @@ const PointsManager: React.FC = () => {
     }
   }, [userId, spinPoints, points]);
 
-  // const spinPointsAnimation = useSpring({
-    // from: { number: prevSpinPoints, fontSize: '0.75rem' },
-    // to: { number: spinPoints, fontSize: '1rem' },
-      // config: { duration: 1500 },
-    // onStart: () => setSpinPointsColor('lightgreen'),
-  // onRest: () => setSpinPointsColor('white')
- // });
-
- // const pointsAnimation = useSpring({
-  //  from: { number: prevPoints, fontSize: '0.75rem' },
-  //  to: { number: points, fontSize: '1rem' },
-  //  config: { duration: 1500 },
-  //  onStart: () => setPointsColor('lightgreen'),
- //   onRest: () => setPointsColor('white')
-//  });
-  
-
-
-
 
   return (
-    <Box
-    >
-    {/* Üst Kısım */}
-    <Box
-      p={2}
-      m={1}
-      mt={0}
-      
-      zIndex={1000}
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-      sx={{
-            backgroundColor:'white',
-        borderBottomRightRadius:15, borderBottomLeftRadius:15, boxSizing: 'border-box' }}
-    >
+    <Box>
+      {/* Üst Başlık ve İçerik Birleşik */}
       <Box
-      flexDirection={'column'}
-      >
-      <Typography 
-        variant="subtitle2" 
-        
-        sx={{ 
-          fontFamily: 'helvetica',
-          color: '#8d8c85', fontWeight: 'light' }}
-      >
-        Welcome Back,
-        
-      </Typography>
-
-      <Typography 
-        variant="body1" 
-        
-        sx={{ color: 'black', fontWeight: 'bold' }}
-      >
-        Alireza Dehqan
-        
-      </Typography>
-      </Box>
+    
       
-      
-      <Box display="flex" alignItems="center">
-        <IconButton sx={{ color: 'black', marginRight: 2 }}>
-          <BellIcon />
-        </IconButton>
-        <IconButton sx={{ color: 'black' }}>
-          <PersonIcon />
-        </IconButton>
-      </Box>
-    </Box>
-
-  {/* Ana İçerik */}
-  <Box sx={{
-  }}>
-        {/* TOTAL SAVINGS Kısmı */}
+     
+        p={1}
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-between"
+        alignItems="flex-start"
+        sx={{
+          background: 'linear-gradient(0deg, #2f537c 0%, #031340 100%);  )',
+          boxShadow: 2,
+        }}
+      >
+        {/* Üst Bilgilendirme */}
         <Box
-  borderRadius={3}
-  mt={0.5}
-  m={1}
-  p={2}
-  display="flex"
-  flexDirection="column"
-  justifyContent="center"
-  alignItems="flex-start"
-  sx={{
-    background:
-    'radial-gradient(circle at 50% 0%, hsl(220, 20%, 20%), hsl(220, 30%, 16%))',
-    boxShadow: 2,
-}}
->
-          <Typography sx={{ mt:2, color: '#909eae', fontWeight: 'light', fontSize: '1' }}>Total Investment</Typography>
-          <Box display="flex" flexDirection="column" width="100%">
+          display="flex"
+          p={1}
 
-            <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
-              <Typography sx={{ color: 'white', fontWeight: 'light', fontSize: '2rem' }}>$7,500.00{' '}
-  <Typography component="span" sx={{ color: 'lightgreen', fontWeight: 'light', fontSize: '1rem' }}>
-    +5.76%
-  </Typography></Typography>
-              <Box display="flex" alignItems="center">
-                <IconButton sx={{ color: 'white' }}>
-                  <VisibilityIcon />
-                </IconButton>
-                
-              </Box>
-            </Box>
-            <Typography sx={{ color: '#909eae', fontWeight: 'light', fontSize: '1rem', marginBottom: 1 }}>
-  Your profit is  {' '}
-  <Typography component="span" sx={{ color: 'lightblue', fontWeight: 'light', fontSize: '1.1rem' }}>
-     $19.053
+          justifyContent="space-between"
+          alignItems="center"
+          width="100%"
+         
+        >
+          <Box
+     >
+            <Typography sx={{ fontFamily: 'helvetica', color: 'gray', fontWeight: 'light', fontSize: '1rem' }}>
+              Welcome Back,
+            </Typography>
+            <Typography
+              sx={{ color: 'white', fontWeight: 'bold', fontSize: '1.2rem' }}
+            >
+              Alireza Dehqan <WorkspacePremiumIcon sx={{fontSize:'1.6rem' , color: '#CD7F32' }} />
+            </Typography>
+          
+          </Box>
+          
+          <Box display="flex" alignItems="center">
+     <Box
+        sx={{
+          backgroundColor: '#CD7F32',
+          borderRadius: 3,
+          padding: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '70%',
+    
+        }}
+      >
+ <Typography
+    sx={{
+
+      color: 'black',
+    
+      fontSize: '1rem',
+      textAlign: 'center', // Ortalanmış
+    }}
+  >
+   Bronze
+  </Typography>      </Box>
+      <Box
+        sx={{
+          backgroundColor: '#e9ebef',
+          borderRadius: 4,
+          padding: 1,
+          display: 'flex',
+          ml: 1,
+          mr: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '70%',
+        }}
+      >
+        
+        <PersonIcon sx={{color: 'black' }} />
+      </Box>
+
+</Box>
+
+        </Box>
+
+        {/* Total Investment */}
+        <Box width="100%">
+  {/* Total Investment Başlık ve Değer */}
+  <Typography
+    sx={{
+      mt: 5,
+      color: 'white',
+      fontWeight: 'light',
+      fontSize: '1.5rem',
+      textAlign: 'center', // Ortalanmış
+    }}
+  >
+    Total Balance 
   </Typography>
-</Typography>
-
-
-            
-<Box
-      borderRadius={2}
+  <Box display="flex" justifyContent="center" alignItems="center" mt={1}>
+    <Typography
       sx={{
-mt : 2,
-        width: '100%',
+        color: 'white',
+        fontWeight: 'light',
+        fontSize: '3rem',
+        textAlign: 'center',
       }}
     >
-      <Stack  direction="row" alignItems="center" justifyContent="space-between" width="100%">
-
-         {/* Yukarı Yönlü İkon */}
-         <Stack direction="column" alignItems="center" width="60%">
-        <Box sx={{
-                      padding: 1, // Daha geniş padding
-
-            backgroundColor: '#e9ebef',
-            borderRadius: 4,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '70%', // Genişliği tamamen doldur
-          }}>
-            <ArrowUpward sx={{ color: 'black' }} />
-          </Box>
-          <Typography sx={{ mt: 1, color: 'white', fontWeight: 'light', fontSize: '0.9rem' }}>Profit</Typography>
-        </Stack>
-
-        {/* Aşağı Yönlü İkon */}
-        <Stack direction="column" alignItems="center" width="60%">
-        <Box sx={{
-            backgroundColor: '#e9ebef',
-            borderRadius: 4,
-            padding: 1, // Daha geniş padding
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '70%', // Genişliği tamamen doldur
-          }}>
-            <ArrowDownward sx={{ color: 'black' }} />
-          </Box>
-          <Typography sx={{ mt: 1, color: 'white', fontWeight: 'light', fontSize: '0.9rem' }}>Profit</Typography>
-        </Stack>
-
-        
-        {/* APY Kısmı */}
-        <Stack direction="column" alignItems="center" width="60%">
-          <Box sx={{
-            backgroundColor: '#e9ebef',
-            borderRadius: 4,
-            padding: 1, // Daha geniş padding
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '70%', // Genişliği tamamen doldur
-          }}>
-            <AddIcon  sx={{ color: 'black' }} />
-          </Box>
-          <Typography sx={{ mt: 1, color: 'white', fontWeight: 'light', fontSize: '0.9rem' }}>Profit</Typography>
-        </Stack>
-
-        {/* Profit Kısmı */}
-        <Stack direction="column" alignItems="center" width="60%">
-        <Box sx={{
-            backgroundColor: '#e9ebef',
-            borderRadius: 4,
-            padding: 1, // Daha geniş padding
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '70%', // Genişliği tamamen doldur
-          }}>
-            <DashboardIcon sx={{ color: 'black' }} />
-          </Box>
-          <Typography sx={{ mt: 1, color: 'white', fontWeight: 'light', fontSize: '0.9rem' }}>Profit</Typography>
-        </Stack>
-
-       
-      </Stack>
-    </Box>
-
-        
-
-        
-    
-          </Box>
-        </Box>
-
-       
-        
-        </Box>
-    
+      $0,0000 cUSD
+    </Typography>
+   { <Typography
+      sx={{
+        color: 'gray',
+        fontWeight: 'light',
+        fontSize: '1rem',
+        mt:2,
+        ml: 1, // Yatay boşluk
+      }}
+    >
+      0.000%
+    </Typography>}
   </Box>
-  );
 
+  {/* Total Earnings ve Earning per day */}
+  <Box display="flex" justifyContent="space-between" alignItems="center" mt={1}>
+    <Box textAlign="center" width="50%"> {/* Total Earnings Bölümü */}
+   
+      <Typography
+        sx={{
+          color: 'white',
+          fontWeight: 'light',
+          fontSize: '1.5rem',
+         
+        }}
+      >
+      $0,0000 cUSD
+      </Typography>
+      <Typography
+        sx={{
+          color: '#909eae',
+          fontWeight: 'light',
+          fontSize: '1rem',
+        }}
+      >
+        Total Earnings
+      </Typography>
+    </Box>
+    <Box textAlign="center" width="50%"> {/* Earning per day Bölümü */}
+    
+      <Typography
+        sx={{
+          color: 'white',
+          fontWeight: 'light',
+          fontSize: '1.5rem',
+      
+        }}
+      >
+      $0,0000 cUSD
+      </Typography>
+      <Typography
+        sx={{
+          color: '#909eae',
+          fontWeight: 'light',
+          fontSize: '1rem',
+        }}
+      >
+        Est. Daily Earnings
+      </Typography>
+    </Box>
+  </Box>
+</Box>
+
+
+
+          {/* Yatırım İşlemleri */}
+          <Box borderRadius={2} sx={{ mt: 3, width: '100%' }}>
+  <Stack direction="row" alignItems="center" justifyContent="space-between" width="100%">
+    {/* Withdraw */}
+    <Stack direction="column" 
+   
+    alignItems="center" width="60%"> {/* Genişletilen alan */}
+      <Box
+        sx={{
+          backgroundColor: '#e9ebef',
+          borderRadius: 4,
+          padding: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '80%',
+        }}
+      >
+        <ArrowUpward sx={{ color: 'black' }} />
+      </Box>
+      <Typography
+        sx={{ mt: 1, color: 'white', fontWeight: 'light', fontSize: '0.9rem' }}
+      >
+        Withdraw
+      </Typography>
+    </Stack>
+
+    {/* Invest */}
+    <Stack direction="column" alignItems="center" width="25%"> {/* 50% alanın yarısı */}
+      <Box
+        sx={{
+          backgroundColor: '#e9ebef',
+          borderRadius: 4,
+          padding: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '70%',
+        }}
+      >
+        <AutoGraphRoundedIcon sx={{ color: 'black' }} />
+      </Box>
+      <Typography
+        sx={{ mt: 1, color: 'white', fontWeight: 'light', fontSize: '0.9rem' }}
+      >
+        Invest
+      </Typography>
+    </Stack>
+
+    {/* More */}
+    <Stack direction="column" alignItems="center" width="25%"> {/* 50% alanın diğer yarısı */}
+      <Box
+        sx={{
+          backgroundColor: '#e9ebef',
+          borderRadius: 4,
+          padding: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '70%',
+        }}
+      >
+        <AssuredWorkloadRoundedIcon sx={{ color: 'black' }} />
+      </Box>
+      <Typography
+        sx={{ mt: 1, color: 'white', fontWeight: 'light', fontSize: '0.9rem' }}
+      >
+        Compound
+      </Typography>
+    </Stack>
+  </Stack>
+</Box>
+        </Box>
+      </Box>
+
+  );
 };
 
 const App = () => {
   return (
-    <Box sx={{  }}>
+    <Box>
       <PointsManager />
-      <Three />
+      <BasicStack/>
 
-      
-    
-   
-      {/* Buraya başka içerikler ekleyebilirsiniz */}
     </Box>
   );
 };

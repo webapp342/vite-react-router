@@ -55,7 +55,7 @@ const Three: React.FC = () => {
       </Box>
 
       {/* Seçilen Tablo */}
-      <Box>{renderTable()}</Box>
+     <Box>{renderTable()}</Box>
     </Box>
   );
 };

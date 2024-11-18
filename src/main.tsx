@@ -10,7 +10,8 @@ import UserDetails from "./pages/UserDetails.tsx";
 // import UserProfilePage from "./pages/UserProfilePage.tsx";
 //import WheelSpin from "./pages/WheelSpin.tsx";
 import LocalStorageViewer from "./pages/localStorage.tsx";
-import  CryptoTable2  from "./pages/wallet.tsx";
+//import  CryptoTable2  from "./pages/wallet.tsx";
+import Calculator from "./pages/Calculator.tsx";
 
 
 
@@ -22,8 +23,8 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "/vite-react-router/wallet",
-        element: <CryptoTable2 />,
+        path: "/vite-react-router/calculator",
+        element: <Calculator />,
       },
      
       {
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/vite-react-router/user-profile-page",
-        element: <CryptoTable />,
+        element: <LocalStorageViewer />,
       },
       {
         path: "/vite-react-router/",

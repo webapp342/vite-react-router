@@ -13,6 +13,8 @@ import {
   Box,
   Avatar,
 } from '@mui/material';
+//import { BorderColor } from '@mui/icons-material';
+//import { black } from 'material-ui/styles/colors';
 
 interface TickerResponse {
   symbol: string;
@@ -82,6 +84,7 @@ const UsdtMarketTable: React.FC = () => {
   return (
     <Box
       zIndex={1000}
+      m={1}
       justifyContent="space-between"
       alignItems="center"
       sx={{ boxSizing: 'border-box' }}
@@ -89,99 +92,87 @@ const UsdtMarketTable: React.FC = () => {
       {loading ? (
         <CircularProgress />
       ) : (
-        <TableContainer component={Paper}>
-          <Table sx={{ borderCollapse: 'collapse' }}>
-            <TableHead>
-              <TableRow>
-                {/* <TableCell
-                  sx={{
-                    backgroundColor: '#1976d2',
-                    color: 'white',
-                    fontWeight: 'bold',
-                    borderBottom: 'none',
-                    textAlign: 'left',
-                  }}
-                >
-                  İşlem Çifti
-                </TableCell>
-                <TableCell
-                  sx={{
-                    backgroundColor: '#1976d2',
-                    color: 'white',
-                    fontWeight: 'bold',
-                    borderBottom: 'none',
-                    textAlign: 'right',
-                  }}
-                >
-                  Son Fiyat (USD)
+        <TableContainer
+        component={Paper}
+        sx={{
+          borderRadius: '16px',
+          overflow: 'hidden',
+          boxShadow: '2',
+        }}
+      >
+        <Table sx={{ borderCollapse: 'collapse' }}>
+          <TableHead>
+            <TableRow>
+              {/* <TableCell>
+                  ...
                 </TableCell> */}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {markets.map((market) => {
-                const priceChangePercent = parseFloat(market.priceChangePercent);
-                const changeColor = priceChangePercent > 0 ? 'green' : priceChangePercent < 0 ? 'red' : 'black';
-                const baseSymbol = getBaseSymbol(market.symbol);
-
-                return (
-                  <TableRow
-                    key={market.symbol}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {markets.map((market) => {
+              const priceChangePercent = parseFloat(market.priceChangePercent);
+              const changeColor = priceChangePercent > 0 ? 'green' : priceChangePercent < 0 ? 'red' : 'black';
+              const baseSymbol = getBaseSymbol(market.symbol);
+      
+              return (
+                <TableRow
+                  key={market.symbol}
+                  sx={{
+                    '&:nth-of-type(even)': { backgroundColor: '#ffffff' },
+                    '&:hover': { backgroundColor: '#e3f2fd' },
+                    borderBottom: 'none',
+                  }}
+                >
+                  <TableCell
                     sx={{
-                      '&:nth-of-type(odd)': { backgroundColor: '#f6f5f0' },
-                      '&:nth-of-type(even)': { backgroundColor: '#ffffff' },
-                      '&:hover': { backgroundColor: '#e3f2fd' },
                       borderBottom: 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1,
                     }}
                   >
-                    <TableCell
-                      sx={{
-                        borderBottom: 'none',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 1,
-                      }}
-                    >
-                      <Avatar
-                        src={logos[baseSymbol]}
-                        alt={baseSymbol}
-                        sx={{ width: 40, height: 40 }}
-                      />
-                      <Box>
-                        <Typography variant="body1" component="div">
-                          {market.symbol}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          component="div"
-                          sx={{ fontSize: '0.8rem', color: 'gray' }}
-                        >
-                          {baseSymbol}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell sx={{ borderBottom: 'none', textAlign: 'right' }}>
-                      <Box>
-                        <Typography variant="body1" component="span">
-                          ${parseFloat(market.price).toLocaleString()}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          component="div"
-                          sx={{
-                            fontSize: '0.8rem',
-                            color: changeColor,
-                          }}
-                        >
-                          {priceChangePercent.toFixed(2)}%
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                    <Avatar
+                      src={logos[baseSymbol]}
+                      alt={baseSymbol}
+                      sx={{ width: 40, height: 40 }}
+                    />
+                    <Box>
+                      <Typography variant="body1" component="div">
+                        {market.symbol}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        component="div"
+                        sx={{ fontSize: '0.8rem', color: 'gray' }}
+                      >
+                        {baseSymbol}
+                      </Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell sx={{ borderBottom: 'none', textAlign: 'right' }}>
+                    <Box>
+                      <Typography variant="body1" component="span">
+                        ${parseFloat(market.price).toLocaleString()}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        component="div"
+                        sx={{
+                          fontSize: '0.8rem',
+                          color: changeColor,
+                        }}
+                      >
+                        {priceChangePercent.toFixed(2)}%
+                      </Typography>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      
       )}
     </Box>
   );
