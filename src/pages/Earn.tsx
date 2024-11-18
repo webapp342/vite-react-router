@@ -1,3 +1,4 @@
+import React from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
@@ -11,7 +12,9 @@ const logos = {
   XRP: 'https://cryptologos.cc/logos/xrp-xrp-logo.png',
 };
 
-const data = [
+type SymbolType = keyof typeof logos; // 'SOL' | 'SUI' | 'XRP'
+
+const data: { symbol: SymbolType; value: string; price: string }[] = [
   { symbol: 'SOL', value: '0.23444444', price: '$1,284.3721' },
   { symbol: 'SUI', value: '1.12345678', price: '$345.6789' },
   { symbol: 'XRP', value: '42.00000000', price: '$23,456.1234' },
@@ -34,18 +37,19 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   color: theme.palette.text.secondary,
   borderRadius: theme.spacing(2),
-  width: '90%', // Genişliği %90 yaptık
+  width: '90%',
 }));
 
 export default function BasicStack() {
   return (
-    <Box 
-    mt= {2}
-    mb= {3}
-    sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+    <Box
+      mt={2}
+      mb={3}
+      sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+    >
       <Stack spacing={1} sx={{ width: '100%', alignItems: 'center' }}>
-        {data.map((item) => (
-          <Item key={item.symbol}>
+        {data.map((item, index) => (
+          <Item key={`${item.symbol}-${index}`}>
             {/* Sol: Logo ve metinler */}
             <Box display="flex" alignItems="center" gap={2}>
               <img
