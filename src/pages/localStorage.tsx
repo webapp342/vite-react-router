@@ -82,7 +82,7 @@ const PointsManager: React.FC = () => {
      <Box
         sx={{
           backgroundColor: '#CD7F32',
-          borderRadius: 3,
+          borderRadius: 2,
           padding: 1,
           display: 'flex',
           alignItems: 'center',
@@ -105,11 +105,11 @@ const PointsManager: React.FC = () => {
       <Box
         sx={{
           backgroundColor: '#e9ebef',
-          borderRadius: 4,
+          borderRadius: 2,
           padding: 1,
           display: 'flex',
           ml: 1,
-          mr: 1,
+          mr: 2,
           alignItems: 'center',
           justifyContent: 'center',
           width: '70%',
@@ -142,7 +142,7 @@ const PointsManager: React.FC = () => {
       sx={{
         color: 'white',
         fontWeight: 'light',
-        fontSize: '3rem',
+        fontSize: '2rem',
         textAlign: 'center',
       }}
     >
