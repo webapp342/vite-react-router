@@ -83,6 +83,8 @@ const Calculator: React.FC = () => {
       {/* Sol ok butonu */}
       <Box
         sx={{
+            fontFamily: 'Montserrat, sans-serif',
+
           display: "flex",
           alignItems: "center",
           cursor: "pointer",
@@ -90,23 +92,26 @@ const Calculator: React.FC = () => {
         }}
         onClick={() => navigate('/vite-react-router')} // Yönlendirme
       >
-        <ArrowBackIcon sx={{ fontSize: 30, marginRight: "10px" }} /> {/* Sol ok simgesi */}
-        <Typography variant="h6">Geri</Typography>
+        <ArrowBackIcon  sx={{color:"black", fontSize: 30, marginRight: "10px" }} /> {/* Sol ok simgesi */}
+        <Typography color={"black"} variant="h6" sx={{              fontFamily: 'Montserrat, sans-serif',
+}}>Calculator</Typography>
       </Box>
 
       <TextField
-        label="Sayı Girin"
-        variant="outlined"
+        label=" Input Amount "
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         fullWidth
+        sx={{       fontSize:'2rem'   ,    fontFamily: 'Montserrat, sans-serif',
+        }}
       />
       <Box
         sx={{
           display: "flex",
           justifyContent: "space-around",
-          flexWrap: "wrap",
-          gap: "10px",
+          gap: "2px",
+          fontFamily: 'Montserrat, sans-serif',
+          fontWeight: 'bold',
         }}
       >
         {(["7D", "14D", "30D", "90D", "1Y"] as Period[]).map((period) => (
@@ -123,6 +128,8 @@ const Calculator: React.FC = () => {
         variant="body1"
         color="textPrimary"
         sx={{
+            fontFamily: 'Montserrat, sans-serif',
+
           backgroundColor: "#e0f7fa",
           padding: "10px",
           borderRadius: "5px",
@@ -134,6 +141,8 @@ const Calculator: React.FC = () => {
         variant="body1"
         color="textPrimary"
         sx={{
+            fontFamily: 'Montserrat, sans-serif',
+
           backgroundColor: "#e8f5e9",
           padding: "10px",
           borderRadius: "5px",
@@ -145,6 +154,8 @@ const Calculator: React.FC = () => {
         variant="h6"
         color="secondary"
         sx={{
+            fontFamily: 'Montserrat, sans-serif',
+
           backgroundColor: "#f5f5f5",
           padding: "10px",
           borderRadius: "5px",

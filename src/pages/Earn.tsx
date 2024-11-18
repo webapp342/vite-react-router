@@ -33,10 +33,12 @@ const Item = styled(Paper)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'space-between',
   backgroundColor: '#fff',
+  fontFamily: 'Montserrat, sans-serif',
+
   padding: theme.spacing(2),
   color: theme.palette.text.secondary,
   borderRadius: theme.spacing(2),
-  width: '89%',
+  width: '87%',
 }));
 
 export default function BasicStack() {
@@ -57,13 +59,16 @@ export default function BasicStack() {
                 style={{ width: 40, height: 40, borderRadius: '50%' }}
               />
               <Box>
-                <Typography variant="subtitle1" fontWeight="bold">
+                <Typography  variant="subtitle1" fontWeight="bold" sx={{              fontFamily: 'Montserrat, sans-serif',
+}}>
                   {item.symbol}
                 </Typography>
-                <Typography variant="body2">
+                <Typography variant="body2" sx={{              fontFamily: 'Montserrat, sans-serif',
+}}>
                   {item.value} {item.symbol}
                 </Typography>
-                <Typography variant="caption" color="text.secondary">
+                <Typography variant="caption"  color="text.secondary" sx={{  fontWeight:'light',            fontFamily: 'Montserrat, sans-serif',
+}}>
                   ({item.price})
                 </Typography>
               </Box>
@@ -73,6 +78,8 @@ export default function BasicStack() {
             <Box display="flex" alignItems="center" gap={1}>
               <Box
                 sx={{
+                  fontFamily: 'Montserrat, sans-serif',
+
                   bgcolor: '#e0f7fa',
                   px: 2,
                   py: 0.5,
@@ -80,7 +87,8 @@ export default function BasicStack() {
                   textAlign: 'center',
                 }}
               >
-                <Typography variant="body2" fontWeight="bold" color="primary">
+                <Typography variant="body2" fontWeight="bold" color="primary" sx={{              fontFamily: 'Montserrat, sans-serif',
+}}>
                   Earn 3%
                 </Typography>
               </Box>
