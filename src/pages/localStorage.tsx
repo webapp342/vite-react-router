@@ -197,7 +197,7 @@ const PointsManager: React.FC = () => {
 
                   color: '#909eae',
                   fontWeight: 'light',
-                  fontSize: '0.9rem',
+                  fontSize: '0.8rem',
                 }}
               >
 Earning Passive Income is Just a Few Clicks Away !   </Typography>

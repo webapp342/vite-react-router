@@ -144,7 +144,7 @@ const EarningsCard: React.FC = () => {
                 fontWeight: 'light',
               }}
             >
-              Stock Market
+              Stocks
             </Typography>
           </Box>
 

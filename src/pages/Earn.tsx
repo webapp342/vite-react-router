@@ -16,9 +16,9 @@ type DataItem = {
 const data: DataItem[] = [
   { symbol: 'GC1!', logo: 'https://s3-symbol-logo.tradingview.com/metal/gold--big.svg', value: '19.23444 %', price: 'Gold Futures', earn: 'Earn 213.62%' },
   { symbol: 'GCX2024', logo: 'https://s3-symbol-logo.tradingview.com/metal/gold--big.svg', value: '23.82671 %', price: 'Gold Futures', earn: 'Up to 261.17%' },
-  { symbol: 'MBTX2024', logo: 'https://s3-symbol-logo.tradingview.com/crypto/XTVCBTC--big.svg', value: '42.1466 %', price: 'Bitoin Futures', earn: 'Up to 153.32%' },
-  { symbol: 'SILVERZ2024', logo: 'https://s3-symbol-logo.tradingview.com/metal/silver--big.svg', value: '21.00567 %', price: 'Silver Options', earn: 'Up to 211.86%'},
-  { symbol: 'MCLZ2024', logo: 'https://s3-symbol-logo.tradingview.com/crude-oil--big.svg', value: '13.92661 %', price: 'Crude Oil Futures ', earn: 'Up to 113.62%' },
+  { symbol: 'MBTX2024', logo: 'https://s3-symbol-logo.tradingview.com/crypto/XTVCBTC--big.svg', value: '42.1466 %', price: 'BTC Futures', earn: 'Up to 153.32%' },
+  { symbol: 'SILVER', logo: 'https://s3-symbol-logo.tradingview.com/metal/silver--big.svg', value: '21.00567 %', price: 'Silver Options', earn: 'Up to 211.86%'},
+  { symbol: 'MCLZ2024', logo: 'https://s3-symbol-logo.tradingview.com/crude-oil--big.svg', value: '13.92661 %', price: 'Bent Futures ', earn: 'Up to 113.62%' },
 ];
 
 const Item = styled(Paper)(({ theme }) => ({
