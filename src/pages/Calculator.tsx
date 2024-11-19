@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Box, Typography, Paper, Grid} from "@mui/material";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney"; // Dollar Icon
+import { TextField, Box, Typography, Paper, Grid } from "@mui/material";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 
 const Calculator: React.FC = () => {
-  const [inputValue, setInputValue] = useState<string>("100");
+  const [inputValue, setInputValue] = useState<string>("1000"); // Varsayılan başlangıç değeri
   const [results, setResults] = useState<{ label: string; earnings: string; profitOnly: string }[]>([]);
 
   const percentages = {
@@ -13,24 +13,34 @@ const Calculator: React.FC = () => {
     "365 Days": 0.024,
   };
 
-  const calculateResults = () => {
-    const value = parseFloat(inputValue);
-    if (isNaN(value)) {
-      setResults([]);
-      return;
-    }
+  // Binlik ayracı ekleme
+  const formatNumber = (num: number): string =>
+    num.toLocaleString("en-US");
 
+  // Girdiden ayracı kaldır ve sayıya dönüştür
+  const parseNumber = (str: string): number =>
+    parseFloat(str.replace(/,/g, "")) || 0;
+
+  const calculateResults = () => {
+    const value = parseNumber(inputValue);
     const newResults = Object.entries(percentages).map(([label, percentage]) => {
       const days = parseInt(label.split(" ")[0]);
       const dailyEarnings = value * percentage;
       const periodEarnings = dailyEarnings * days;
       const totalEarnings = (periodEarnings + value).toFixed(2);
-      const profitOnly = periodEarnings.toFixed(2); // Sadece kazancı göster
+      const profitOnly = periodEarnings.toFixed(2);
 
-      return { label, earnings: `$${totalEarnings}`, profitOnly: `$${profitOnly}` };
+      return { label, earnings: `$${formatNumber(Number(totalEarnings))}`, profitOnly: `$${formatNumber(Number(profitOnly))}` };
     });
 
     setResults(newResults);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value.replace(/,/g, ""); // Virgülleri kaldır
+    if (/^\d*$/.test(rawValue)) {
+      setInputValue(formatNumber(parseNumber(rawValue))); // Sayıya çevir ve yeniden formatla
+    }
   };
 
   useEffect(() => {
@@ -46,7 +56,6 @@ const Calculator: React.FC = () => {
         borderRadius: "12px",
       }}
     >
-      
       <Paper
         elevation={3}
         sx={{
@@ -71,7 +80,7 @@ const Calculator: React.FC = () => {
         <Box sx={{ marginBottom: "15px" }}>
           <TextField
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={handleInputChange}
             fullWidth
             variant="outlined"
             size="medium"
@@ -126,7 +135,7 @@ const Calculator: React.FC = () => {
             }}
           >
             <Grid container justifyContent="space-between" alignItems="center">
-              <Grid item >
+              <Grid item>
                 <Typography
                   variant="body2"
                   sx={{
@@ -138,7 +147,7 @@ const Calculator: React.FC = () => {
                   {result.label} Earnings
                 </Typography>
               </Grid>
-              <Grid item >
+              <Grid item>
                 <Typography
                   variant="body2"
                   sx={{
