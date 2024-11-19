@@ -12,7 +12,8 @@ const navItems = [
   { label: 'HOME', icon: <HomeOutlinedIcon />, path: '/vite-react-router/' },
   { label: 'TASKS', icon: <PaymentsRoundedIcon />, path: '/vite-react-router/user-details' },
 
-  { label: 'CALCULATOR', icon: <CurrencyExchangeOutlinedIcon />, path: '/vite-react-router/farm' },
+  { label: 'CALCULATOR', icon: <CurrencyExchangeOutlinedIcon />,         path: "/vite-react-router/user-profile-page",
+  },
 
 
   { label: 'PROFILE', icon: <QueryStatsOutlinedIcon />, path: '/vite-react-router/user-profile-page' },

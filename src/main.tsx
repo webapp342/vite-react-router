@@ -12,6 +12,7 @@ import DPRdata from "./pages/DPRdata.tsx";
 import LocalStorageViewer from "./pages/localStorage.tsx";
 //import  CryptoTable2  from "./pages/wallet.tsx";
 import Calculator from "./pages/Calculator.tsx";
+import SwapComponent from "./pages/SwapComponent.tsx";
 
 
 
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/vite-react-router/user-profile-page",
-        element: <LocalStorageViewer />,
+        element: <SwapComponent />,
       },
       {
         path: "/vite-react-router/",
