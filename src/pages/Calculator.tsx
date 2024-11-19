@@ -3,7 +3,7 @@ import { TextField, Box, Typography, Paper, Grid } from "@mui/material";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 
 const Calculator: React.FC = () => {
-  const [inputValue, setInputValue] = useState<string>("1000"); // Varsayılan başlangıç değeri
+  const [inputValue, setInputValue] = useState<string>("10,000"); // Varsayılan başlangıç değeri
   const [results, setResults] = useState<{ label: string; earnings: string; profitOnly: string }[]>([]);
 
   const percentages = {
@@ -56,6 +56,40 @@ const Calculator: React.FC = () => {
         borderRadius: "12px",
       }}
     >
+      <Box
+        mt={2}
+        p={1}
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{}}
+      >
+        <Typography
+          sx={{
+            fontFamily: 'Montserrat, sans-serif',
+            color: 'black',
+            fontWeight: 'light',
+            fontSize: '1rem',
+          }}
+        >
+          Estimated Earnings
+        </Typography>
+        <Typography
+          color="primary"
+          component="a"
+          href="#"
+          sx={{
+            fontFamily: 'Montserrat, sans-serif',
+            fontSize: '0.8rem',
+            textDecoration: 'none',
+            '&:hover': {
+              textDecoration: 'underline',
+            },
+          }}
+        >
+          Learn more
+        </Typography>
+      </Box>
       <Paper
         elevation={3}
         sx={{
@@ -64,19 +98,6 @@ const Calculator: React.FC = () => {
           borderRadius: "12px",
         }}
       >
-        <Typography
-          variant="body2"
-          sx={{
-            fontWeight: "bold",
-            fontFamily: "Montserrat, sans-serif",
-            color: "#333",
-            marginBottom: "10px",
-            fontSize: "18px",
-          }}
-        >
-          Estimated Earnings Calculator
-        </Typography>
-
         <Box sx={{ marginBottom: "15px" }}>
           <TextField
             value={inputValue}

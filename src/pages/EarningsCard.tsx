@@ -28,7 +28,7 @@ const EarningsCard: React.FC = () => {
               fontSize: '1rem',
             }}
           >
-            Our Strategy System 
+            Total Value Locked
           </Typography>
           <Typography
             color="primary"
