@@ -6,11 +6,11 @@ import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import QueryStatsOutlinedIcon from '@mui/icons-material/QueryStatsOutlined';
 import WalletIcon from '@mui/icons-material/Wallet';
-import CalculateOutlinedIcon from '@mui/icons-material/CalculateOutlined';
+import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
 
 const navItems = [
   { label: 'HOME', icon: <HomeOutlinedIcon />, path: '/vite-react-router/' },
-  { label: 'CALCULATOR', icon: <CalculateOutlinedIcon />, path: '/vite-react-router/calculator' },
+  { label: 'CALCULATOR', icon: <LeaderboardRoundedIcon />, path: '/vite-react-router/calculator' },
   { label: 'TASKS', icon: <TaskOutlinedIcon />, path: '/vite-react-router/user-details' },
   { label: 'PROFILE', icon: <QueryStatsOutlinedIcon />, path: '/vite-react-router/user-profile-page' },
   { label: 'WALLET', icon: <WalletIcon />, path: '/vite-react-router/farm' },

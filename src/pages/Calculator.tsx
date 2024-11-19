@@ -1,168 +1,210 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Button, Box, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom"; // React Router'dan navigate'i import ediyoruz
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Sol ok simgesi
-
-// Tip tanımlamaları
-type Period = "7D" | "14D" | "30D" | "90D" | "1Y";
+import { TextField, Box, Typography, Paper, Grid} from "@mui/material";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney"; // Dollar Icon
 
 const Calculator: React.FC = () => {
-  const [inputValue, setInputValue] = useState<string>("100"); // Varsayılan değer 100
-  const [selectedPeriod, setSelectedPeriod] = useState<Period>("7D");
-  const [result, setResult] = useState<string>("");
-  const [total, setTotal] = useState<string>("");
-  const [percentageIncrease, setPercentageIncrease] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>("100");
+  const [results, setResults] = useState<{ label: string; earnings: string; profitOnly: string }[]>([]);
 
-  const navigate = useNavigate(); // useNavigate Hook'u
+  const percentages = {
+    "1 Day": 0.0009,
+    "7 Days": 0.006,
+    "30 Days": 0.016,
+    "365 Days": 0.024,
+  };
 
-  useEffect(() => {
-    calculateResult();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputValue, selectedPeriod]);
-
-  const calculateResult = (): void => {
+  const calculateResults = () => {
     const value = parseFloat(inputValue);
     if (isNaN(value)) {
-      setResult("Lütfen geçerli bir sayı girin!");
-      setTotal("");
-      setPercentageIncrease("");
+      setResults([]);
       return;
     }
 
-    let percentage: number = 0;
-    let multiplier: number = 0;
+    const newResults = Object.entries(percentages).map(([label, percentage]) => {
+      const days = parseInt(label.split(" ")[0]);
+      const dailyEarnings = value * percentage;
+      const periodEarnings = dailyEarnings * days;
+      const totalEarnings = (periodEarnings + value).toFixed(2);
+      const profitOnly = periodEarnings.toFixed(2); // Sadece kazancı göster
 
-    switch (selectedPeriod) {
-      case "7D":
-        percentage = 0.006;
-        multiplier = 7;
-        break;
-      case "14D":
-        percentage = 0.012;
-        multiplier = 14;
-        break;
-      case "30D":
-        percentage = 0.016;
-        multiplier = 30;
-        break;
-      case "90D":
-        percentage = 0.018;
-        multiplier = 90;
-        break;
-      case "1Y":
-        percentage = 0.024;
-        multiplier = 365;
-        break;
-      default:
-        break;
-    }
+      return { label, earnings: `$${totalEarnings}`, profitOnly: `$${profitOnly}` };
+    });
 
-    const calculatedResult = value * percentage * multiplier;
-    const calculatedTotal = value + calculatedResult;
-
-    // Yüzde artış hesaplama
-    const increase = ((calculatedResult / value) * 100).toFixed(2);
-
-    setResult(calculatedResult.toFixed(2));
-    setTotal(calculatedTotal.toFixed(2));
-    setPercentageIncrease(increase); // Yüzde artışı ayarla
+    setResults(newResults);
   };
+
+  useEffect(() => {
+    calculateResults();
+  }, [inputValue]);
 
   return (
     <Box
+      maxWidth="xs"
+      m={1}
+      mt={2}
       sx={{
-        maxWidth: "400px",
-        margin: "auto",
-        padding: "20px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "20px",
-        textAlign: "center",
+        borderRadius: "12px",
       }}
     >
-      {/* Sol ok butonu */}
-      <Box
+      
+      <Paper
+        elevation={3}
         sx={{
-            fontFamily: 'Montserrat, sans-serif',
-
-          display: "flex",
-          alignItems: "center",
-          cursor: "pointer",
-          marginBottom: "20px", 
-        }}
-        onClick={() => navigate('/vite-react-router')} // Yönlendirme
-      >
-        <ArrowBackIcon  sx={{color:"black", fontSize: 30, marginRight: "10px" }} /> {/* Sol ok simgesi */}
-        <Typography color={"black"} variant="h6" sx={{              fontFamily: 'Montserrat, sans-serif',
-}}>Calculator</Typography>
-      </Box>
-
-      <TextField
-        label=" Input Amount "
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        fullWidth
-        sx={{       fontSize:'2rem'   ,    fontFamily: 'Montserrat, sans-serif',
-        }}
-      />
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-around",
-          gap: "2px",
-          fontFamily: 'Montserrat, sans-serif',
-          fontWeight: 'bold',
+          padding: "15px",
+          backgroundColor: "#ffffff",
+          borderRadius: "12px",
         }}
       >
-        {(["7D", "14D", "30D", "90D", "1Y"] as Period[]).map((period) => (
-          <Button
-            key={period}
-            variant={selectedPeriod === period ? "contained" : "outlined"}
-            onClick={() => setSelectedPeriod(period)}
+        <Typography
+          variant="body2"
+          sx={{
+            fontWeight: "bold",
+            fontFamily: "Montserrat, sans-serif",
+            color: "#333",
+            marginBottom: "10px",
+            fontSize: "18px",
+          }}
+        >
+          Estimated Earnings Calculator
+        </Typography>
+
+        <Box sx={{ marginBottom: "15px" }}>
+          <TextField
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            fullWidth
+            variant="outlined"
+            size="medium"
+            sx={{
+              backgroundColor: "white",
+              borderRadius: "20px",
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "10px",
+                "& fieldset": {
+                  borderColor: "#1976d2",
+                  borderWidth: "2px",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#1976d2",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#1976d2",
+                },
+              },
+              "& .MuiInputBase-root": {
+                display: "flex",
+                fontFamily: "Montserrat, sans-serif",
+                fontSize: "1.5rem",
+                alignItems: "center",
+              },
+            }}
+            InputProps={{
+              startAdornment: (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <AttachMoneyIcon sx={{ fontSize: "2rem", color: "black" }} />
+                </Box>
+              ),
+            }}
+          />
+        </Box>
+
+        {results.map((result, index) => (
+          <Paper
+            key={index}
+            elevation={2}
+            sx={{
+              padding: "10px",
+              marginBottom: "10px",
+              backgroundColor: "#ffffff",
+              borderRadius: "10px",
+            }}
           >
-            {period}
-          </Button>
+            <Grid container justifyContent="space-between" alignItems="center">
+              <Grid item >
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: "bold",
+                    fontFamily: "Montserrat, sans-serif",
+                    color: "#333",
+                  }}
+                >
+                  {result.label} Earnings
+                </Typography>
+              </Grid>
+              <Grid item >
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: "bold",
+                    fontFamily: "Montserrat, sans-serif",
+                    textAlign: "center",
+                    color: "#1976d2",
+                  }}
+                >
+                  Last Amount
+                </Typography>
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={1} sx={{ marginTop: "5px" }}>
+              {/* Left Card - Only Profit */}
+              <Grid item xs={6}>
+                <Paper
+                  elevation={1}
+                  sx={{
+                    padding: "8px",
+                    textAlign: "center",
+                    backgroundColor: "#e3f2fd",
+                    borderRadius: "8px",
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontWeight: "bold",
+                      fontFamily: "Montserrat, sans-serif",
+                      color: "#1976d2",
+                    }}
+                  >
+                    {result.profitOnly} {/* Only profit */}
+                  </Typography>
+                </Paper>
+              </Grid>
+
+              {/* Right Card - Total Earnings */}
+              <Grid item xs={6}>
+                <Paper
+                  elevation={1}
+                  sx={{
+                    padding: "8px",
+                    textAlign: "center",
+                    backgroundColor: "#e8f5e9",
+                    borderRadius: "8px",
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontWeight: "bold",
+                      fontFamily: "Montserrat, sans-serif",
+                      color: "#388e3c",
+                    }}
+                  >
+                    {result.earnings} {/* Total earnings */}
+                  </Typography>
+                </Paper>
+              </Grid>
+            </Grid>
+          </Paper>
         ))}
-      </Box>
-      <Typography
-        variant="body1"
-        color="textPrimary"
-        sx={{
-            fontFamily: 'Montserrat, sans-serif',
-
-          backgroundColor: "#e0f7fa",
-          padding: "10px",
-          borderRadius: "5px",
-        }}
-      >
-        Last Amount ${total || "Henüz bir işlem yapılmadı."}
-      </Typography>
-      <Typography
-        variant="body1"
-        color="textPrimary"
-        sx={{
-            fontFamily: 'Montserrat, sans-serif',
-
-          backgroundColor: "#e8f5e9",
-          padding: "10px",
-          borderRadius: "5px",
-        }}
-      >
-        APY {percentageIncrease ? `${percentageIncrease}%` : "Henüz bir işlem yapılmadı."}
-      </Typography>
-      <Typography
-        variant="h6"
-        color="secondary"
-        sx={{
-            fontFamily: 'Montserrat, sans-serif',
-
-          backgroundColor: "#f5f5f5",
-          padding: "10px",
-          borderRadius: "5px",
-        }}
-      >
-        Net Profit ${result || "Henüz bir işlem yapılmadı."}
-      </Typography>
+      </Paper>
     </Box>
   );
 };

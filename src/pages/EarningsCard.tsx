@@ -3,7 +3,9 @@ import { Box, Typography, Card } from '@mui/material';
 
 const EarningsCard: React.FC = () => {
   return (
-    <Box m={1} mt={2} display="flex" justifyContent="center">
+    <Box m={1} mt={1} display="flex" justifyContent="center">
+      
+      
       <Card
         sx={{
           width: '100%',
@@ -13,8 +15,9 @@ const EarningsCard: React.FC = () => {
           overflow: 'hidden', // Kenarlık taşmalarını önler
         }}
       >
+        
         {/* Üst Kısım */}
-        <Box mt={2} padding=  {2} display="flex" justifyContent="space-between" alignItems="center">
+        <Box mt={1} padding=  {2} display="flex" justifyContent="space-between" alignItems="center">
           <Typography
             sx={{
                 
@@ -22,20 +25,25 @@ const EarningsCard: React.FC = () => {
 
               color: 'black',
               fontWeight: 'light',
-              fontSize: '0.8rem',
+              fontSize: '1rem',
             }}
           >
-            TOTAL EARNINGS
+            Our Strategy System 
           </Typography>
           <Typography
+            color="primary"
+            component="a"
+            href="#"
             sx={{
-                fontFamily: 'Montserrat, sans-serif',
-
-              fontSize: '1rem',
-              color: 'gray',
+              fontFamily: 'Montserrat, sans-serif',
+              fontSize: '0.8rem',
+              textDecoration: 'none',
+              '&:hover': {
+                textDecoration: 'underline',
+              },
             }}
           >
-            ...
+            Learn more
           </Typography>
         </Box>
 
@@ -50,7 +58,7 @@ const EarningsCard: React.FC = () => {
               fontSize: '1.7rem',
             }}
           >
-            $12,310.00
+            $12,517,388.120
           </Typography>
           <Typography
             sx={{
@@ -62,7 +70,7 @@ const EarningsCard: React.FC = () => {
               ml: 2,
             }}
           >
-            Total earned in this week
+            is being used at 
           </Typography>
         </Box>
 
@@ -83,7 +91,7 @@ const EarningsCard: React.FC = () => {
             sx={{
               backgroundColor: '#2F4F7F',
               color: '#fff',
-              flexBasis: '35%', // Genişlik oranı
+              flexBasis: '38.32%', // Genişlik oranı
             }}
           >
             <Typography
@@ -92,7 +100,7 @@ const EarningsCard: React.FC = () => {
               sx={{              fontFamily: 'Montserrat, sans-serif',
                 fontWeight: 'bold', fontSize: '0.9rem' }}
             >
-              35%
+              46.32%
             </Typography>
             <Typography
                        mb={1}             ml={1}
@@ -103,7 +111,7 @@ const EarningsCard: React.FC = () => {
                 fontWeight: 'light',
               }}
             >
-              Transfer
+              Mining & Staking
             </Typography>
           </Box>
 
@@ -116,7 +124,7 @@ const EarningsCard: React.FC = () => {
             sx={{
               backgroundColor: '#3CB371',
               color: '#fff',
-              flexBasis: '45%', // Genişlik oranı
+              flexBasis: '23.68%', // Genişlik oranı
             }}
           >
             <Typography
@@ -125,7 +133,7 @@ const EarningsCard: React.FC = () => {
               sx={{              fontFamily: 'Montserrat, sans-serif',
                 fontWeight: 'bold', fontSize: '0.9rem'}}
             >
-              45%
+              23.68% 
             </Typography>
             <Typography
                         ml={1}
@@ -136,7 +144,40 @@ const EarningsCard: React.FC = () => {
                 fontWeight: 'light',
               }}
             >
-              Receive
+              Stock Market
+            </Typography>
+          </Box>
+
+           {/* Yeşil Kısım (%45) */}
+           <Box
+            display="flex"
+            flexDirection="column"
+           alignItems="left"
+            justifyContent="left"
+            sx={{
+              backgroundColor: '#5f574e',
+              color: '#fff',
+              flexBasis: '22%', // Genişlik oranı
+            }}
+          >
+            <Typography
+                     mt={1}    ml={1}
+
+              sx={{              fontFamily: 'Montserrat, sans-serif',
+                fontWeight: 'bold', fontSize: '0.9rem'}}
+            >
+              22%
+            </Typography>
+            <Typography
+                        ml={1}
+
+              sx={{              fontFamily: 'Montserrat, sans-serif',
+
+                fontSize: '0.7rem',
+                fontWeight: 'light',
+              }}
+            >
+              ETF's
             </Typography>
           </Box>
 
@@ -149,7 +190,7 @@ const EarningsCard: React.FC = () => {
             sx={{
               backgroundColor: '#4682B4',
               color: '#fff',
-              flexBasis: '20%', // Genişlik oranı
+              flexBasis: '16%', // Genişlik oranı
             }}
           >
             <Typography
@@ -158,7 +199,7 @@ const EarningsCard: React.FC = () => {
               sx={{              fontFamily: 'Montserrat, sans-serif',
                 fontWeight: 'bold', fontSize: '0.9rem' }}
             >
-              20%
+              8%
             </Typography>
             <Typography
             ml={1}
@@ -170,7 +211,7 @@ const EarningsCard: React.FC = () => {
                 
               }}
             >
-              Saving
+              Loans
             </Typography>
           </Box>
         </Box>

@@ -5,27 +5,20 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-const logos = {
-  SOL: 'https://cryptologos.cc/logos/solana-sol-logo.png',
-  SUI: 'https://cryptologos.cc/logos/sui-sui-logo.png?v=035',
-  XRP: 'https://cryptologos.cc/logos/xrp-xrp-logo.png',
+type DataItem = {
+  symbol: string;
+  logo: string;
+  value: string;
+  price: string;
+  earn: string;
 };
 
-type SymbolType = keyof typeof logos; // 'SOL' | 'SUI' | 'XRP'
-
-const data: { symbol: SymbolType; value: string; price: string }[] = [
-  { symbol: 'SOL', value: '0.23444444', price: '$1,284.3721' },
-  { symbol: 'SUI', value: '1.12345678', price: '$345.6789' },
-  { symbol: 'XRP', value: '42.00000000', price: '$23,456.1234' },
-  { symbol: 'SOL', value: '0.23444444', price: '$1,284.3721' },
-  { symbol: 'SUI', value: '1.12345678', price: '$345.6789' },
-  { symbol: 'XRP', value: '42.00000000', price: '$23,456.1234' },
-  { symbol: 'SOL', value: '0.23444444', price: '$1,284.3721' },
-  { symbol: 'SUI', value: '1.12345678', price: '$345.6789' },
-  { symbol: 'XRP', value: '42.00000000', price: '$23,456.1234' },
-  { symbol: 'SOL', value: '0.23444444', price: '$1,284.3721' },
-  { symbol: 'SUI', value: '1.12345678', price: '$345.6789' },
-  { symbol: 'XRP', value: '42.00000000', price: '$23,456.1234' },
+const data: DataItem[] = [
+  { symbol: 'GC1!', logo: 'https://s3-symbol-logo.tradingview.com/metal/gold--big.svg', value: '19.23444 %', price: 'Gold Futures', earn: 'Earn 213.62%' },
+  { symbol: 'GCX2024', logo: 'https://s3-symbol-logo.tradingview.com/metal/gold--big.svg', value: '23.82671 %', price: 'Gold Futures', earn: 'Up to 261.17%' },
+  { symbol: 'MBTX2024', logo: 'https://s3-symbol-logo.tradingview.com/crypto/XTVCBTC--big.svg', value: '42.1466 %', price: 'Bitoin Futures', earn: 'Up to 153.32%' },
+  { symbol: 'SILVERZ2024', logo: 'https://s3-symbol-logo.tradingview.com/metal/silver--big.svg', value: '21.00567 %', price: 'Silver Options', earn: 'Up to 211.86%'},
+  { symbol: 'MCLZ2024', logo: 'https://s3-symbol-logo.tradingview.com/crude-oil--big.svg', value: '13.92661 %', price: 'Crude Oil Futures ', earn: 'Up to 113.62%' },
 ];
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -34,7 +27,6 @@ const Item = styled(Paper)(({ theme }) => ({
   justifyContent: 'space-between',
   backgroundColor: '#fff',
   fontFamily: 'Montserrat, sans-serif',
-
   padding: theme.spacing(2),
   color: theme.palette.text.secondary,
   borderRadius: theme.spacing(2),
@@ -49,27 +41,78 @@ export default function BasicStack() {
       sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
     >
       <Stack spacing={1} sx={{ width: '100%', alignItems: 'center' }}>
+        <Box
+          mt={2}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ width: '90%' }}
+        >
+          <Typography
+            sx={{
+              fontFamily: 'Montserrat, sans-serif',
+              color: 'black',
+              fontWeight: 'light',
+              fontSize: '1rem',
+            }}
+          >
+            Today's Performance
+          </Typography>
+          <Typography
+            color="primary"
+            component="a"
+            href="#"
+            sx={{
+              fontFamily: 'Montserrat, sans-serif',
+              fontSize: '0.8rem',
+              textDecoration: 'none',
+              '&:hover': {
+                textDecoration: 'underline',
+              },
+            }}
+          >
+            See all
+          </Typography>
+        </Box>
+
         {data.map((item, index) => (
           <Item key={`${item.symbol}-${index}`}>
             {/* Sol: Logo ve metinler */}
             <Box display="flex" alignItems="center" gap={2}>
               <img
-                src={logos[item.symbol]}
+                src={item.logo}
                 alt={item.symbol}
-                style={{ width: 40, height: 40, borderRadius: '50%' }}
+                style={{  borderRadius: '50%' }}
               />
               <Box>
-                <Typography  variant="subtitle1" fontWeight="bold" sx={{              fontFamily: 'Montserrat, sans-serif',
-}}>
+                <Typography
+                  variant="subtitle1"
+                  fontWeight="bold"
+                  color={'black'}
+                  sx={{
+                    fontFamily: 'Montserrat, sans-serif',
+                  }}
+                >
                   {item.symbol}
                 </Typography>
-                <Typography variant="body2" sx={{              fontFamily: 'Montserrat, sans-serif',
-}}>
-                  {item.value} {item.symbol}
+                <Typography
+                  variant="body2"
+                  color={'green'}
+                  sx={{
+                    fontFamily: 'Montserrat, sans-serif',
+                  }}
+                >
+                  {item.value} 
                 </Typography>
-                <Typography variant="caption"  color="text.secondary" sx={{  fontWeight:'light',            fontFamily: 'Montserrat, sans-serif',
-}}>
-                  ({item.price})
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{
+                    fontWeight: 'light',
+                    fontFamily: 'Montserrat, sans-serif',
+                  }}
+                >
+                  {item.price}
                 </Typography>
               </Box>
             </Box>
@@ -79,7 +122,6 @@ export default function BasicStack() {
               <Box
                 sx={{
                   fontFamily: 'Montserrat, sans-serif',
-
                   bgcolor: '#e0f7fa',
                   px: 2,
                   py: 0.5,
@@ -87,9 +129,15 @@ export default function BasicStack() {
                   textAlign: 'center',
                 }}
               >
-                <Typography variant="body2" fontWeight="bold" color="primary" sx={{              fontFamily: 'Montserrat, sans-serif',
-}}>
-                  Earn 3%
+                <Typography
+                  variant="body2"
+                  fontWeight="bold"
+                  color="primary"
+                  sx={{
+                    fontFamily: 'Montserrat, sans-serif',
+                  }}
+                >
+                  {item.earn}
                 </Typography>
               </Box>
               <ArrowForwardIosIcon color="action" fontSize="small" />
