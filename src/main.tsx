@@ -5,7 +5,7 @@ import "./index.css";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 //import Home  from "./pages/Home.tsx"; 
-import  CryptoTable  from "./pages/CryptoTable.tsx";
+import  MetalsTable  from "./pages/TopInvestors.tsx";
 import UserDetails from "./pages/UserDetails.tsx";
 // import UserProfilePage from "./pages/UserProfilePage.tsx";
 //import WheelSpin from "./pages/WheelSpin.tsx";
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
      
       {
         path: "/vite-react-router/farm",
-        element: <CryptoTable />,
+        element: <MetalsTable />,
       },
       {
         path: "/vite-react-router/user-details",
