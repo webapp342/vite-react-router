@@ -2,17 +2,21 @@ import * as React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'; // useLocation'u import ediyoruz
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import QueryStatsOutlinedIcon from '@mui/icons-material/QueryStatsOutlined';
 import WalletIcon from '@mui/icons-material/Wallet';
-import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
+import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
+import PaymentsRoundedIcon from '@mui/icons-material/PaymentsRounded';
 
 const navItems = [
   { label: 'HOME', icon: <HomeOutlinedIcon />, path: '/vite-react-router/' },
-  { label: 'CALCULATOR', icon: <LeaderboardRoundedIcon />, path: '/vite-react-router/calculator' },
-  { label: 'TASKS', icon: <TaskOutlinedIcon />, path: '/vite-react-router/user-details' },
+  { label: 'TASKS', icon: <PaymentsRoundedIcon />, path: '/vite-react-router/user-details' },
+
+  { label: 'CALCULATOR', icon: <CurrencyExchangeOutlinedIcon />, path: '/vite-react-router/farm' },
+
+
   { label: 'PROFILE', icon: <QueryStatsOutlinedIcon />, path: '/vite-react-router/user-profile-page' },
+
   { label: 'WALLET', icon: <WalletIcon />, path: '/vite-react-router/farm' },
 ];
 
@@ -52,7 +56,8 @@ export default function SimpleBottomNavigation() {
         gap: 5,
         bgcolor: '#f6f5f0',
         px: 4,
-        pb: 1,
+        pt: 1,
+        pb: 2,
         maxWidth: '100%',
       }}
     >

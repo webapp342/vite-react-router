@@ -6,7 +6,7 @@ import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 //import Home  from "./pages/Home.tsx"; 
 import  MetalsTable  from "./pages/TopInvestors.tsx";
-import UserDetails from "./pages/UserDetails.tsx";
+import DPRdata from "./pages/DPRdata.tsx";
 // import UserProfilePage from "./pages/UserProfilePage.tsx";
 //import WheelSpin from "./pages/WheelSpin.tsx";
 import LocalStorageViewer from "./pages/localStorage.tsx";
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/vite-react-router/user-details",
-        element: <UserDetails />,
+        element: <DPRdata />,
       },
       {
         path: "/vite-react-router/user-profile-page",

@@ -4,7 +4,7 @@ import { db } from './firebaseConfig';
 import { Box, Typography, Card, IconButton } from '@mui/material';
 import {  ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
 import money from '../assets/money.png';
-import EarningsCard from './EarningsCard';
+// import EarningsCard from './EarningsCard';
 import Calculator from './Calculator';
 
 import BasicStack from './Earn';
@@ -225,7 +225,6 @@ const App = () => {
   return (
     <Box>
       <PointsManager />
-      <EarningsCard />
       <BasicStack />
 
       <      Calculator
