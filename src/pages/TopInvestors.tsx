@@ -7,39 +7,71 @@ import {
   Avatar,
   ListItemText,
 } from "@mui/material";
-import { green } from "@mui/material/colors";
+import { green, blue, pink, orange, purple } from "@mui/material/colors";
 
-// Helper function to generate a random 12-digit number
-const generateRandomNumber = () => Math.floor(Math.random() * 1e12).toString().padStart(12, '0');
+// Helper functions
+const generateRandomNumber = () => Math.floor(Math.random() * 1e12).toString().padStart(12, "0");
+
+const generateRandomInitials = () => {
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const randomLetter = () => letters[Math.floor(Math.random() * letters.length)];
+  return `${randomLetter()}${randomLetter()}`;
+};
+
+const getRandomColor = () => {
+  const colors = [green[500], blue[500], pink[500], orange[500], purple[500]];
+  return colors[Math.floor(Math.random() * colors.length)];
+};
+
+const getRandomFlag = () => {
+  const flags = [
+    "us", "fr", "de", "jp", "cn", "in", "gb", "br", "ca", "au", // ISO 3166-1 alpha-2 codes
+  ];
+  const randomFlag = flags[Math.floor(Math.random() * flags.length)];
+  return `https://flagcdn.com/w40/${randomFlag}.png`; // Free flag CDN
+};
 
 const profit = 623718.591; // Example profit value
 
 // Component for a single investor item
 const InvestorItem = ({
-  avatarSrc,
+  avatarInitials,
+  avatarBgColor,
   randomNumber,
   profit,
   rank,
+  flagUrl,
 }: {
-  avatarSrc: string;
+  avatarInitials: string;
+  avatarBgColor: string;
   randomNumber: string;
   profit: number;
   rank: number;
+  flagUrl: string;
 }) => (
-    <ListItem
+  <ListItem
     sx={{
       justifyContent: "space-between",
       alignItems: "center",
       borderTop: "1px solid #ddd",
-      paddingLeft: 1.5, // Add small padding to the left
-      paddingRight: 1.5, // Add small padding to the right
-      width: "100%", // Ensure the item spans the full width of its container
-      boxSizing: "border-box", // Include padding in width calculation
+      paddingLeft: 1.5,
+      paddingRight: 1.5,
+      width: "100%",
+      boxSizing: "border-box",
     }}
   >
-  
     <ListItemAvatar>
-      <Avatar src={avatarSrc} alt="Investor Avatar" sx={{ width: 40, height: 40 }} />
+      <Avatar
+        sx={{
+          width: 40,
+          height: 40,
+          fontSize: "1.2rem",
+          bgcolor: avatarBgColor,
+          fontFamily: "Montserrat, sans-serif",
+        }}
+      >
+        {avatarInitials}
+      </Avatar>
     </ListItemAvatar>
     <ListItemText
       primary={
@@ -66,25 +98,41 @@ const InvestorItem = ({
         </Typography>
       }
     />
-    <Typography
-      color="black"
-      sx={{
-        fontFamily: "Montserrat, sans-serif",
-      }}
-      variant="h6"
-      fontWeight="bold"
-    >
-      #{rank}
-    </Typography>
+  
+      <Typography
+        color="black"
+        sx={{
+          fontFamily: "Montserrat, sans-serif",
+        }}
+        variant="h6"
+        fontWeight="bold"
+      >
+        #{rank}
+      </Typography>
+      <Box ml={1} sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+      <img
+        src={flagUrl}
+        alt="flag"
+        style={{
+          width: "32px",
+          height: "20px",
+          borderRadius: "4px",
+          
+          border: "1px solid #ddd",
+        }}
+      />
+    </Box>
   </ListItem>
 );
 
 const TopInvestors: React.FC = () => {
-  const investors = Array.from({ length: 4 }, (_, i) => ({
-    avatarSrc: "https://s3-symbol-logo.tradingview.com/crude-oil--big.svg",
+  const investors = Array.from({ length: 50 }, (_, i) => ({
+    avatarInitials: generateRandomInitials(),
+    avatarBgColor: getRandomColor(),
     randomNumber: generateRandomNumber(),
     profit,
     rank: i + 1,
+    flagUrl: getRandomFlag(),
   }));
 
   return (
@@ -98,13 +146,12 @@ const TopInvestors: React.FC = () => {
     >
       {/* Header */}
       <Box
-      m
+        m={2}
         sx={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           marginBottom: 2,
-
         }}
       >
         <Typography
@@ -124,7 +171,7 @@ const TopInvestors: React.FC = () => {
           variant="h6"
           color="text.secondary"
         >
-          #281,133
+          281927
         </Typography>
       </Box>
 
