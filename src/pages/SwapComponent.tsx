@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from "react";
 import {
   TextField,
-  Button,
   Card,
   Typography,
   SwipeableDrawer,
   List,
   ListItem,
-  ListItemText,
   IconButton,
   Box,
   Avatar,
   Grid,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
@@ -210,9 +207,7 @@ const TokenSwap: React.FC = () => {
                   value={fromAmount}
                   onChange={(e) => handleAmountChange(e, "from")}
                   fullWidth
-                  InputProps={{
-                    disableUnderline: true,
-                  }}
+            
                 />
               </Card>
             </Grid>
@@ -279,9 +274,7 @@ const TokenSwap: React.FC = () => {
                   value={toAmount}
                   onChange={(e) => handleAmountChange(e, "to")}
                   fullWidth
-                  InputProps={{
-                    disableUnderline: true,
-                  }}
+                
                 />
               </Card>
             </Grid>
