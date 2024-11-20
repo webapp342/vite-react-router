@@ -68,7 +68,7 @@ const TokenSwap: React.FC = () => {
   useEffect(() => {
     const getPrices = async () => {
       const prices: any = {};
-      for (let token of tokens) {
+      for (const token of tokens) {
         prices[token.name] = await fetchTokenPrice(token.name);
       }
       setAllTokenPrices(prices);
@@ -79,11 +79,11 @@ const TokenSwap: React.FC = () => {
   }, [fromToken, toToken]);
 
   const handleAmountChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, // Burada tip genişletildi
     type: "from" | "to"
   ) => {
     const inputValue = e.target.value;
-
+  
     // Eğer giriş boşsa, diğer alanı da boş yap
     if (inputValue === "") {
       if (type === "from") {
@@ -95,9 +95,9 @@ const TokenSwap: React.FC = () => {
       }
       return; // Hesaplama yapılmasını engellemek için buradan çık
     }
-
+  
     const amount = parseFloat(inputValue) || 0;
-
+  
     if (type === "from") {
       setFromAmount(inputValue);
       const amountInUSD = amount * fromTokenPrice;
@@ -110,7 +110,7 @@ const TokenSwap: React.FC = () => {
       setFromAmount(fromCalculatedAmount.toFixed(4));
     }
   };
-
+  
   const handleTokenSelect = (token: { name: string; icon: string }) => {
     if (selectedTokenType === "from") {
       setFromToken(token.name);
