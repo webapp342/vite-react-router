@@ -17,6 +17,7 @@ import {
 
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import money from "../assets/money.png";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 type TableRowData = {
   assetLogo: string; // Tek logo veya çift için ilk logo
@@ -27,6 +28,11 @@ type TableRowData = {
   secondaryLogo?: string; // İkinci logo (sadece Forex için)
 };
 
+const theme = createTheme({
+  typography: {
+    fontFamily: "Montserrat, sans-serif",
+  },
+});
 type SavingAccountProps = {
   data: TableRowData[];
 };
@@ -42,6 +48,7 @@ const SavingAccount: React.FC<SavingAccountProps> = ({ data }) => {
   );
 
   return (
+    <ThemeProvider theme={theme}>
     <Box
       sx={{
         padding: 1,
@@ -256,6 +263,7 @@ const SavingAccount: React.FC<SavingAccountProps> = ({ data }) => {
         </Table>
       </TableContainer>
     </Box>
+    </ThemeProvider>
   );
 };
 

@@ -1,148 +1,84 @@
-import React, { useState, useEffect } from 'react';
-import { onSnapshot, doc } from 'firebase/firestore';
-import { db } from './firebaseConfig';
+import React, { useState } from 'react';
 import { Box, Typography, Card, IconButton } from '@mui/material';
-import {  ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
+import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
 import money from '../assets/money.png';
-// import EarningsCard from './EarningsCard';
-import Calculator from './Calculator';
-
 import BasicStack from './Earn';
+import Calculator from './Calculator';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import TradingViewWidget from "./extras/TradingViewWidget";
+
+const theme = createTheme({
+  typography: {
+    fontFamily: 'Montserrat, sans-serif',
+  },
+});
 
 const PointsManager: React.FC = () => {
-  const [spinPoints, setSpinPoints] = useState<number>(0);
-  const [points, setPoints] = useState<number>(0);
-  const userId = localStorage.getItem('telegramUserId') || '';
+
+  const [isVisible, setIsVisible] = useState(true); // Varsayılan olarak açık
+
  
-  const [isVisible, setIsVisible] = useState(false); // Başlangıçta gizli
+      
 
-  useEffect(() => {
-    if (userId) {
-      const userRef = doc(db, 'users', userId);
-
-      const unsubscribe = onSnapshot(userRef, (docSnapshot) => {
-        if (docSnapshot.exists()) {
-          const data = docSnapshot.data();
-          setSpinPoints(data?.spinPoints || 0);
-          setPoints(data?.points || 0);
-        }
-      });
-
-      return () => unsubscribe();
-    }
-  }, [userId, spinPoints, points]);
+  const totalBalance = isVisible ? `$981,234.92` : '***********';
+  const percentageChange = isVisible
+    ? '0.000% (+$12.110) last month'
+    : '***********';
 
   return (
-    <Box>
-      <Box
-        p={1}
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
-        alignItems="flex-start"
-        sx={{
-          overflowX: 'hidden',
-        }}
-      >
+    <ThemeProvider theme={theme}>
+      <Box p={1} sx={{ overflowX: 'hidden' }}>
         {/* Üst Bilgilendirme */}
         <Box
           display="flex"
-          p={1}
           justifyContent="space-between"
           alignItems="center"
           width="100%"
+          p={1}
         >
-         <Box
-  component="div"
-  sx={{
-    fontSize: '1.5rem',
-    color: 'black',
-    fontWeight: 'bold',
-    fontFamily: 'Montserrat, sans-serif',
-    display: 'inline-block',
-    background: 'linear-gradient(90deg, #031340, #08AEEA)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-  }}
->
-  CAPVERSAL
-</Box>
-
-          <Box padding={1} gap={1} display="flex" alignItems="center" justifyContent={'space-between'}>
-            <AdminPanelSettingsOutlinedIcon  sx={{ fontSize: '2rem', color: 'black' }} />
-                        <PersonOutlinedIcon sx={{mr:'1', fontSize: '2rem', color: 'black' }} />
-
-            <Box/>
-
+          <Box
+            component="div"
+            sx={{
+              fontSize: '1.5rem',
+              fontWeight: 'bold',
+              background: 'linear-gradient(90deg, #031340, #08AEEA)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            CAPVERSAL
+          </Box>
+          <Box display="flex" gap={1}>
+            <AdminPanelSettingsOutlinedIcon sx={{ fontSize: '2rem', color: 'black' }} />
+            <PersonOutlinedIcon sx={{ fontSize: '2rem', color: 'black' }} />
           </Box>
         </Box>
 
-        <Box width="100%">
-        <Box
-  display="flex"
-  flexDirection="column"
-  justifyContent="center"
-  alignItems="center"
-  mt={1}
->
-  {/* Başlık ve Görünürlük İkonu */}
-  <Box display="flex" justifyContent="center" alignItems="center" mt={5}>
-    <Typography
-      sx={{
-        fontFamily: 'Montserrat, sans-serif',
-        color: '#909eae',
-        fontWeight: 'bold',
-        fontSize: '1rem',
-      }}
-    >
-      TOTAL BALANCE
-    </Typography>
-    <IconButton onClick={() => setIsVisible(!isVisible)} sx={{ ml: 1 }}>
-      {isVisible ? (
-        <VisibilityIcon sx={{ color: 'black' }} /> // Eğer görünürse "göz açık" ikonu
-      ) : (
-        <VisibilityOffIcon sx={{ color: '#909eae' }} /> // Gizli olduğunda "göz kapalı" ikonu
-      )}
-    </IconButton>
-  </Box>
-
-  {/* İçerik */}
-  <Typography
-    sx={{
-      color: 'black',
-      fontFamily: 'Montserrat, sans-serif',
-      fontWeight: 'bold',
-      fontSize: '2.5rem',
-      textAlign: 'center',
-    }}
-  >
-    {isVisible
-      ? `$981,234.92` // Eğer görünürse gerçek değer
-      : '***********'.repeat(points.toString().length)} {/* Gizli olduğunda yıldız */}
-  </Typography>
-
-  {/* Yüzde ve Artış Bilgisi */}
-  <Typography
-    sx={{
-      color: 'green',
-      fontFamily: 'Montserrat, sans-serif',
-      fontWeight: 'light',
-      fontSize: '1rem',
-      mt: 1,
-    }}
-  >
-    {isVisible
-      ? '0.000% (+$12.110) last month' // Görünürse gerçek metin
-      : '***********'.repeat(points.toString().length)} {/* Gizli olduğunda yıldız */}
-  </Typography>
-</Box>
-
-
-    </Box>
+        {/* Total Balance */}
+        <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
+          <Box display="flex" alignItems="center">
+            <Typography sx={{ color: '#909eae', fontWeight: 'bold', fontSize: '1rem' }}>
+              TOTAL BALANCE
+            </Typography>
+            <IconButton onClick={() => setIsVisible(!isVisible)} sx={{ ml: 1 }}>
+              {isVisible ? (
+                <VisibilityIcon sx={{ color: 'black' }} />
+              ) : (
+                <VisibilityOffIcon sx={{ color: '#909eae' }} />
+              )}
+            </IconButton>
+          </Box>
+          <Typography sx={{ color: 'black', fontWeight: 'bold', fontSize: '2.5rem' }}>
+            {totalBalance}
+          </Typography>
+          <Typography sx={{ color: 'green', fontSize: '1rem', mt: 1 }}>
+            {percentageChange}
+          </Typography>
+        </Box>
 
         {/* Kart Alanı */}
         <Box mt={3} display="flex" justifyContent="center">
@@ -153,16 +89,10 @@ const PointsManager: React.FC = () => {
               backgroundColor: '#1e2a3a',
               display: 'flex',
               padding: 2,
-              position: 'relative', // Sağ alt köşedeki ikon için gerekli
+              position: 'relative',
             }}
           >
-            {/* Sol Bölüm */}
-            <Box
-              width="25%"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
+            <Box width="25%" display="flex" justifyContent="center" alignItems="center">
               <Box
                 component="img"
                 src={money}
@@ -174,50 +104,38 @@ const PointsManager: React.FC = () => {
                 }}
               />
             </Box>
-
-            {/* Sağ Bölüm */}
             <Box
               width="60%"
-              display="flex"
               ml={3}
+              display="flex"
               flexDirection="column"
               justifyContent="center"
             >
-              <Typography
-                sx={{ color: 'white',
-                  fontFamily: 'Montserrat, sans-serif',
-                  fontWeight: 'bold', fontSize: '1rem' }}
-              >
+              <Typography sx={{ color: 'white', fontWeight: 'bold', fontSize: '1rem' }}>
                 Set-up your Earnings
               </Typography>
               <Typography
-              mt={1}
-                sx={{
-                  fontFamily: 'Montserrat, sans-serif',
-
-                  color: '#909eae',
-                  fontWeight: 'light',
-                  fontSize: '0.8rem',
-                }}
+                mt={1}
+                sx={{ color: '#909eae', fontWeight: 'light', fontSize: '0.8rem' }}
               >
-Earning Passive Income is Just a Few Clicks Away !   </Typography>
+                Earning Passive Income is Just a Few Clicks Away!
+              </Typography>
             </Box>
-
-            {/* Sağ Alt Köşede Sağ Ok İkonu */}
             <ArrowForwardIcon
               sx={{
                 position: 'absolute',
                 bottom: 25,
-                
                 right: 20,
                 color: 'white',
                 fontSize: '1.5rem',
               }}
             />
           </Card>
+          
         </Box>
+        
       </Box>
-    </Box>
+    </ThemeProvider>
   );
 };
 
@@ -225,14 +143,9 @@ const App = () => {
   return (
     <Box>
       <PointsManager />
+      <TradingViewWidget />
       <BasicStack />
-
-      <      Calculator
- />
-
-
-
-      
+      <Calculator />
     </Box>
   );
 };
