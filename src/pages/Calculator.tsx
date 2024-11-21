@@ -88,9 +88,8 @@ const Calculator: React.FC = () => {
     <ThemeProvider theme={theme}>
 
     <Box  m={1}>
-      <Typography variant="h5" gutterBottom>
-        Investment Calculator
-      </Typography>
+      <Typography color={"black"} textAlign={"center"} variant="h5" gutterBottom>
+      Put your liquidity at work      </Typography>
       <Paper elevation={3} sx={{borderRadius:3, p: 0, mb: 3, backgroundColor: "#1e2a3a" }}>
         <Box mb={-2}  >
           <Box 
