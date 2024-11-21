@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Box, Typography, Paper, Grid } from "@mui/material";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import { TextField, Box, Typography, Paper, Grid, Slider } from "@mui/material";
 
 const Calculator: React.FC = () => {
-  const [inputValue, setInputValue] = useState<string>("10,000"); // Varsayılan başlangıç değeri
-  const [results, setResults] = useState<{ label: string; earnings: string; profitOnly: string }[]>([]);
+  const [sliderValue, setSliderValue] = useState<number>(10000); // Varsayılan başlangıç değeri
+  const [results, setResults] = useState<
+    { label: string; earnings: string; profitOnly: string }[]
+  >([]);
 
   const percentages = {
     "1 Day": 0.0009,
@@ -17,12 +18,8 @@ const Calculator: React.FC = () => {
   const formatNumber = (num: number): string =>
     num.toLocaleString("en-US");
 
-  // Girdiden ayracı kaldır ve sayıya dönüştür
-  const parseNumber = (str: string): number =>
-    parseFloat(str.replace(/,/g, "")) || 0;
-
   const calculateResults = () => {
-    const value = parseNumber(inputValue);
+    const value = sliderValue;
     const newResults = Object.entries(percentages).map(([label, percentage]) => {
       const days = parseInt(label.split(" ")[0]);
       const dailyEarnings = value * percentage;
@@ -30,22 +27,24 @@ const Calculator: React.FC = () => {
       const totalEarnings = (periodEarnings + value).toFixed(2);
       const profitOnly = periodEarnings.toFixed(2);
 
-      return { label, earnings: `$${formatNumber(Number(totalEarnings))}`, profitOnly: `$${formatNumber(Number(profitOnly))}` };
+      return {
+        label,
+        earnings: `$${formatNumber(Number(totalEarnings))}`,
+        profitOnly: `$${formatNumber(Number(profitOnly))}`,
+      };
     });
 
     setResults(newResults);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value.replace(/,/g, ""); // Virgülleri kaldır
-    if (/^\d*$/.test(rawValue)) {
-      setInputValue(formatNumber(parseNumber(rawValue))); // Sayıya çevir ve yeniden formatla
-    }
-  };
-
+  // Slider hareket ettikçe ve TextField değiştikçe hesaplamaları güncelle
   useEffect(() => {
     calculateResults();
-  }, [inputValue]);
+  }, [sliderValue]);
+
+  const handleSliderChange = (event: Event, newValue: number | number[]) => {
+    setSliderValue(newValue as number);
+  };
 
   return (
     <Box
@@ -62,14 +61,13 @@ const Calculator: React.FC = () => {
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        sx={{}}
       >
         <Typography
           sx={{
-            fontFamily: 'Montserrat, sans-serif',
-            color: 'black',
-            fontWeight: 'light',
-            fontSize: '1rem',
+            fontFamily: "Montserrat, sans-serif",
+            color: "black",
+            fontWeight: "light",
+            fontSize: "1rem",
           }}
         >
           Estimated Earnings
@@ -79,11 +77,11 @@ const Calculator: React.FC = () => {
           component="a"
           href="#"
           sx={{
-            fontFamily: 'Montserrat, sans-serif',
-            fontSize: '0.8rem',
-            textDecoration: 'none',
-            '&:hover': {
-              textDecoration: 'underline',
+            fontFamily: "Montserrat, sans-serif",
+            fontSize: "0.8rem",
+            textDecoration: "none",
+            "&:hover": {
+              textDecoration: "underline",
             },
           }}
         >
@@ -98,30 +96,34 @@ const Calculator: React.FC = () => {
           borderRadius: "12px",
         }}
       >
-        <Box sx={{ marginBottom: "15px" }}>
+        {/* TextField */}
+        <Box borderRadius={3} mb={5}   border={1}  sx={{               backgroundColor: '#1e2a3a',
+   }}>
+          <Box mb={-2} >
           <TextField
-            value={inputValue}
-            onChange={handleInputChange}
+            value={`${formatNumber(sliderValue)}  USDT`}
             fullWidth
+          
             variant="outlined"
             size="medium"
             sx={{
-              backgroundColor: "white",
+              backgroundColor: '#1e2a3a',
               borderRadius: "20px",
               "& .MuiOutlinedInput-root": {
                 borderRadius: "10px",
                 "& fieldset": {
-                  borderColor: "#1976d2",
-                  borderWidth: "2px",
+                  borderWidth: "0px",
+                  color:'white',
+
                 },
                 "&:hover fieldset": {
-                  borderColor: "#1976d2",
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#1976d2",
                 },
               },
               "& .MuiInputBase-root": {
+                color:'white',
+
                 display: "flex",
                 fontFamily: "Montserrat, sans-serif",
                 fontSize: "1.5rem",
@@ -132,18 +134,54 @@ const Calculator: React.FC = () => {
               startAdornment: (
                 <Box
                   sx={{
+
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                   }}
                 >
-                  <AttachMoneyIcon sx={{ fontSize: "2rem", color: "black" }} />
                 </Box>
               ),
+              readOnly: false, // Kullanıcı manuel giriş yapamaz
             }}
           />
         </Box>
 
+        {/* Slider */}
+        <Box  mb={-3} sx={{}}>
+        <Slider
+  value={sliderValue}
+  onChange={handleSliderChange}
+  min={1000}
+  max={10000}
+  step={10}
+  valueLabelDisplay="auto"
+  sx={{
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
+    height: 48, // Yüksekliği artır
+    "& .MuiSlider-track": {
+      height: 58, // Çubuğun yüksekliğini artır
+      minWidth: 50,
+      borderTopRightRadius: 0,
+      borderTopLeftRadius: 0,
+    },
+    "& .MuiSlider-rail": {
+      height: 58, // Arkaplan çubuğu yüksekliği
+    },
+    // Thumb'ı görünmez yap
+    "& .MuiSlider-thumb": {
+      display: "none",
+      minWidth: 100,
+
+    },
+  }}
+/>
+
+        </Box>
+        </Box>
+
+        {/* Earnings Results */}
         {results.map((result, index) => (
           <Paper
             key={index}
@@ -203,7 +241,7 @@ const Calculator: React.FC = () => {
                       color: "#1976d2",
                     }}
                   >
-                    {result.profitOnly} {/* Only profit */}
+                    {result.profitOnly}
                   </Typography>
                 </Paper>
               </Grid>
@@ -227,7 +265,7 @@ const Calculator: React.FC = () => {
                       color: "#388e3c",
                     }}
                   >
-                    {result.earnings} {/* Total earnings */}
+                    {result.earnings}
                   </Typography>
                 </Paper>
               </Grid>
