@@ -142,9 +142,9 @@ const Calculator: React.FC = () => {
             <Slider
               value={sliderValue}
               onChange={handleSliderChange}
-              min={1000}
-              max={10000}
-              step={10}
+              min={10}
+              max={1000}
+              step={1}
               valueLabelDisplay="auto"
               sx={{
                 height: 48,
