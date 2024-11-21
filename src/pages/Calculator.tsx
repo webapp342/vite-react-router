@@ -1,21 +1,59 @@
-import React, { useState, useEffect, useCallback, useMemo  } from "react";
-import { TextField, Box, Typography, Paper, Grid, Slider } from "@mui/material";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+import {
+  Box,
+  Typography,
+  Paper,
+  Slider,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+} from "@mui/material";
 
 const Calculator: React.FC = () => {
   const [sliderValue, setSliderValue] = useState<number>(10000); // Varsayılan başlangıç değeri
   const [results, setResults] = useState<
-    { label: string; earnings: string; profitOnly: string }[]
+    { asset: string; earnings: string; profitOnly: string }[]
   >([]);
 
+  // Asset bazlı yüzdeler
   const percentages = useMemo(
     () => ({
-      "1 Day": 0.0009,
-      "7 Days": 0.006,
-      "30 Days": 0.016,
-      "365 Days": 0.024,
+   
+      SILVER: 0.009,
+      GOLD: 0.012,
+      FOREX: 0.015,
+      CRYPTO: 0.02,
+ 
     }),
     []
   );
+
+  // Sabit yüzdeler
+  const fixedPercentages = {
+    GOLD: "311%",
+    SILVER: "140%",
+    FOREX: "173%",
+    CRYPTO: "912%",
+  };
+
+  const theme = createTheme({
+    typography: {
+      fontFamily: "Montserrat, sans-serif",
+    },
+    palette: {
+      primary: { main: "#4caf50" },
+      secondary: { main: "#ff9800" },
+      background: { default: "#f5f5f5" },
+    },
+  });
+
+
   // Binlik ayracı ekleme
   const formatNumber = (num: number): string =>
     num.toLocaleString("en-US");
@@ -23,22 +61,19 @@ const Calculator: React.FC = () => {
   // calculateResults fonksiyonunu useCallback ile sarmalıyoruz
   const calculateResults = useCallback(() => {
     const value = sliderValue;
-    const newResults = Object.entries(percentages).map(([label, percentage]) => {
-      const days = parseInt(label.split(" ")[0]);
-      const dailyEarnings = value * percentage;
-      const periodEarnings = dailyEarnings * days;
-      const totalEarnings = (periodEarnings + value).toFixed(2);
-      const profitOnly = periodEarnings.toFixed(2);
+    const newResults = Object.entries(percentages).map(([asset, percentage]) => {
+      const profitOnly = (value * percentage).toFixed(2);
+      const totalEarnings = (value + Number(profitOnly)).toFixed(2);
 
       return {
-        label,
+        asset,
         earnings: `$${formatNumber(Number(totalEarnings))}`,
-        profitOnly: `$${formatNumber(Number(profitOnly))}`,
+        profitOnly: `${formatNumber(Number(profitOnly))}  USDT`,
       };
     });
 
     setResults(newResults);
-  }, [sliderValue, percentages]); // sliderValue ve percentages bağımlılık olarak eklendi
+  }, [sliderValue, percentages]);
 
   // Slider hareket ettikçe ve TextField değiştikçe hesaplamaları güncelle
   useEffect(() => {
@@ -50,209 +85,141 @@ const Calculator: React.FC = () => {
   };
 
   return (
-    <Box
-      maxWidth="xs"
-      m={1}
-      mt={2}
-      sx={{
-        borderRadius: "12px",
-      }}
-    >
-      <Box
-        mt={2}
-        p={1}
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Typography
-          sx={{
-            fontFamily: "Montserrat, sans-serif",
-            color: "black",
-            fontWeight: "light",
-            fontSize: "1rem",
-          }}
-        >
-          Estimated Earnings
-        </Typography>
-        <Typography
-          color="primary"
-          component="a"
-          href="#"
-          sx={{
-            fontFamily: "Montserrat, sans-serif",
-            fontSize: "0.8rem",
-            textDecoration: "none",
-            "&:hover": {
-              textDecoration: "underline",
-            },
-          }}
-        >
-          Learn more
-        </Typography>
-      </Box>
-      <Paper
-        elevation={3}
-        sx={{
-          padding: "15px",
-          backgroundColor: "#ffffff",
-          borderRadius: "12px",
-        }}
-      >
-        {/* TextField */}
-        <Box
-          borderRadius={3}
-          mb={5}
-          border={1}
-          sx={{
-            backgroundColor: "#1e2a3a",
-          }}
-        >
-          <Box mb={-2}>
-            <TextField
-              value={`${formatNumber(sliderValue)}  USDT`}
-              fullWidth
-              variant="outlined"
-              size="medium"
-              sx={{
-                backgroundColor: "#1e2a3a",
-                borderRadius: "20px",
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "10px",
-                  "& fieldset": {
-                    borderWidth: "0px",
-                    color: "white",
-                  },
-                },
-                "& .MuiInputBase-root": {
-                  color: "white",
-                  fontFamily: "Montserrat, sans-serif",
-                  fontSize: "1.5rem",
-                  alignItems: "center",
-                },
-              }}
-              InputProps={{
-                readOnly: false, // Kullanıcı manuel giriş yapamaz
-              }}
-            />
-          </Box>
+    <ThemeProvider theme={theme}>
 
-          {/* Slider */}
-          <Box mb={-3} sx={{}}>
-            <Slider
-              value={sliderValue}
-              onChange={handleSliderChange}
-              min={10}
-              max={1000}
-              step={1}
-              valueLabelDisplay="auto"
-              sx={{
-                height: 48,
-                "& .MuiSlider-track": {
-                  height: 58,
-                  minWidth:55,
-                },
-                "& .MuiSlider-rail": {
-                  height: 58,
-                },
-                "& .MuiSlider-thumb": {
-                  display: "none",
-                },
-              }}
-            />
+    <Box  m={1}>
+      <Typography variant="h5" gutterBottom>
+        Investment Calculator
+      </Typography>
+      <Paper elevation={3} sx={{borderRadius:3, p: 0, mb: 3, backgroundColor: "#1e2a3a" }}>
+        <Box mb={-2}  >
+          <Box 
+          display={"flex"}
+          color={"white"}
+          justifyContent={"space-between"}
+        
+          >
+          <Typography   sx={
+            {                fontSize: "1.2rem",
+              fontWeight: "light",
+            }
+          } mb={-2} p={2}>
+          Invest
+        </Typography>
+
+        <Typography
+          sx={
+            {                fontSize: "1.2rem",
+            }
+          } mb={-2} p={2}>
+          Use Max
+        </Typography>
           </Box>
+     
+          <TextField
+            value={`${formatNumber(sliderValue)} USDT`}
+            fullWidth
+            variant="outlined"
+            size="medium"
+            sx={{
+              backgroundColor: "#1e2a3a",
+              borderRadius: "20px",
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "10px",
+                "& fieldset": {
+                  borderWidth: "0px",
+                  color: "white",
+                },
+              },
+              "& .MuiInputBase-root": {
+                color: "white",
+                fontFamily: "Montserrat, sans-serif",
+                fontSize: "1.5rem",
+              },
+            }}
+            InputProps={{
+              readOnly: false,
+            }}
+          />
         </Box>
 
-        {/* Earnings Results */}
-        {results.map((result, index) => (
-          <Paper
-            key={index}
-            elevation={2}
-            sx={{
-              padding: "10px",
-              marginBottom: "10px",
-              backgroundColor: "#ffffff",
-              borderRadius: "10px",
-            }}
-          >
-            <Grid container justifyContent="space-between" alignItems="center">
-              <Grid item>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    fontWeight: "bold",
-                    fontFamily: "Montserrat, sans-serif",
-                    color: "#333",
-                  }}
-                >
-                  {result.label} Earnings
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    fontWeight: "bold",
-                    fontFamily: "Montserrat, sans-serif",
-                    textAlign: "center",
-                    color: "#1976d2",
-                  }}
-                >
-                  Last Amount
-                </Typography>
-              </Grid>
-            </Grid>
+        <Box borderRadius={3} >
+    <Slider
+      value={sliderValue}
+      onChange={handleSliderChange}
+      min={10}
+      max={10000}
+      step={10}
+      valueLabelDisplay="auto"
+      sx={{
+        mt:3,
+        width: "99.5%", // Genişliği tamamen Paper'a yapıştır
+        "& .MuiSlider-track": {
+          minWidth: 50,
+          height: '130%',
+          borderBottomRightRadius: 12,
+          borderBottomLeftRadius: 12,
+          borderTopRightRadius:0,
+          borderTopLeftRadius:0,
+        },
+        "& .MuiSlider-rail": {
+          height: '130%',
 
-            <Grid container spacing={1} sx={{ marginTop: "5px" }}>
-              <Grid item xs={6}>
-                <Paper
-                  elevation={1}
-                  sx={{
-                    padding: "8px",
-                    textAlign: "center",
-                    backgroundColor: "#e3f2fd",
-                    borderRadius: "8px",
-                  }}
-                >
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      fontWeight: "bold",
-                      fontFamily: "Montserrat, sans-serif",
-                      color: "#1976d2",
-                    }}
-                  >
-                    {result.profitOnly}
-                  </Typography>
-                </Paper>
-              </Grid>
-              <Grid item xs={6}>
-                <Paper
-                  elevation={1}
-                  sx={{
-                    padding: "8px",
-                    textAlign: "center",
-                    backgroundColor: "#e8f5e9",
-                    borderRadius: "8px",
-                  }}
-                >
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      fontWeight: "bold",
-                      fontFamily: "Montserrat, sans-serif",
-                      color: "#388e3c",
-                    }}
-                  >
-                    {result.earnings}
-                  </Typography>
-                </Paper>
-              </Grid>
-            </Grid>
-          </Paper>
-        ))}
+          borderBottomRightRadius: 12,
+          borderBottomLeftRadius: 12,
+          borderTopRightRadius:0,
+          borderTopLeftRadius:0,
+        },
+        "& .MuiSlider-thumb": {
+          height: 27,
+          width: 27,
+          marginLeft: sliderValue === 10 ? 6.5 : 0, // Sadece başlangıçta sol boşluk bırak
+          transition: "margin-left 0.2s", // Akıcı geçiş için animasyon
+
+          backgroundColor: '#fff',
+          border: '1px solid currentColor',
+        },
+        '&:hover': {
+          boxShadow: '0 0 0 8px rgba(58, 133, 137, 0.16)',
+        },
+      }}
+    />
+  </Box>
       </Paper>
+
+      {/* Table */}
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                <strong>Asset</strong>
+              </TableCell>
+              <TableCell align="center">
+                <strong>Profit</strong>
+              </TableCell>
+           
+              <TableCell align="center">
+                <strong>Fixed</strong>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {results.map((row, index) => (
+              <TableRow key={index}>
+                <TableCell>{row.asset}</TableCell>
+                <TableCell align="center">{row.profitOnly}</TableCell>
+                <TableCell align="center" sx={{ color: "green", fontWeight: "bold" }}>
+                  {fixedPercentages[row.asset as keyof typeof fixedPercentages]}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Box>
+    </ThemeProvider>
+
   );
 };
 
