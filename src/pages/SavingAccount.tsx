@@ -12,13 +12,11 @@ import {
   Paper,
   Avatar,
   Button,
-  Card,
+
 } from "@mui/material";
 
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import money from "../assets/money.png";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 type TableRowData = {

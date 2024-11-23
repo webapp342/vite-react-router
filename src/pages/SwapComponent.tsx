@@ -334,7 +334,7 @@ const TokenSwap: React.FC = () => {
 
             {/* Swap Icon Between */}
             <Grid   item xs={12} mt={-8} textAlign="center">
-              <IconButton boxShadow={5}
+              <IconButton 
                 color="primary"
                 onClick={handleTokenSwapInline2}
                 sx={{
