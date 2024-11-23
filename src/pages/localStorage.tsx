@@ -32,7 +32,7 @@ const PointsManager: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box p={1} sx={{ overflowX: 'hidden' }}>
+      <Box p={1} sx={{}}>
         {/* Üst Bilgilendirme */}
         <Box
           justifyContent="space-between"
