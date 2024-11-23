@@ -4,15 +4,11 @@ html, body, #root {
   font-weight: 400;
   margin: 0;
   padding: 0;
-  width: 100%;
   overflow-x: hidden; /* Yatay kaydırmayı engeller */
 
-  touch-action: pan-y; /* Dokunmatik cihazlarda yatay kaydırmayı engeller */
 
-  overflow: hidden; /* Disables global scrolling */
 
   height: 100%;
-  overflow: hidden;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background: #e9ebef 
@@ -26,12 +22,10 @@ a {
 
 body {
   margin: 0;
-  touch-action: pan-y; /* Dokunmatik cihazlarda yatay kaydırmayı engeller */
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  overflow-x: hidden; /* Yatay kaydırmayı engeller */
  align-items: center;
  justify-content: center;
 }

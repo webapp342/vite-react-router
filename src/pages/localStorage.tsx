@@ -42,7 +42,6 @@ const PointsManager: React.FC = () => {
           p={1}
         >
           <Box
-            component="div"
             sx={{
               fontSize: '1.5rem',
               fontWeight: 'bold',
