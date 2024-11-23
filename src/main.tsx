@@ -5,7 +5,7 @@ import "./index.css";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 //import Home  from "./pages/Home.tsx"; 
-import  MetalsTable  from "./pages/TopInvestors.tsx";
+import  Task  from "./pages/Tasks/Task.tsx";
 import DPRdata from "./pages/DPRdata.tsx";
 // import UserProfilePage from "./pages/UserProfilePage.tsx";
 //import WheelSpin from "./pages/WheelSpin.tsx";
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
      
       {
         path: "/vite-react-router/farm",
-        element: <MetalsTable />,
+        element: <Task />,
       },
       {
         path: "/vite-react-router/news",
