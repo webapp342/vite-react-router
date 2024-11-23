@@ -13,6 +13,8 @@ import LocalStorageViewer from "./pages/localStorage.tsx";
 //import  CryptoTable2  from "./pages/wallet.tsx";
 import Calculator from "./pages/Calculator.tsx";
 import SwapComponent from "./pages/SwapComponent.tsx";
+import TradingViewWidgetVertical from "./pages/extras/DataComponent.tsx";
+
 
 
 
@@ -31,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/vite-react-router/farm",
         element: <MetalsTable />,
+      },
+      {
+        path: "/vite-react-router/news",
+        element: <TradingViewWidgetVertical />,
       },
       {
         path: "/vite-react-router/user-details",

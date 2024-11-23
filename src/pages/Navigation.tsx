@@ -16,7 +16,7 @@ const navItems = [
   },
 
 
-  { label: 'PROFILE', icon: <QueryStatsOutlinedIcon />, path: '/vite-react-router/user-profile-page' },
+  { label: 'PROFILE', icon: <QueryStatsOutlinedIcon />, path: '/vite-react-router/news' },
 
   { label: 'WALLET', icon: <WalletIcon />, path: '/vite-react-router/farm' },
 ];

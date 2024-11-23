@@ -46,12 +46,14 @@ const TradingViewWidgetHorizontal: React.FC = () => {
 
   return (
     <Box
-    mt={1}
-      sx={{
-        position: "relative", // Widget için konum ayarlama
-        width: "100%", // Genişlik widget ile aynı olmalı
-      }}
-    >
+        sx={{
+          position: "relative",
+          width: "100%",
+          overflow: "hidden",
+          border: "1px solid #ddd",
+          borderRadius: "8px",
+        }}
+      >
       {/* TradingView Widget */}
       <Box ref={containerRef} />
 

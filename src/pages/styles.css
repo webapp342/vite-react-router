@@ -8,7 +8,7 @@
 }
 
 .spin-animation {
-  animation: spin 2s linear infinite;
+  animation: spin 3s linear infinite;
 }
 
 .button-wrapper {
@@ -17,3 +17,24 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+/* Fade animasyonu */
+.fade-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+.fade-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
+.fade-exit {
+  opacity: 2;
+  transform: translateX(0);
+}
+.fade-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 1000ms ease-in, transform 100ms ease-in;
+}
+
