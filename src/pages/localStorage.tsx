@@ -32,46 +32,31 @@ const PointsManager: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box p={1} sx={{}}>
+      <Box p={1} sx={{ overflowX: 'hidden' }}>
         {/* Üst Bilgilendirme */}
         <Box
+          display="flex"
           justifyContent="space-between"
           alignItems="center"
-          m={1}
+          width="100%"
+          p={1}
         >
-       
-
-            <Box   justifyContent= "space-between"
-          alignItems= "center"
-          display="flex">
-
-            <Typography   
+          <Box
+            component="div"
             sx={{
-              fontSize: '1.8rem',
+              fontSize: '1.5rem',
               fontWeight: 'bold',
-              
               background: 'linear-gradient(90deg, #031340, #08AEEA)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-            }}>
-           CAPVERSAL
-
-           </Typography>
-
-           <Box       
- >
-
-           <AdminPanelSettingsOutlinedIcon    sx={{ fontSize: '2rem', color: 'black' }} />
-           <PersonOutlinedIcon  sx={{ml:2, fontSize: '2rem', color: 'black'  }} />
-
-      
-
-            </Box>
-      
-       
-              </Box>
-
-           
+            }}
+          >
+            CAPVERSAL
+          </Box>
+          <Box display="flex" gap={2}>
+            <AdminPanelSettingsOutlinedIcon sx={{ fontSize: '2rem', color: 'black' }} />
+            <PersonOutlinedIcon sx={{ fontSize: '2rem', color: 'black' }} />
+          </Box>
         </Box>
 
         {/* Total Balance */}
