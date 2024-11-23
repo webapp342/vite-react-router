@@ -11,9 +11,14 @@ import {
   Avatar,
   Grid,
 } from "@mui/material";
-import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import SwapVertRoundedIcon from '@mui/icons-material/SwapVertRounded';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
+import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
 import axios from "axios";
+import UnfoldMoreRoundedIcon from '@mui/icons-material/UnfoldMoreRounded';
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 
 const TokenSwap: React.FC = () => {
   const [fromToken, setFromToken] = useState("ETH");
@@ -138,146 +143,322 @@ const TokenSwap: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
+        <Box
+          justifyContent="space-between"
+          alignItems="center"
+          m={2}
+        >
+       
+
+            <Box   justifyContent= "space-between"
+          alignItems= "center"
+          display="flex">
+
+            <Typography   
+            sx={{
+              fontSize: '1.8rem',
+              fontWeight: 'bold',
+              
+              background: 'linear-gradient(90deg, #031340, #08AEEA)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}>
+           CAPVERSAL
+
+           </Typography>
+
+           <Box       
+ >
+
+           <AdminPanelSettingsOutlinedIcon    sx={{ fontSize: '2rem', color: 'black' }} />
+           <PersonOutlinedIcon  sx={{ml:2, fontSize: '2rem', color: 'black'  }} />
+
+      
+
+            </Box>
+      
+       
+              </Box>
+
+           
+        </Box>
       <Box
         sx={{
           display: "flex",
+          mt:8,
           justifyContent: "center",
           alignItems: "center",
-          minHeight: "100vh",
-          backgroundColor: theme.palette.background.default,
+
         }}
       >
         <Card
           sx={{
-            padding: 3,
-            borderRadius: 3,
-            boxShadow: 4,
-            background: "linear-gradient(to bottom, #ffffff, #f5f5f5)",
-            width: "100%",
-            maxWidth: 500,
+            boxShadow: 0,
+            borderRadius: 0,
+            backgroundColor: "#e9ebef" ,
+            width: "90%",
           }}
         >
-          <Typography variant="h5" textAlign="center" gutterBottom>
-            Token Swap
+          <Box
+          display={"flex"}
+          m={1}
+          alignItems={"center"
+          }
+          justifyContent={"space-between"}
+          sx={{mb: 2,}}>
+
+<TuneRoundedIcon 
+ fontSize="medium"  />
+
+<Typography variant="h6"     fontWeight={"bold"}    >
+            Swap 
           </Typography>
+<RefreshRoundedIcon  fontSize="medium" />
+
+
+      
+
+          </Box>
 
           <Grid container spacing={3} alignItems="center">
             {/* From Token Section */}
             <Grid item xs={12}>
-              <Card
-                sx={{
-                  padding: 2,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 2,
-                  boxShadow: 2,
-                  border: "1px solid #ddd",
-                  borderRadius: "5px",
-                  backgroundColor: "#fafafa",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                    cursor: "pointer",
-                    padding: 1,
-                    borderRadius: 2,
-                    backgroundColor: "#f5f5f5",
-                  }}
-                  onClick={() => {
-                    setSelectedTokenType("from");
-                    setOpenDrawer(true);
-                  }}
-                >
-                  <Avatar
-                    src={tokens.find((t) => t.name === fromToken)?.icon}
-                    sx={{
-                      width: 40,
-                      height: 40,
-                    }}
-                  />
-                  <Typography variant="body1">{fromToken}</Typography>
-                </Box>
+  <Card
+    sx={{
+      padding: 2,
+      display: "flex",
+      flexDirection: "column", // Yatay içeriğin alt alta yerleşmesini sağlar
+      gap: 2,
+      boxShadow: 3,
+      border: "1px solid #ddd",
+      borderRadius: 4,
+      mb:3,
 
-                <TextField
-                  type="numeric"
-                  value={fromAmount}
-                  onChange={(e) => handleAmountChange(e, "from")}
-                  fullWidth
-            
-                />
-              </Card>
-            </Grid>
+      backgroundColor: theme.palette.background.default,
+    }}
+  >
+    {/* Üstteki Box */}
+    <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            mb: -1,
+            ml: 0.5,
+            justifyContent: "space-between",
+
+          }}
+    >
+      <Typography  variant="caption"
+                  color="text.secondary"
+                  sx={{
+                    fontWeight: 'light',
+                    fontFamily: 'Montserrat, sans-serif',
+                  }} >
+        Sell
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          color: "primary.main",
+          cursor: "pointer", // Tıklanabilir olduğunu belirtmek için
+          "&:hover": { textDecoration: "underline" }, // Hover efekti
+        }}
+        onClick={() => {
+          console.log("Max clicked");
+          // Max işlemleri buraya
+        }}
+      >
+        Use max
+      </Typography>
+    </Box>
+
+    {/* To Token Section */}
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 2,
+        justifyContent: "space-between",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          boxShadow: 2,
+          padding: 1,
+
+          cursor: "pointer",
+          borderRadius: 2,
+          backgroundColor: theme.palette.background.default,
+        }}
+        onClick={() => {
+          setSelectedTokenType("from");
+          setOpenDrawer(true);
+        }}
+      >
+        <Avatar
+          src={tokens.find((t) => t.name === fromToken)?.icon}
+          sx={{
+            width: 30,
+            height: 30,
+          }}
+        />
+        <Typography variant="body1">{fromToken}</Typography>
+        <UnfoldMoreRoundedIcon  fontSize="medium" />
+
+      </Box>
+
+      <TextField
+        type="numeric"
+        value={fromAmount}
+        onChange={(e) => handleAmountChange(e, "from")}
+        fullWidth
+        placeholder="0.0" // Boşken gösterilecek metin
+        variant="standard"
+        InputProps={{
+          disableUnderline: true,
+        }}
+        sx={{
+          "& .MuiInputBase-input": {
+            padding: 0,
+            textAlign: "right",
+            fontSize: "1.3rem",
+          },
+        }}
+      />
+    </Box>
+  </Card>
+</Grid>
 
             {/* Swap Icon Between */}
-            <Grid item xs={12} textAlign="center">
-              <IconButton
+            <Grid   item xs={12} mt={-8} textAlign="center">
+              <IconButton boxShadow={5}
                 color="primary"
                 onClick={handleTokenSwapInline2}
                 sx={{
                   backgroundColor: "#f5f5f5",
                   border: "2px solid #ddd",
-                  padding: 1,
-                  borderRadius: "50%",
+                  borderRadius: "30%",
                   "&:hover": { backgroundColor: "#e0e0e0" },
                 }}
               >
-                <SwapHorizIcon fontSize="large" />
+                <SwapVertRoundedIcon fontSize="small" />
               </IconButton>
             </Grid>
 
             {/* To Token Section */}
             <Grid item xs={12}>
-              <Card
-                sx={{
-                  padding: 2,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 2,
-                  boxShadow: 2,
-                  border: "1px solid #ddd",
-                  borderRadius: "5px",
-                  backgroundColor: "#fafafa",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                    cursor: "pointer",
-                    padding: 1,
-                    borderRadius: 2,
-                    backgroundColor: "#f5f5f5",
-                  }}
-                  onClick={() => {
-                    setSelectedTokenType("to");
-                    setOpenDrawer(true);
-                  }}
-                >
-                  <Avatar
-                    src={tokens.find((t) => t.name === toToken)?.icon}
-                    sx={{
-                      width: 40,
-                      height: 40,
-                    }}
-                  />
-                  <Typography variant="body1">{toToken}</Typography>
-                </Box>
+  <Card
+     sx={{
+      padding: 2,
+      display: "flex",
+      flexDirection: "column", // Yatay içeriğin alt alta yerleşmesini sağlar
+      gap: 2, 
+      boxShadow: 4,
+      border: "1px solid #ddd",
+      borderRadius: 4,
+      mb:3,
+      mt: -5,
+      backgroundColor: theme.palette.background.default,
+    }}
+  >
+    {/* Üstteki Box */}
+    <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            mb: -1,
+            ml: 0.5,
+            justifyContent: "space-between",
 
-                <TextField
-                  type="numeric"
-                  value={toAmount}
-                  onChange={(e) => handleAmountChange(e, "to")}
-                  fullWidth
-                
-                />
-              </Card>
-            </Grid>
+          }}
+    >
+      <Typography  variant="caption"
+                  color="text.secondary"
+                  sx={{
+                    fontWeight: 'light',
+                    fontFamily: 'Montserrat, sans-serif',
+                  }}>
+        Buy
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          color: "primary.main",
+          cursor: "pointer", // Tıklanabilir olduğunu belirtmek için
+          "&:hover": { textDecoration: "underline" }, // Hover efekti
+        }}
+        onClick={() => {
+          console.log("Max clicked");
+          // Max işlemleri buraya
+        }}
+      >
+       Use max
+      </Typography>
+    </Box>
+
+    {/* To Token Section */}
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 2,
+        justifyContent: "space-between",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          cursor: "pointer",
+          padding: 1,
+          boxShadow: 2,
+          borderRadius: 2,
+          backgroundColor: theme.palette.background.default,
+        }}
+        onClick={() => {
+          setSelectedTokenType("to");
+          setOpenDrawer(true);
+        }}
+      >
+        <Avatar
+          src={tokens.find((t) => t.name === toToken)?.icon}
+          sx={{
+            width: 30,
+            height: 30,
+          }}
+        />
+        <Typography variant="body1">{toToken}</Typography>
+        <UnfoldMoreRoundedIcon  fontSize="medium" />
+
+
+      </Box>
+
+      <TextField
+        type="numeric"
+        value={toAmount}
+        placeholder="0.0" // Boşken gösterilecek metin
+        onChange={(e) => handleAmountChange(e, "to")}
+        fullWidth
+        variant="standard"
+        InputProps={{
+          disableUnderline: true,
+        }}
+        sx={{
+          "& .MuiInputBase-input": {
+            padding: 0,
+            textAlign: "right",
+            fontSize: "1.3rem",
+          },
+        }}
+      />
+    </Box>
+  </Card>
+</Grid>
+
           </Grid>
 
           {/* Swipeable Drawer with Token List */}

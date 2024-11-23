@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   Box,
   Typography,
-  Link,
+
   Table,
   TableBody,
   TableCell,
@@ -16,6 +16,8 @@ import {
 } from "@mui/material";
 
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import money from "../assets/money.png";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -49,107 +51,69 @@ const SavingAccount: React.FC<SavingAccountProps> = ({ data }) => {
 
   return (
     <ThemeProvider theme={theme}>
+           <Box
+          justifyContent="space-between"
+          alignItems="center"
+          m={2}
+        >
+       
+
+            <Box   justifyContent= "space-between"
+          alignItems= "center"
+          display="flex">
+
+            <Typography   
+            sx={{
+              fontSize: '1.8rem',
+              fontWeight: 'bold',
+              
+              background: 'linear-gradient(90deg, #031340, #08AEEA)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}>
+           CAPVERSAL
+
+           </Typography>
+
+           <Box       
+ >
+
+           <AdminPanelSettingsOutlinedIcon    sx={{ fontSize: '2rem', color: 'black' }} />
+           <PersonOutlinedIcon  sx={{ml:2, fontSize: '2rem', color: 'black'  }} />
+
+      
+
+            </Box>
+      
+       
+              </Box>
+
+           
+        </Box>
+
+      
     <Box
       sx={{
         padding: 1,
-        border: "1px solid #ddd",
         borderRadius: 2,
       }}
     >
       {/* Header */}
       <Box
-        p={1}
-        mt={3}
+      
         sx={{
           fontFamily: "Montserrat, sans-serif",
           display: "flex",
-          borderBottom: "1px solid #ddd",
           justifyContent: "space-between",
           alignItems: "center",
         }}
       >
-        <Typography color="black" variant="h5" fontWeight="bold">
-          Saving Account
-        </Typography>
-        <Link href="#" underline="hover" color="primary" fontSize="14px">
-          Learn more
-        </Link>
+      
       </Box>
 
-      {/* Kart Alanı */}
-      <Box mt={6} display="flex" justifyContent="center">
-        <Card
-          sx={{
-            width: "95%",
-            borderRadius: 3,
-            backgroundColor: "#1e2a3a",
-            display: "flex",
-            padding: 2,
-            position: "relative",
-          }}
-        >
-          {/* Sol Bölüm */}
-          <Box
-            width="25%"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Box
-              component="img"
-              src={money}
-              alt="Logo"
-              sx={{
-                width: "140px",
-                height: "100px",
-                borderRadius: "12px",
-              }}
-            />
-          </Box>
+  
+     
 
-          {/* Sağ Bölüm */}
-          <Box
-            width="60%"
-            display="flex"
-            ml={3}
-            flexDirection="column"
-            justifyContent="center"
-          >
-            <Typography
-              sx={{
-                color: "white",
-                fontFamily: "Montserrat, sans-serif",
-                fontWeight: "bold",
-                fontSize: "1rem",
-              }}
-            >
-              Set-up your Earnings
-            </Typography>
-            <Typography
-              mt={1}
-              sx={{
-                fontFamily: "Montserrat, sans-serif",
-                color: "#909eae",
-                fontWeight: "light",
-                fontSize: "0.8rem",
-              }}
-            >
-              Earning Passive Income is Just a Few Clicks Away!
-            </Typography>
-          </Box>
-
-          {/* Sağ Alt Köşede Sağ Ok İkonu */}
-          <ArrowForwardIcon
-            sx={{
-              position: "absolute",
-              bottom: 25,
-              right: 20,
-              color: "white",
-              fontSize: "1.5rem",
-            }}
-          />
-        </Card>
-      </Box>
 
       {/* Button Group */}
       <Box
@@ -157,7 +121,6 @@ const SavingAccount: React.FC<SavingAccountProps> = ({ data }) => {
           display: "flex",
           position: "relative",
           marginBottom: 1,
-          mt: 2,
           bgcolor: "white",
           border: "1px solid #ddd",
           borderRadius: 1,

@@ -5,9 +5,10 @@ import money from '../assets/money.png';
 import BasicStack from './Earn';
 import Calculator from './Calculator';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
+
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TradingViewWidget from "./extras/TradingViewWidget";
 
@@ -34,28 +35,43 @@ const PointsManager: React.FC = () => {
       <Box p={1} sx={{ overflowX: 'hidden' }}>
         {/* Üst Bilgilendirme */}
         <Box
-          display="flex"
           justifyContent="space-between"
           alignItems="center"
-          width="100%"
-          p={1}
+          m={1}
         >
-          <Box
-            component="div"
+       
+
+            <Box   justifyContent= "space-between"
+          alignItems= "center"
+          display="flex">
+
+            <Typography   
             sx={{
-              fontSize: '1.5rem',
+              fontSize: '1.8rem',
               fontWeight: 'bold',
+              
               background: 'linear-gradient(90deg, #031340, #08AEEA)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-            }}
-          >
-            CAPVERSAL
-          </Box>
-          <Box display="flex" gap={1}>
-            <AdminPanelSettingsOutlinedIcon sx={{ fontSize: '2rem', color: 'black' }} />
-            <PersonOutlinedIcon sx={{ fontSize: '2rem', color: 'black' }} />
-          </Box>
+            }}>
+           CAPVERSAL
+
+           </Typography>
+
+           <Box       
+ >
+
+           <AdminPanelSettingsOutlinedIcon    sx={{ fontSize: '2rem', color: 'black' }} />
+           <PersonOutlinedIcon  sx={{ml:2, fontSize: '2rem', color: 'black'  }} />
+
+      
+
+            </Box>
+      
+       
+              </Box>
+
+           
         </Box>
 
         {/* Total Balance */}
