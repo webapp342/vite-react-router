@@ -154,28 +154,28 @@ const TokenSwap: React.FC = () => {
           alignItems= "center"
           display="flex">
 
+<PersonOutlinedIcon  sx={{ fontSize: '2rem', color: 'black'  }} />
+
+
             <Typography   
             sx={{
-              fontSize: '1.8rem',
+              fontSize: '1.5rem',
               fontWeight: 'bold',
               
               background: 'linear-gradient(90deg, #031340, #08AEEA)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}>
-           CAPVERSAL
+           Exchange
 
            </Typography>
 
-           <Box       
- >
+  
 
            <AdminPanelSettingsOutlinedIcon    sx={{ fontSize: '2rem', color: 'black' }} />
-           <PersonOutlinedIcon  sx={{ml:2, fontSize: '2rem', color: 'black'  }} />
 
       
 
-            </Box>
       
        
               </Box>

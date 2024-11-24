@@ -8,6 +8,7 @@ import WalletIcon from '@mui/icons-material/Wallet';
 import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
 import PaymentsRoundedIcon from '@mui/icons-material/PaymentsRounded';
 
+
 const navItems = [
   { label: 'HOME', icon: <HomeOutlinedIcon />, path: '/vite-react-router/' },
   { label: 'TASKS', icon: <PaymentsRoundedIcon />, path: '/vite-react-router/user-details' },

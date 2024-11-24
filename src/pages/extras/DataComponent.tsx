@@ -46,41 +46,40 @@ const TradingViewWidgetVertical: React.FC = () => {
 
   return (
     <Box
-      mt={2}
+      m={2}
       sx={{
-        width: "100%",
       }}
     >
 
 
        
 
-            <Box m={2}  justifyContent= "space-between"
+<Box   justifyContent= "space-between"
           alignItems= "center"
           display="flex">
 
+<PersonOutlinedIcon  sx={{ fontSize: '2rem', color: 'black'  }} />
+
+
             <Typography   
             sx={{
-              fontSize: '1.8rem',
+              fontSize: '1.5rem',
               fontWeight: 'bold',
-              fontFamily: "Montserrat, sans-serif",
+              fontFamily: 'Montserrat, sans-serif',
+
               background: 'linear-gradient(90deg, #031340, #08AEEA)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}>
-           CAPVERSAL
-
+           Research
            </Typography>
 
-           <Box       
- >
+  
 
            <AdminPanelSettingsOutlinedIcon    sx={{ fontSize: '2rem', color: 'black' }} />
-           <PersonOutlinedIcon  sx={{ml:2, fontSize: '2rem', color: 'black'  }} />
 
       
 
-            </Box>
       
        
               </Box>
@@ -146,9 +145,9 @@ mt:2 ,
 
 
       {/* Dinamik Bileşen ve Geçiş */}
-      <Box 
+      <Box  m={-2} mt={2}
         sx={{
-          width: "100%",
+       
           position: "relative",
           overflow: "hidden",
         }}

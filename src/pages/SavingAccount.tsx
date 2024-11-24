@@ -12,12 +12,15 @@ import {
   Paper,
   Avatar,
   Button,
+  Card,
 
 } from "@mui/material";
 
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
+import money from '../assets/money.png';
 
 type TableRowData = {
   assetLogo: string; // Tek logo veya çift için ilk logo
@@ -60,33 +63,86 @@ const SavingAccount: React.FC<SavingAccountProps> = ({ data }) => {
           alignItems= "center"
           display="flex">
 
+<PersonOutlinedIcon  sx={{ fontSize: '2rem', color: 'black'  }} />
+
+
             <Typography   
             sx={{
-              fontSize: '1.8rem',
+              fontSize: '1.5rem',
               fontWeight: 'bold',
               
               background: 'linear-gradient(90deg, #031340, #08AEEA)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}>
-           CAPVERSAL
+           Savings
 
            </Typography>
 
-           <Box       
- >
+  
 
            <AdminPanelSettingsOutlinedIcon    sx={{ fontSize: '2rem', color: 'black' }} />
-           <PersonOutlinedIcon  sx={{ml:2, fontSize: '2rem', color: 'black'  }} />
 
       
 
-            </Box>
       
        
               </Box>
 
            
+        </Box>
+
+          {/* Kart Alanı */}
+          <Box m={1} mt={4} display="flex" justifyContent="center">
+          <Card
+            sx={{
+              borderRadius: 3,
+              backgroundColor: '#1e2a3a',
+              display: 'flex',
+              padding: 2,
+              position: 'relative',
+            }}
+          >
+            <Box width="25%" display="flex" justifyContent="center" alignItems="center">
+              <Box
+                component="img"
+                src={money}
+                alt="Logo"
+                sx={{
+                  width: '140px',
+                  height: '100px',
+                  borderRadius: '12px',
+                }}
+              />
+            </Box>
+            <Box
+              width="60%"
+              ml={3}
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+            >
+              <Typography sx={{ color: 'white', fontWeight: 'bold', fontSize: '1rem' }}>
+                Set-up your Earnings
+              </Typography>
+              <Typography
+                mt={1}
+                sx={{ color: '#909eae', fontWeight: 'light', fontSize: '0.8rem' }}
+              >
+                Earning Passive Income is Just a Few Clicks Away!
+              </Typography>
+            </Box>
+            <ArrowForwardIcon
+              sx={{
+                position: 'absolute',
+                bottom: 25,
+                right: 20,
+                color: 'white',
+                fontSize: '1.5rem',
+              }}
+            />
+          </Card>
+          
         </Box>
 
       

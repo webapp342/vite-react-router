@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 import { Box, Card, CardContent, Typography, Grid, Button, Avatar, TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import LoupeIcon from '@mui/icons-material/Loupe';
+
 
 // Tema oluşturma
 const theme = createTheme({
@@ -73,6 +79,35 @@ const AccountEquityCard: React.FC = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box  sx={{  }}>
+      <Box  m={2} justifyContent= "space-between"
+          alignItems= "center"
+          display="flex">
+
+<PersonOutlinedIcon  sx={{ fontSize: '2rem', color: 'black'  }} />
+
+
+            <Typography   
+            sx={{
+              fontSize: '1.5rem',
+              fontWeight: 'bold',
+              
+              background: 'linear-gradient(90deg, #031340, #08AEEA)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}>
+           Wallet
+
+           </Typography>
+
+  
+
+           <AdminPanelSettingsOutlinedIcon    sx={{ fontSize: '2rem', color: 'black' }} />
+
+      
+
+      
+       
+              </Box>
         {/* İlk Kart */}
         <Card sx={{ borderRadius: 3, mx: "auto", mt: 4,  m: 2 }}>
           <CardContent>
@@ -150,48 +185,52 @@ const AccountEquityCard: React.FC = () => {
             <Box
               sx={{
                 display: "flex",
-                p: 1,
                 justifyContent: "space-between",
-                mt: 2,
-                mb: -2,
-                px: 1,
+                mt: 4,
+                mb: 0,
               }}
             >
               <Button
+                startIcon={<LoupeIcon />}
+
                 variant="contained"
                 color="primary"
                 size="small"
                 sx={{
                   textTransform: "none",
                   boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
-                  border: "1px solid #ccc",
-                  borderRadius: 1,
+                  borderRadius: 2,
                 }}
               >
                 Deposit
               </Button>
               <Button
+                              startIcon={<ArrowCircleUpIcon />}
+
                 variant="outlined"
                 size="small"
                 sx={{
                   textTransform: "none",
                   backgroundColor: "transparent",
                   boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
-                  border: "1px solid #ccc",
-                  borderRadius: 1,
+                  borderRadius: 2,
+
                 }}
               >
                 Withdraw
               </Button>
               <Button
+                                            startIcon={<              PublishedWithChangesIcon
+                                              />}
+
                 variant="outlined"
                 size="small"
                 sx={{
                   textTransform: "none",
                   backgroundColor: "transparent",
                   boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
-                  border: "1px solid #ccc",
-                  borderRadius: 1,
+                  borderRadius: 2,
+
                 }}
               >
                 Transfer
