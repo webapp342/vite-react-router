@@ -72,9 +72,9 @@ const AccountEquityCard: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box sx={{ mx: "auto", maxWidth: 600 }}>
+      <Box m={-0.5} sx={{  }}>
         {/* İlk Kart */}
-        <Card sx={{ borderRadius: 3, mx: "auto", mt: 4, p: 1, m: 2 }}>
+        <Card sx={{ borderRadius: 3, mx: "auto", mt: 4,  m: 2 }}>
           <CardContent>
             {/* Total Account Equity */}
             <Typography
@@ -85,11 +85,12 @@ const AccountEquityCard: React.FC = () => {
             >
               Total Account Equity
             </Typography>
-            <Typography variant="h5" align="center" gutterBottom>
+            <Typography mt={-1}               variant="subtitle1"
+ align="center" gutterBottom>
               0 USDT
             </Typography>
-            <Typography
-              variant="subtitle1"
+            <Typography mt={-1}
+              variant="subtitle2"
               align="center"
               color="text.secondary"
             >
@@ -97,7 +98,7 @@ const AccountEquityCard: React.FC = () => {
             </Typography>
 
             {/* PNL Details */}
-            <Grid container spacing={2} sx={{ mt: 2 }}>
+            <Grid container spacing={1} sx={{ mt: 2 }}>
               {/* Left Box - Today's PNL */}
               <Grid item xs={6}>
                 <Box
@@ -113,7 +114,8 @@ const AccountEquityCard: React.FC = () => {
                   >
                     Today's PNL
                   </Typography>
-                  <Typography variant="h6">0 USDT</Typography>
+                  <Typography                     variant="subtitle1"
+                  >0 USDT</Typography>
                   <Typography
                     variant="subtitle2"
                     sx={{ color: "green" }}
@@ -132,7 +134,8 @@ const AccountEquityCard: React.FC = () => {
                   >
                     7-Day PNL
                   </Typography>
-                  <Typography variant="h6">0 USDT</Typography>
+                  <Typography                     variant="subtitle1"
+                  >0 USDT</Typography>
                   <Typography
                     variant="subtitle2"
                     sx={{ color: "green" }}
@@ -211,7 +214,7 @@ const AccountEquityCard: React.FC = () => {
             >
               {/* Arama Kutusunun Görünümü */}
               {!isSearching && (
-                <Typography variant="subtitle1" sx={{ fontSize: "1rem" }}>
+                <Typography variant="subtitle1">
                   Assets List
                 </Typography>
               )}
