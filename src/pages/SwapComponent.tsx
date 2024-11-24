@@ -311,23 +311,26 @@ const TokenSwap: React.FC = () => {
       </Box>
 
       <TextField
-        type="numeric"
-        value={fromAmount}
-        onChange={(e) => handleAmountChange(e, "from")}
-        fullWidth
-        placeholder="0.0" // Boşken gösterilecek metin
-        variant="standard"
-        InputProps={{
-          disableUnderline: true,
-        }}
-        sx={{
-          "& .MuiInputBase-input": {
-            padding: 0,
-            textAlign: "right",
-            fontSize: "1.3rem",
-          },
-        }}
-      />
+  type="text"  // 'text' yerine 'numeric' yerine 'text' kullanın, çünkü 'numeric' bazı cihazlarda sayısal klavye açmayabilir.
+  value={fromAmount}
+  onChange={(e) => handleAmountChange(e, "from")}
+  fullWidth
+  placeholder="0.0" // Boşken gösterilecek metin
+  variant="standard"
+  InputProps={{
+    disableUnderline: true,
+  }}
+  inputMode="decimal" // Sayı klavyesi açılmasını sağlamak için
+  pattern="[0-9]*"  // Sayıların kabul edilmesini sağlamak için
+  sx={{
+    "& .MuiInputBase-input": {
+      padding: 0,
+      textAlign: "right",
+      fontSize: "1.3rem",
+    },
+  }}
+/>
+
     </Box>
   </Card>
 </Grid>
@@ -436,25 +439,27 @@ const TokenSwap: React.FC = () => {
 
 
       </Box>
-
       <TextField
-        type="numeric"
-        value={toAmount}
-        placeholder="0.0" // Boşken gösterilecek metin
-        onChange={(e) => handleAmountChange(e, "to")}
-        fullWidth
-        variant="standard"
-        InputProps={{
-          disableUnderline: true,
-        }}
-        sx={{
-          "& .MuiInputBase-input": {
-            padding: 0,
-            textAlign: "right",
-            fontSize: "1.3rem",
-          },
-        }}
-      />
+  type="text"  // 'numeric' yerine 'text' kullanıyoruz, çünkü 'numeric' bazı cihazlarda sayısal klavye açmayabiliyor
+  value={toAmount}
+  placeholder="0.0" // Boşken gösterilecek metin
+  onChange={(e) => handleAmountChange(e, "to")}
+  fullWidth
+  variant="standard"
+  InputProps={{
+    disableUnderline: true,
+  }}
+  inputMode="numeric" // Sayısal klavye açılmasını sağlamak için
+  pattern="[0-9]*"  // Yalnızca sayılara izin verir
+  sx={{
+    "& .MuiInputBase-input": {
+      padding: 0,
+      textAlign: "right",
+      fontSize: "1.3rem",
+    },
+  }}
+/>
+
     </Box>
   </Card>
 </Grid>
