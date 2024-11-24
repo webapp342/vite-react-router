@@ -16,7 +16,7 @@ const CryptoCards: React.FC = () => {
     { symbol: "ETH", price: "None", change: "None", logo: "https://s3-symbol-logo.tradingview.com/crypto/XTVCETH--big.svg" },
     { symbol: "TON", price: "None", change: "None", logo: "https://cryptologos.cc/logos/toncoin-ton-logo.png" },
   ]);
-  const [loading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const theme = createTheme({
     typography: {
@@ -41,27 +41,28 @@ const CryptoCards: React.FC = () => {
           axios.get(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)
         )
       );
-
+  
       const data = responses.map((res, index) => ({
         symbol: symbols[index].replace("USDT", ""),
         price: formatPrice(res.data.lastPrice),
         change: parseFloat(res.data.priceChangePercent).toFixed(2),
         logo: tokenData[index].logo,
       }));
-
+  
       setTokenData(data);
+      setLoading(false); // Veri alındıktan sonra "loading" durumunu false yap
     } catch (error) {
       console.error("Error fetching data:", error);
+      setLoading(false); // Hata durumunda da "loading" durumunu false yap
     }
   };
-
-  // İlk veri yükleme ve periyodik güncelleme
+  
   useEffect(() => {
     fetchCryptoData(); // İlk veri yükleme
-
     const intervalId = setInterval(fetchCryptoData, 5000); // Her 5 saniyede bir veri güncelle
     return () => clearInterval(intervalId); // Temizlik işlemi
   }, []);
+  
 
   if (loading) {
     return (
