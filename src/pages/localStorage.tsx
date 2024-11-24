@@ -1,17 +1,12 @@
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
-import BasicStack from './Earn';       
+import { Box, Typography, Button, Card, CardContent } from '@mui/material';
+import BasicStack from './Earn';
 import CryptoCards from '../pages/extras/CryptoCards';
-
 import Calculator from './Calculator';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import RedeemIcon from '@mui/icons-material/Redeem';
-import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import LoupeIcon from '@mui/icons-material/Loupe';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import VerticalAlignBottomIcon from '@mui/icons-material/VerticalAlignBottom';import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-
 
 const theme = createTheme({
   typography: {
@@ -20,15 +15,13 @@ const theme = createTheme({
 });
 
 const PointsManager: React.FC = () => {
-  const totalBalance = `$9,481,234.92`;
-  const percentageChange = '182.000% (+$5,156,100.110) last month';
+  const totalBalance = `= 9,235 USD`;
+  const percentageChange = '+8,391 USD Today';
 
   return (
     <ThemeProvider theme={theme}>
       <Box
-        bgcolor={'black'}
         sx={{
-          background: 'linear-gradient(90deg, #283048, #414345)',
           overflowX: 'hidden',
         }}
       >
@@ -40,77 +33,65 @@ const PointsManager: React.FC = () => {
             alignItems="center"
             display="flex"
           >
-            <AdminPanelSettingsOutlinedIcon sx={{ fontSize: '2rem', color: 'white' }} />
-            <Typography
-              sx={{
-                fontSize: '1.5rem',
-                fontWeight: 'bold',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            ></Typography>
-            <PersonOutlinedIcon sx={{ fontSize: '2rem', color: 'white' }} />
+            <AutorenewIcon sx={{ fontSize: '1.6rem', color: 'black' }} />
+           
+            <Typography   
+            sx={{
+              fontSize: '1.3rem',
+              fontWeight: 'bold',
+              
+              background: 'linear-gradient(90deg, #031340, #08AEEA)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}>
+           CAPVERSAL
 
+           </Typography>
+            <PersonOutlinedIcon sx={{ fontSize: '1.6rem', color: 'black' }} />
           </Box>
 
-          {/* Total Balance */}
-          <Box mb={5} display="flex" flexDirection="column" alignItems="center" mt={5}>
-            <Box display="flex" alignItems="center">
-              <Typography sx={{ color: '#909eae', fontWeight: 'bold', fontSize: '0.8rem' }}>
-                TOTAL BALANCE
-              </Typography>
-            </Box>
-            <Typography sx={{ color: 'white', fontWeight: 'bold', fontSize: '2rem' }}>
-              {totalBalance}
-            </Typography>
-            <Typography sx={{ color: '#00b894', fontSize: '1rem' }}>
-              {percentageChange}
-            </Typography>
+          {/* Kart: Total Balance ve Buton */}
+          <Box p={1} display="flex" justifyContent="center" mt={1}>
+            <Card
+              sx={{
+                width: '100%',
+                maxWidth: '400px',
+                backgroundColor: '#2c3e50',
+                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+                borderRadius: 3,
+              }}
+            >
+              <CardContent>
+                {/* Total Balance */}
+                <Box display="flex" flexDirection="column" alignItems="center" mb={3}>
+                  <Typography sx={{ color: '#909eae', fontWeight: 'bold', fontSize: '0.8rem' }}>
+                    TOTAL BALANCE
+                  </Typography>
+                  <Typography sx={{ color: 'white', fontWeight: 'bold', fontSize: '1.4rem' }}>
+                    {totalBalance}
+                  </Typography>
+                  <Typography sx={{ color: '#00b894', fontSize: '0.8rem' }}>
+                    {percentageChange}
+                  </Typography>
+                </Box>
 
-            {/* Yan Yana Butonlar */}
-            <Box display="flex" gap={2} mt={5} mb={-2}>
-            <Button
-                variant="contained"
-                color="success"
-                startIcon={<LoupeIcon />}
-                 component={Link}
-        to="/vite-react-router/farm"
-                sx={{
-                  textTransform: 'none', // Harfleri büyük yapmayı devre dışı bırakır
-                  flex: 1, // Esnek genişlik
-                  backgroundColor: '#00b894' ,
-                }} 
-              >
-Deposit              </Button>
-              <Button
-                variant="contained"
-                 component={Link}
-        to="/vite-react-router/farm"
-                startIcon={<ArrowCircleUpIcon />}
-                sx={{
-                  color:'black',
-                  textTransform: 'none', // Harfleri büyük yapmayı devre dışı bırakır
-                  backgroundColor: 'white',
-                  flex: 1, // Esnek genişlik
-                }}
-              >
-Withdraw              </Button>
-<Button
-             
-                startIcon={<RedeemIcon />}
-                 component={Link}
-        to="/vite-react-router/task"
-                sx={{
-                  p:1,
-                  fontWeight: 'light',
-                  color:'black',
-                  textTransform: 'none', // Harfleri büyük yapmayı devre dışı bırakır
-                  backgroundColor: 'white',
-                  flex: 1, // Esnek genişlik
-                }}
-              >
-Earn              </Button>
-            </Box>
+                {/* Deposit Button */}
+                <Button
+                  variant="contained"
+                  color="success"
+                  endIcon={<VerticalAlignBottomIcon />}
+                  component={Link}
+                  to="/vite-react-router/farm"
+                  sx={{
+                    textTransform: 'none', // Harfleri büyük yapmayı devre dışı bırakır
+                    width: '100%', // Buton genişliği kart kadar olur
+                    backgroundColor: '#00b894',
+                  }}
+                >
+                  Deposit
+                </Button>
+              </CardContent>
+            </Card>
           </Box>
         </Box>
       </Box>
@@ -122,10 +103,8 @@ const App = () => {
   return (
     <Box>
       <PointsManager />
-      <CryptoCards/>
-
+      <CryptoCards />
       <BasicStack />
-
       <Calculator />
     </Box>
   );
