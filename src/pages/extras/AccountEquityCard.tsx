@@ -72,7 +72,7 @@ const AccountEquityCard: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box m={-0.5} sx={{  }}>
+      <Box  sx={{  }}>
         {/* İlk Kart */}
         <Card sx={{ borderRadius: 3, mx: "auto", mt: 4,  m: 2 }}>
           <CardContent>
