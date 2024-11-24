@@ -311,7 +311,6 @@ const TokenSwap: React.FC = () => {
       </Box>
 
       <TextField
-  type="text"  // 'text' yerine 'numeric' yerine 'text' kullanın, çünkü 'numeric' bazı cihazlarda sayısal klavye açmayabilir.
   value={fromAmount}
   onChange={(e) => handleAmountChange(e, "from")}
   fullWidth
@@ -320,8 +319,11 @@ const TokenSwap: React.FC = () => {
   InputProps={{
     disableUnderline: true,
   }}
-  inputMode="decimal" // Sayı klavyesi açılmasını sağlamak için
-  pattern="[0-9]*"  // Sayıların kabul edilmesini sağlamak için
+  inputProps={{
+    type: "text", // 'text' kullanarak geniş tarayıcı desteği sağlanır
+    inputMode: "decimal", // Mobil cihazlarda ondalık sayı klavyesini açar
+    pattern: "[0-9]*", // Sadece sayısal girişlere izin verir
+  }}
   sx={{
     "& .MuiInputBase-input": {
       padding: 0,
@@ -330,6 +332,7 @@ const TokenSwap: React.FC = () => {
     },
   }}
 />
+
 
     </Box>
   </Card>
@@ -440,7 +443,6 @@ const TokenSwap: React.FC = () => {
 
       </Box>
       <TextField
-  type="text"  // 'numeric' yerine 'text' kullanıyoruz, çünkü 'numeric' bazı cihazlarda sayısal klavye açmayabiliyor
   value={toAmount}
   placeholder="0.0" // Boşken gösterilecek metin
   onChange={(e) => handleAmountChange(e, "to")}
@@ -449,8 +451,11 @@ const TokenSwap: React.FC = () => {
   InputProps={{
     disableUnderline: true,
   }}
-  inputMode="numeric" // Sayısal klavye açılmasını sağlamak için
-  pattern="[0-9]*"  // Yalnızca sayılara izin verir
+  inputProps={{
+    type: "text", // 'text' tipi, özelleştirilebilir
+    inputMode: "numeric", // Sayısal klavye açılması için
+    pattern: "[0-9]*", // Sadece sayısal giriş için
+  }}
   sx={{
     "& .MuiInputBase-input": {
       padding: 0,
@@ -459,6 +464,7 @@ const TokenSwap: React.FC = () => {
     },
   }}
 />
+
 
     </Box>
   </Card>
