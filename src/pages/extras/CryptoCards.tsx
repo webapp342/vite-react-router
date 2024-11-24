@@ -105,7 +105,7 @@ const CryptoCards: React.FC = () => {
               {/* Yüzdelik değişim */}
               <Box sx={{ flex: "0 0 auto", textAlign: "left" , marginLeft: 1, }}>
                 <Typography
-                sx={{ fontWeight:"bold",             fontSize: '0.8rem',
+                sx={{ fontWeight:"bold",             fontSize: '0.7rem',
                 }}
                   variant="body2"
                   color={token.change !== "None" && parseFloat(token.change) >= 0 ? "green" : "red"}
@@ -115,7 +115,7 @@ const CryptoCards: React.FC = () => {
               </Box>
             </Box>
             {/* Alt Satır (Fiyat) */}
-            <Typography variant="body2" sx={{ fontWeight: "bold", marginTop: 1 }}>
+            <Typography variant="body2" sx={{ fontWeight: "bold",  fontSize: '1.1rem', marginTop: 1, marginLeft: -3 , marginBottom: -2  }}>
               {token.price}
             </Typography>
           </CardContent>
