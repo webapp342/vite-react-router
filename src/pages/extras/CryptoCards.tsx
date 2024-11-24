@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Card, CardContent, Typography, CircularProgress } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
 
 interface TokenData {
   symbol: string;
@@ -15,7 +16,7 @@ const CryptoCards: React.FC = () => {
     { symbol: "ETH", price: "None", change: "None", logo: "https://s3-symbol-logo.tradingview.com/crypto/XTVCETH--big.svg" },
     { symbol: "TON", price: "None", change: "None", logo: "https://cryptologos.cc/logos/toncoin-ton-logo.png" },
   ]);
-  const [loading, setLoading] = useState(true);
+  const [loading] = useState(true);
 
   const theme = createTheme({
     typography: {
@@ -23,7 +24,7 @@ const CryptoCards: React.FC = () => {
     },
   });
 
-  // Fiyat formatlama
+  // Fiyat formatlama fonksiyonu
   const formatPrice = (price: string) => {
     const number = parseFloat(price);
     return isNaN(number)
@@ -31,51 +32,36 @@ const CryptoCards: React.FC = () => {
       : new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(number);
   };
 
+  // API'den fiyatları güncelleme fonksiyonu
+  const fetchCryptoData = async () => {
+    try {
+      const symbols = ["BTCUSDT", "ETHUSDT", "TONUSDT"];
+      const responses = await Promise.all(
+        symbols.map((symbol) =>
+          axios.get(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)
+        )
+      );
+
+      const data = responses.map((res, index) => ({
+        symbol: symbols[index].replace("USDT", ""),
+        price: formatPrice(res.data.lastPrice),
+        change: parseFloat(res.data.priceChangePercent).toFixed(2),
+        logo: tokenData[index].logo,
+      }));
+
+      setTokenData(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // İlk veri yükleme ve periyodik güncelleme
   useEffect(() => {
-    const ws = new WebSocket("wss://stream.binance.com:9443/ws");
+    fetchCryptoData(); // İlk veri yükleme
 
-    const symbols = ["btcusdt", "ethusdt", "tonusdt"];
-    const subscribeMessage = {
-      method: "SUBSCRIBE",
-      params: symbols.map((symbol) => `${symbol}@ticker`),
-      id: 1,
-    };
-
-    ws.onopen = () => {
-      ws.send(JSON.stringify(subscribeMessage));
-    };
-
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data && data.s) {
-        const updatedData = tokenData.map((token) => {
-          if (token.symbol === data.s.replace("USDT", "")) {
-            return {
-              ...token,
-              price: formatPrice(data.c), // Fiyatı formatla
-              change: parseFloat(data.P).toFixed(2),
-            };
-          }
-          return token;
-        });
-        setTokenData(updatedData);
-      }
-    };
-
-    ws.onerror = (error) => {
-      console.error("WebSocket Error:", error);
-    };
-
-    ws.onclose = () => {
-      console.log("WebSocket closed");
-    };
-
-    setLoading(false);
-
-    return () => {
-      ws.close();
-    };
-  }, [tokenData]);
+    const intervalId = setInterval(fetchCryptoData, 5000); // Her 5 saniyede bir veri güncelle
+    return () => clearInterval(intervalId); // Temizlik işlemi
+  }, []);
 
   if (loading) {
     return (
