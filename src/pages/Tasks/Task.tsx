@@ -108,7 +108,7 @@ const TopInvestors: React.FC = () => {
       },
     }}
   >
-    Backs
+    Back
   </Button>
 </Box>
 
