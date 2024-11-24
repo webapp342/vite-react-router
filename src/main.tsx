@@ -12,6 +12,8 @@ import DPRdata from "./pages/DPRdata.tsx";
 import LocalStorageViewer from "./pages/localStorage.tsx";
 //import  CryptoTable2  from "./pages/wallet.tsx";
 import Calculator from "./pages/Calculator.tsx";
+import Task from "./pages/Tasks/Task.tsx";
+
 import SwapComponent from "./pages/SwapComponent.tsx";
 import TradingViewWidgetVertical from "./pages/extras/DataComponent.tsx";
 
@@ -33,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "/vite-react-router/farm",
         element: <AccountEquityCard />,
+      },
+      {
+        path: "/vite-react-router/task",
+        element: <Task />,
       },
       {
         path: "/vite-react-router/news",

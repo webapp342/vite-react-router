@@ -15,6 +15,12 @@ const CryptoCards: React.FC = () => {
     { symbol: "BTC", price: "None", change: "None", logo: "https://cryptologos.cc/logos/bitcoin-btc-logo.png" },
     { symbol: "ETH", price: "None", change: "None", logo: "https://s3-symbol-logo.tradingview.com/crypto/XTVCETH--big.svg" },
     { symbol: "TON", price: "None", change: "None", logo: "https://cryptologos.cc/logos/toncoin-ton-logo.png" },
+    { symbol: "SOL", price: "None", change: "None", logo: "https://s3-symbol-logo.tradingview.com/crypto/XTVCSOL--big.svg" },
+    { symbol: "SUI", price: "None", change: "None", logo: "https://s3-symbol-logo.tradingview.com/crypto/XTVCSUI--big.svg" },
+    { symbol: "XRP", price: "None", change: "None", logo: "https://s3-symbol-logo.tradingview.com/crypto/XTVCXRP--big.svg" },
+
+
+
   ]);
   const [loading, setLoading] = useState(true);
 
@@ -35,7 +41,7 @@ const CryptoCards: React.FC = () => {
   // API'den fiyatları güncelleme fonksiyonu
   const fetchCryptoData = async () => {
     try {
-      const symbols = ["BTCUSDT", "ETHUSDT", "TONUSDT"];
+      const symbols = ["BTCUSDT", "ETHUSDT", "TONUSDT", "SOLUSDT", "SUIUSDT", "XRPUSDT",];
       const responses = await Promise.all(
         symbols.map((symbol) =>
           axios.get(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`)
@@ -75,7 +81,7 @@ const CryptoCards: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <Box
-        p={2}
+        p={1}
         display="flex"
         justifyContent="space-between"
         alignItems="center"
@@ -88,10 +94,12 @@ const CryptoCards: React.FC = () => {
         {tokenData.map((token) => (
           <Card
             key={token.symbol}
+            
             sx={{
               minWidth: "120px",
               textAlign: "center",
-              boxShadow: 3,
+              borderRadius: 2,
+              boxShadow: 2,
             }}
           >
             <CardContent>
@@ -103,8 +111,8 @@ const CryptoCards: React.FC = () => {
                     style={{ borderRadius: "50%" }}
                     src={token.logo}
                     alt={`${token.symbol} logo`}
-                    width="18"
-                    height="18"
+                    width="22"
+                    height="22"
                   />
                 </Box>
                 {/* Sembol */}
@@ -134,12 +142,12 @@ const CryptoCards: React.FC = () => {
                   fontWeight: "bold",
                   fontSize: "1.1rem",
                   marginTop: 1,
-                  marginLeft: -3,
+                  marginLeft: -1,
                   marginBottom: -2,
                   color: token.change !== "None" && parseFloat(token.change) >= 0 ? "green" : "red",
                 }}
               >
-                {token.price}
+                ${token.price}
               </Typography>
             </CardContent>
           </Card>

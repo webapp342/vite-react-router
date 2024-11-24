@@ -1,80 +1,76 @@
 import React from "react";
-import {
-  Box,
-  Typography,
-  Stack,
-  Button,
-} from "@mui/material";
+import { Box, Typography, Stack, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom"; // react-router-dom kullanarak yönlendirme
 
 // Simulated data for the component
 const data = [
   {
-    symbol: "Subscribe to TG Annoucements Channel",
+    symbol: "Join to TG Channel",
     logo: "https://cdn.iconscout.com/icon/free/png-512/free-telegram-icon-download-in-svg-png-gif-file-formats--social-media-logo-technology-brand-company-pack-logos-icons-10388926.png?f=webp&w=256",
-    value: "+ $4 USDT",
+    value: "+ $1 USDT",
     valueLogo: "https://s3-symbol-logo.tradingview.com/crypto/XTVCUSDT--big.svg", // Ek logo
     price: "",
     earn: "Start",
     earnLink: "https://example.com/btc",
   },
   {
-    symbol: "Subscribe to TG Annoucements Channel",
+    symbol: "Follow on X",
     logo: "https://cdn.iconscout.com/icon/free/png-512/free-x-icon-download-in-svg-png-gif-file-formats--social-media-logo-technology-brand-pack-logos-icons-10388931.png?f=webp&w=256",
-    value: "+ $4 USDT",
+    value: "+ $3 USDT",
     valueLogo: "https://s3-symbol-logo.tradingview.com/crypto/XTVCUSDT--big.svg", // Ek logo
     price: "",
     earn: "Start",
     earnLink: "https://example.com/btc",
   },
   {
-    symbol: "Subscribe to TG Annoucements Channel",
+    symbol: "Subscribe to Youtube Channel",
     logo: "https://cdn.iconscout.com/icon/free/png-512/free-youtube-icon-download-in-svg-png-gif-file-formats--social-media-logo-technology-brand-company-pack-logos-icons-10388932.png?f=webp&w=256",
-    value: "+ $4 USDT",
+    value: "+ $3 USDT",
     valueLogo: "https://s3-symbol-logo.tradingview.com/crypto/XTVCUSDT--big.svg", // Ek logo
     price: "",
     earn: "Start",
     earnLink: "https://example.com/btc",
   },
   {
-    symbol: "Subscribe to TG Annoucements Channel",
+    symbol: "Join to Discord Channel",
     logo: "https://cdn.iconscout.com/icon/free/png-512/free-discord-icon-download-in-svg-png-gif-file-formats--social-media-logo-technology-brand-pack-logos-icons-10388913.png?f=webp&w=256",
-    value: "+ $4 USDT",
+    value: "+ $1 USDT",
     valueLogo: "https://s3-symbol-logo.tradingview.com/crypto/XTVCUSDT--big.svg", // Ek logo
     price: "",
     earn: "Start",
     earnLink: "https://example.com/btc",
   },
   {
-    symbol: "Subscribe to TG Annoucements Channel",
+    symbol: "Follow on Facebook",
     logo: "https://cdn.iconscout.com/icon/free/png-512/free-facebook-icon-download-in-svg-png-gif-file-formats--social-media-logo-technology-brand-pack-logos-icons-10388916.png?f=webp&w=256",
-    value: "+ $4 USDT",
+    value: "+ $1 USDT",
     valueLogo: "https://s3-symbol-logo.tradingview.com/crypto/XTVCUSDT--big.svg", // Ek logo
     price: "",
     earn: "Start",
     earnLink: "https://example.com/btc",
   },
   {
-    symbol: "Subscribe to TG Annoucements Channel",
+    symbol: "Follow on Instagram",
     logo: "https://cdn.iconscout.com/icon/free/png-512/free-instagram-icon-download-in-svg-png-gif-file-formats--social-media-logo-technology-brand-pack-logos-icons-10388920.png?f=webp&w=256",
-    value: "+ $4 USDT",
+    value: "+ $1 USDT",
     valueLogo: "https://s3-symbol-logo.tradingview.com/crypto/XTVCUSDT--big.svg", // Ek logo
     price: "",
     earn: "Start",
     earnLink: "https://example.com/btc",
   },
   {
-    symbol: "Subscribe to TG Annoucements Channel",
+    symbol: "Follow on Tiktok",
     logo: "https://cdn.iconscout.com/icon/free/png-512/free-tiktok-icon-download-in-svg-png-gif-file-formats--social-media-logo-technology-brand-company-pack-logos-icons-10388928.png?f=webp&w=256",
-    value: "+ $4 USDT",
+    value: "+ $3 USDT",
     valueLogo: "https://s3-symbol-logo.tradingview.com/crypto/XTVCUSDT--big.svg", // Ek logo
     price: "",
     earn: "Start",
     earnLink: "https://example.com/btc",
   },
   {
-    symbol: "Subscribe to TG Annoucements Channel",
+    symbol: "Follow on Threads",
     logo: "https://cdn.iconscout.com/icon/free/png-512/free-threads-icon-download-in-svg-png-gif-file-formats--social-media-logo-technology-brand-pack-logos-icons-10388927.png?f=webp&w=256",
-    value: "+ $4 USDT",
+    value: "+ $1 USDT",
     valueLogo: "https://s3-symbol-logo.tradingview.com/crypto/XTVCUSDT--big.svg", // Ek logo
     price: "",
     earn: "Start",
@@ -82,8 +78,13 @@ const data = [
   },
   // Add more items as needed
 ];
-
 const TopInvestors: React.FC = () => {
+  const navigate = useNavigate(); // useNavigate hook'u
+
+  const handleGoBack = () => {
+    navigate("/vite-react-router/"); // Geri butonuna tıklandığında bu path'e yönlendir
+  };
+
   return (
     <Box
       sx={{
@@ -92,6 +93,26 @@ const TopInvestors: React.FC = () => {
         borderRadius: 2,
       }}
     >
+     {/* Geri Butonu */}
+<Box display="flex" justifyContent="flex-start" mb={2}>
+  <Button
+    onClick={handleGoBack}
+    variant="outlined"
+    size="small"
+    sx={{
+      color: "black", // Buton yazısı siyah
+      borderColor: "black", // Sınır rengi siyah
+      '&:hover': {
+        borderColor: "black", // Hover durumunda da sınır rengi siyah kalacak
+        backgroundColor: "transparent", // Hover durumunda arka plan şeffaf olacak
+      },
+    }}
+  >
+    Back
+  </Button>
+</Box>
+
+
       {/* Header */}
       <Box textAlign="center" mb={2}>
         <Typography
@@ -149,7 +170,7 @@ const TopInvestors: React.FC = () => {
                 <img
                   src={item.logo}
                   alt={item.symbol}
-                  style={{ width: "20%", height: '20%'}}
+                  style={{ width: "20%", height: '20%' }}
                 />
                 <Box>
                   <Typography
@@ -169,7 +190,7 @@ const TopInvestors: React.FC = () => {
                       fontFamily: "Montserrat, sans-serif",
                       color: "green",
                       fontSize: 12,
-                      mt:0.5,
+                      mt: 0.5,
                       display: "flex",
                       alignItems: "center", // Metin ve logo hizalaması
                       gap: 0.5, // Aralarındaki boşluk
@@ -179,7 +200,7 @@ const TopInvestors: React.FC = () => {
                     <img
                       src={item.valueLogo}
                       alt="value-logo"
-                      style={{ width: 18, height: 18 , borderRadius: "50%"}}
+                      style={{ width: 18, height: 18, borderRadius: "50%" }}
                     />
                   </Typography>
                   <Typography
@@ -200,7 +221,6 @@ const TopInvestors: React.FC = () => {
                 <Button
                   variant="contained"
                   size="small"
-                
                   href={item.earnLink}
                   sx={{
                     bgcolor: "black",

@@ -20,8 +20,8 @@ const theme = createTheme({
 });
 
 const PointsManager: React.FC = () => {
-  const totalBalance = `$981,234.92`;
-  const percentageChange = '0.000% (+$12.110) last month';
+  const totalBalance = `$9,481,234.92`;
+  const percentageChange = '182.000% (+$5,156,100.110) last month';
 
   return (
     <ThemeProvider theme={theme}>
@@ -99,7 +99,7 @@ Withdraw              </Button>
              
                 startIcon={<RedeemIcon />}
                  component={Link}
-        to="/vite-react-router/farm"
+        to="/vite-react-router/task"
                 sx={{
                   p:1,
                   fontWeight: 'light',
@@ -125,7 +125,6 @@ const App = () => {
       <CryptoCards/>
 
       <BasicStack />
-      <CryptoCards/>
 
       <Calculator />
     </Box>
