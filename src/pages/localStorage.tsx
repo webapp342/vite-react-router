@@ -122,7 +122,7 @@ const PointsManager: React.FC = () => {
       borderRadius: 2,
     }}
   >
-    <CardContent>
+   <CardContent>
       {/* Total Balance */}
       <Box display="flex" flexDirection="column" alignItems="flex-start" mb={-1}>
 
@@ -130,14 +130,30 @@ const PointsManager: React.FC = () => {
           sx={{
             color: 'white',
             fontWeight: 'bold',
-            fontSize: '1rem',
+            fontSize: '1.2rem',
             textAlign: 'left', // Sola hizalama
           }}
         >
-          Complete tasks and get up to $2,290
+          Complete tasks and get
         </Typography>
-          {/* Alt Bilgi */}
-      <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
+        <Typography
+          sx={{
+            color: 'white',
+            fontWeight: 'bold',
+            fontSize: '1.2rem',
+            textAlign: 'left', // Sola hizalama
+          }}
+        >
+         up to $2,290
+        </Typography>
+        
+       
+      </Box>
+      <Box mt={1}>
+
+      <ProgressStepper steps={steps} activeSteps={activeSteps} />   
+        {/* Alt Bilgi */}
+        <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
         <Typography
           sx={{
             color: '#909eae',
@@ -148,6 +164,7 @@ const PointsManager: React.FC = () => {
         >
           4/10 tasks completed
         </Typography>
+        
 
         {/* Sağdaki Kutu */}
         <Box
@@ -180,12 +197,7 @@ const PointsManager: React.FC = () => {
             Pro
           </Typography>
         </Box>
-      </Box>
-       
-      </Box>
-      <Box mt={2}>
-
-      <ProgressStepper steps={steps} activeSteps={activeSteps} />     
+      </Box>  
       </Box>
     
     </CardContent>

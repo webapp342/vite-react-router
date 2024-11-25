@@ -1,6 +1,12 @@
 import React from "react";
-import { Box, Typography, Stack, Button } from "@mui/material";
+import { Box, Typography, Stack, Button,Card, CardContent } from "@mui/material";
 import { useNavigate } from "react-router-dom"; // react-router-dom kullanarak yönlendirme
+import money from '../extras/money.png';
+import ProgressStepper from '../QontoConnector';
+import VerifiedIcon from '@mui/icons-material/Verified';
+
+
+
 
 // Simulated data for the component
 const data = [
@@ -85,6 +91,20 @@ const TopInvestors: React.FC = () => {
     navigate("/vite-react-router/"); // Geri butonuna tıklandığında bu path'e yönlendir
   };
 
+  const steps = [
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+  ];
+  const activeSteps = [0,1, 2, 3]; // Only these steps will be active
+
   return (
     <Box
       sx={{
@@ -115,36 +135,159 @@ const TopInvestors: React.FC = () => {
 
       {/* Header */}
       <Box textAlign="center" mb={2}>
-        <Typography
-          variant="h6"
-          sx={{
-            fontFamily: "Montserrat, sans-serif",
-            fontWeight: "bold",
-          }}
-          color="black"
-        >
-          Tasks
-        </Typography>
+        
+          {/* Kart Alanı */}
+          <Box m={-1} mt={4} display="flex" justifyContent="center">
+          <Card
+            sx={{
+              borderRadius: 3,
+              backgroundColor: '#1e2a3a',
+              display: 'flex',
+              padding: 1,
+              width: "100%",
+              position: 'relative',
+            }}
+          >
+          
+            <Box
+              width="100%"
+              ml={2}
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+            >
+             <Box sx={{ textAlign: "left" }}>
+  <Typography
+    sx={{
+    
+      color: '#909eae',
+      fontWeight: 'light',
+      fontSize: '1rem',
+    }}
+  >
+Your rewards  </Typography>
+  <Typography
+    mt={1}
+    sx={{
+      color: 'white',
+      fontWeight: 'bold',
+      fontSize: '1.2rem',
+    }}
+  >
+   0.00 USDT
+  </Typography>
+</Box>
+
+            
+            </Box>
+            <Box ml={2} p={-1} width="35%" display="flex" justifyContent="center" alignItems="center">
+              <Box
+                component="img"
+                src={money}
+                alt="Logo"
+                sx={{
+                  height: '100px',
+                  borderRadius: '12px',
+                }}
+              />
+            </Box>
+          </Card>
+          
+        </Box>
+
+          {/* Kart: Total Balance ve Buton */}
+<Box  m={-1} display="flex" justifyContent="center" mt={2} width={"105%"}>
+  <Card
+          onClick={() => navigate('/vite-react-router/task')} // Tıklanma olayında yönlendirme
+    sx={{
+      width: '100%',
+      backgroundColor: '#2c3e50',
+      boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+      borderRadius: 2,
+    }}
+  >
+    <CardContent>
+      {/* Total Balance */}
+      <Box display="flex" flexDirection="column" alignItems="flex-start" mb={-1}>
 
         <Typography
-          variant="body2"
-          color="black"
           sx={{
-            fontFamily: "Montserrat, sans-serif",
+            color: 'white',
+            fontWeight: 'bold',
+            fontSize: '1.2rem',
+            textAlign: 'left', // Sola hizalama
           }}
         >
-          Total earned amount
+          Complete tasks and get
         </Typography>
         <Typography
-          variant="body2"
-          color="black"
           sx={{
-            fontFamily: "Montserrat, sans-serif",
-            fontWeight: "light",
+            color: 'white',
+            fontWeight: 'bold',
+            fontSize: '1.2rem',
+            textAlign: 'left', // Sola hizalama
           }}
         >
-          $2000 USDT
+         up to $2,290
         </Typography>
+        
+       
+      </Box>
+      <Box mt={2}>
+
+      <ProgressStepper steps={steps} activeSteps={activeSteps} />   
+        {/* Alt Bilgi */}
+        <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
+        <Typography
+          sx={{
+            color: '#909eae',
+            fontWeight: 'bold',
+            fontSize: '0.8rem',
+            textAlign: 'left', // Sola hizalama
+          }}
+        >
+          4/10 tasks completed
+        </Typography>
+
+        {/* Sağdaki Kutu */}
+        <Box
+        mt={0}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 0.5, // İkon ve yazı arası boşluk
+            backgroundColor: '#00b894',
+            borderRadius: 3,
+            boxShadow:4,
+           
+            px: 1, // Yatay iç boşluk
+            py: 0.5, // Dikey iç boşluk
+          }}
+        >
+          <VerifiedIcon
+            sx={{
+              color: 'gold', // İkon rengi (yeşil)
+              fontSize: '1rem',
+            }}
+          />
+          <Typography
+            sx={{
+              color: '#fff', // Yazı rengi (beyaz)
+              fontSize: '0.8rem',
+              fontWeight: 'bold',
+            }}
+          >
+            Pro
+          </Typography>
+        </Box>
+      </Box>  
+      </Box>
+    
+    </CardContent>
+  </Card>
+</Box>
+
+     
       </Box>
 
       {/* Performance Section */}

@@ -20,7 +20,7 @@ import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
-import money from '../assets/money.png';
+import money from './extras/money.png';
 
 type TableRowData = {
   assetLogo: string; // Tek logo veya çift için ilk logo

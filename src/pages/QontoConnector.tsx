@@ -25,10 +25,7 @@ const ProgressStepper: React.FC<ProgressStepperProps> = ({ steps, activeSteps })
           },
         }}
       />
-      <Typography sx={{ mb: -1, fontSize: 14, color: 'white' }}>
-        Progress: {progress}%
-      </Typography>
-
+    
       {/* Step Labels with Dividers */}
       <Box
         sx={{
