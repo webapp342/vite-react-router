@@ -2,9 +2,11 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box, Typography, Paper, Slider, TextField, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+
 
 const Calculator: React.FC = () => {
-  const [sliderValue, setSliderValue] = useState<number>(1000); // Varsayılan başlangıç değeri
+  const [sliderValue, setSliderValue] = useState<number>(10000); // Varsayılan başlangıç değeri
   const [results, setResults] = useState<
     { asset: string; earnings: string; profitOnly: string }[]
   >([]);
@@ -124,30 +126,41 @@ const Calculator: React.FC = () => {
               </Typography>
             </Box>
             <TextField
-              value={`${formatNumber(sliderValue)} USDT`}
-              fullWidth
-              variant="outlined"
-              size="medium"
-              sx={{
-                backgroundColor: "#1e2a3a",
-                borderRadius: "20px",
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "10px",
-                  "& fieldset": {
-                    borderWidth: "0px",
-                    color: "white",
-                  },
-                },
-                "& .MuiInputBase-root": {
-                  color: "white",
-                  fontFamily: "Montserrat, sans-serif",
-                  fontSize: "1.5rem",
-                },
-              }}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
+      value={`${formatNumber(sliderValue)} USDT`}
+      fullWidth
+      variant="outlined"
+      size="medium"
+      sx={{
+        backgroundColor: "#1e2a3a",
+        borderRadius: "20px",
+        "& .MuiOutlinedInput-root": {
+          borderRadius: "5px",
+          color: "none",
+          border: 0,
+          "& fieldset": {
+            borderWidth: "0px",
+            color: "white",
+            border: 0,
+          },
+          "&:hover fieldset": {
+            borderWidth: "2px", // Hover durumunda kenarlık ekler
+            borderColor: "transparent", // Hover kenarlık rengi
+          },
+          "&.Mui-focused fieldset": {
+            borderColor: "transparent", // Hover kenarlık rengi
+            borderWidth: "2px", // Focus durumunda kenarlık kalınlığı
+          },
+        },
+        "& .MuiInputBase-root": {
+          color: "white",
+          fontFamily: "Montserrat, sans-serif",
+          fontSize: "1.5rem",
+        },
+      }}
+      InputProps={{
+        readOnly: true, // Kullanıcı düzenleyemez
+      }}
+    />
           </Box>
 
           <Box borderRadius={3}>
@@ -205,31 +218,32 @@ const Calculator: React.FC = () => {
               Asset
             </Typography>
             <Typography color={"black"}>Daily Earn</Typography>
-            <Typography color={"black"}>Yield</Typography>
+            <Typography ml={-5} mr={5} color={"black"}>Yield</Typography>
           </Box>
 
           {results.map((row, index) => (
             <Item key={index}>
-              <Box display="flex" flexDirection="row" alignItems="center" gap={2}>
+              <Box minWidth={100}  m={-1} p={0} display="flex"  alignItems="center" gap={1}>
                 <img
                   src={assetLogos[row.asset]}
                   alt={row.asset}
-                  style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+                  style={{ width: "25px", height: "25px", borderRadius: "50%" }}
                 />
                 <Typography
                   variant="subtitle1"
                   fontWeight="bold"
+                 
                   color={"black"}
                 >
                   {row.asset}
                 </Typography>
               </Box>
-              <Box>
-                <Typography variant="body2" color={"text.secondary"}>
+              <Box  alignItems="center">
+                <Typography ml={-2} variant="body2" color={"text.secondary"}>
                   {row.profitOnly}
                 </Typography>
               </Box>
-              <Box display="flex" alignItems="center" gap={2}>
+              <Box display="flex" alignItems="center" gap={1}>
                 <Typography
                   variant="body2"
                   fontWeight="bold"
@@ -238,6 +252,8 @@ const Calculator: React.FC = () => {
                 >
                   {fixedPercentages[row.asset as keyof typeof fixedPercentages]}
                 </Typography>
+                <ArrowForwardIosIcon color="action" fontSize="small" />
+
               </Box>
             </Item>
           ))}

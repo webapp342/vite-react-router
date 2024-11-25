@@ -151,6 +151,7 @@ const PointsManager: React.FC = () => {
 
         {/* Sağdaki Kutu */}
         <Box
+        mt={0}
           sx={{
             display: 'flex',
             alignItems: 'center',
@@ -158,10 +159,9 @@ const PointsManager: React.FC = () => {
             backgroundColor: '#00b894',
             borderRadius: 3,
             boxShadow:4,
-
+           
             px: 1, // Yatay iç boşluk
             py: 0.5, // Dikey iç boşluk
-            ml: 2, // Yazıyla kutu arasında mesafe
           }}
         >
           <VerifiedIcon

@@ -39,12 +39,13 @@ export default function BasicStack() {
     <Box
       mt={2}
       mb={3}
-      sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+      sx={{  display: 'flex', justifyContent: 'center' }}
     >
       
       <Stack spacing={1} sx={{ width: '100%', alignItems: 'center' }}>
         <Box
           mt={2}
+       
           display="flex"
           justifyContent="space-between"
           alignItems="center"
@@ -58,7 +59,7 @@ export default function BasicStack() {
               fontSize: '1rem',
             }}
           >
-            Today's Performance
+            Invest
           </Typography>
           <Typography
             color="primary"
@@ -78,17 +79,17 @@ export default function BasicStack() {
         </Box>
 
         {data.map((item, index) => (
-          <Item key={`${item.symbol}-${index}`}>
+          <Item sx={{p:1,width:"92%"}} key={`${item.symbol}-${index}`}>
             {/* Sol: Logo ve metinler */}
-            <Box display="flex" alignItems="center" gap={2}>
+            <Box display="flex" alignItems="center" gap={1}>
               <img
                 src={item.logo}
                 alt={item.symbol}
-                style={{  borderRadius: '50%' }}
-              />
+                style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+                />
               <Box>
-                <Typography
-                  variant="subtitle1"
+                <Typography mb={-0.5}
+                  variant="subtitle2"
                   fontWeight="bold"
                   color={'black'}
                   sx={{
@@ -97,8 +98,8 @@ export default function BasicStack() {
                 >
                   {item.symbol}
                 </Typography>
-                <Typography
-                  variant="body2"
+                <Typography mb={-0.5}
+                  variant="subtitle2"
                   color={'green'}
                   sx={{
                     fontFamily: 'Montserrat, sans-serif',
@@ -106,7 +107,7 @@ export default function BasicStack() {
                 >
                   {item.value} 
                 </Typography>
-                <Typography
+                <Typography mb={-0.5}
                   variant="caption"
                   color="text.secondary"
                   sx={{
@@ -132,8 +133,8 @@ export default function BasicStack() {
                 }}
               >
                 <Typography
-                  variant="body2"
-                  fontWeight="bold"
+                  variant="subtitle2"
+                  fontWeight="light"
                   color="primary"
                   sx={{
                     fontFamily: 'Montserrat, sans-serif',
