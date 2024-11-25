@@ -109,8 +109,21 @@ const TopInvestors: React.FC = () => {
     '',
     '',
   ];
-  const activeSteps = [0,1, 2, 3]; // Only these steps will be active
+  const activeSteps: number[] = []; // Hiçbir adım aktif değil
 
+  const steps2 = [
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+  ];
+  const activeSteps2: number[] = []; // Hiçbir adım aktif değil
   return (
     <ThemeProvider theme={theme}>
 
@@ -222,7 +235,7 @@ Your rewards  </Typography>
           sx={{
             color: 'black',
             fontWeight: 'bold',
-            fontSize: '1.2rem',
+            fontSize: '1rem',
             textAlign: 'left', // Sola hizalama
           }}
         >
@@ -232,7 +245,7 @@ Your rewards  </Typography>
           sx={{
             color: 'black',
             fontWeight: 'bold',
-            fontSize: '1.2rem',
+            fontSize: '1rem',
             textAlign: 'left', // Sola hizalama
           }}
         >
@@ -254,7 +267,7 @@ Your rewards  </Typography>
             textAlign: 'left', // Sola hizalama
           }}
         >
-          4/10 tasks completed
+          0 / 10 tasks completed
         </Typography>
 
         {/* Sağdaki Kutu */}
@@ -295,6 +308,243 @@ Your rewards  </Typography>
   </Card>
 </Box>
 
+ {/* Kart: Total Balance ve Buton */}
+ <Box  m={-1} display="flex" justifyContent="center" mt={2} width={"105%"}>
+   <Card
+  onClick={() => navigate('/vite-react-router/task')} // Tıklanma olayında yönlendirme
+  sx={{
+    width: '100%',
+    backgroundImage: 'linear-gradient(211deg, #00b894 0%, #f9f9f9 51%)',
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+    borderRadius: 2,
+  }}
+>
+    <CardContent>
+      {/* Total Balance */}
+      <Box p={0} display="flex" flexDirection="column" alignItems="flex-start" mb={-1}>
+
+        <Typography
+          sx={{
+            color: '#00b894',
+            fontWeight: 'bold',
+            fontSize: '1.5rem',
+            textAlign: 'left', // Sola hizalama
+          }}
+        >
+          +$10
+        </Typography>
+        <Typography mt={1}
+          sx={{
+            color: 'black',
+            fontSize: '1rem',
+            textAlign: 'left', // Sola hizalama
+          }}
+        >
+Deposit at least $50 in any supported coin or currency to your wallet       </Typography>
+        
+       
+      </Box>
+      <Box  mt={2}>
+
+      <ProgressStepper steps={steps2} activeSteps={activeSteps2} />   
+        {/* Alt Bilgi */}
+        <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
+        <Typography
+          sx={{
+            color: '#909eae',
+            fontWeight: 'bold',
+            fontSize: '0.8rem',
+            textAlign: 'left', // Sola hizalama
+          }}
+        >
+          $0 / $50
+        </Typography>
+
+        {/* Sağdaki Kutu */}
+        <Box
+            component="button"
+            sx={{
+              backgroundColor: '#00b894',
+              color: 'white',
+              fontSize: '0.9rem',
+              fontWeight: 'bold',
+              border: 'none',
+              borderRadius: 2,
+              px: 2,
+              py: 0.5,
+              cursor: 'pointer',
+              '&:hover': {
+                backgroundColor: '#009974',
+              },
+            }}
+            onClick={(e) => {
+              e.stopPropagation(); // Kartın yönlendirme olayını engellemek için
+              console.log('Trade button clicked!');
+            }}
+          >
+            Deposit
+          </Box>
+      </Box>  
+      </Box>
+    
+    </CardContent>
+  </Card>
+</Box>
+
+ {/* Kart: Total Balance ve Buton */}
+<Box m={-1} display="flex" justifyContent="center" mt={2} width={"105%"}>
+  <Card
+    onClick={() => navigate('/vite-react-router/task')} // Tıklanma olayında yönlendirme
+    sx={{
+      width: '100%',
+      backgroundImage: 'linear-gradient(211deg, #00b894 0%, #f9f9f9 51%)',
+      boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+      borderRadius: 2,
+    }}
+  >
+    <CardContent>
+      {/* Total Balance */}
+      <Box p={0} display="flex" flexDirection="column" alignItems="flex-start" mb={-1}>
+        <Typography
+          sx={{
+            color: '#00b894',
+            fontWeight: 'bold',
+            fontSize: '1.5rem',
+            textAlign: 'left', // Sola hizalama
+          }}
+        >
+          +$20
+        </Typography>
+        {/* Yazı ve Buton Satırı */}
+        <Box 
+          mt={1} 
+          display="flex" 
+          alignItems="center" 
+          justifyContent="space-between" 
+          width="100%"
+        >
+          <Typography
+            sx={{
+              color: 'black',
+              fontSize: '1rem',
+              textAlign: 'left', // Sola hizalama
+            }}
+          >
+            Make a First Trade
+          </Typography>
+          {/* Buton */}
+          <Box
+            component="button"
+            sx={{
+              backgroundColor: '#00b894',
+              color: 'white',
+              fontSize: '0.9rem',
+              fontWeight: 'bold',
+              border: 'none',
+              borderRadius: 2,
+              px: 2,
+              py: 0.5,
+              cursor: 'pointer',
+              '&:hover': {
+                backgroundColor: '#009974',
+              },
+            }}
+            onClick={(e) => {
+              e.stopPropagation(); // Kartın yönlendirme olayını engellemek için
+              console.log('Trade button clicked!');
+            }}
+          >
+            Trade
+          </Box>
+        </Box>
+      </Box>
+    </CardContent>
+  </Card>
+</Box>
+
+    {/* Kart: Total Balance ve Buton */}
+    <Box  m={-1} display="flex" justifyContent="center" mt={2} width={"105%"}>
+   <Card
+  onClick={() => navigate('/vite-react-router/task')} // Tıklanma olayında yönlendirme
+  sx={{
+    width: '100%',
+    backgroundImage: 'linear-gradient(211deg, #00b894 0%, #f9f9f9 51%)',
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+    borderRadius: 2,
+  }}
+>
+    <CardContent>
+      {/* Total Balance */}
+      <Box p={0} display="flex" flexDirection="column" alignItems="flex-start" mb={-1}>
+
+        <Typography
+          sx={{
+            color: '#00b894',
+            fontWeight: 'bold',
+            fontSize: '1.5rem',
+            textAlign: 'left', // Sola hizalama
+          }}
+        >
+          +$100
+        </Typography>
+        <Typography mt={1}
+          sx={{
+            color: 'black',
+            fontSize: '1rem',
+            textAlign: 'left', // Sola hizalama
+          }}
+        >
+Trade up to $10,000        </Typography>
+        
+       
+      </Box>
+      <Box  mt={2}>
+
+      <ProgressStepper steps={steps2} activeSteps={activeSteps2} />   
+        {/* Alt Bilgi */}
+        <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
+        <Typography
+          sx={{
+            color: '#909eae',
+            fontWeight: 'bold',
+            fontSize: '0.8rem',
+            textAlign: 'left', // Sola hizalama
+          }}
+        >
+          $0 / $10,000
+        </Typography>
+
+      {/* Buton */}
+      <Box
+            component="button"
+            sx={{
+              backgroundColor: '#00b894',
+              color: 'white',
+              fontSize: '0.9rem',
+              fontWeight: 'bold',
+              border: 'none',
+              borderRadius: 2,
+              px: 2,
+              py: 0.5,
+              cursor: 'pointer',
+              '&:hover': {
+                backgroundColor: '#009974',
+              },
+            }}
+            onClick={(e) => {
+              e.stopPropagation(); // Kartın yönlendirme olayını engellemek için
+              console.log('Trade button clicked!');
+            }}
+          >
+            Trade
+          </Box>
+      </Box>  
+      </Box>
+    
+    </CardContent>
+  </Card>
+</Box>
+
      
       </Box>
 
@@ -311,7 +561,7 @@ Your rewards  </Typography>
               sx={{
                 width: "100%",
                 padding: 1,
-                backgroundColor: "#f9f9f9",
+                backgroundImage: 'linear-gradient(135deg, #00b894 0%, #f9f9f9 44%)',
                 borderRadius: 2,
                 boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
               }}
@@ -374,9 +624,18 @@ Your rewards  </Typography>
                   size="small"
                   href={item.earnLink}
                   sx={{
-                    bgcolor: "black",
-                    textTransform: "none",
-                    fontFamily: "Montserrat, sans-serif",
+                    backgroundColor: '#00b894',
+                    color: 'white',
+                    fontSize: '0.6rem',
+                    fontWeight: 'bold',
+                    border: 'none',
+                    borderRadius: 2,
+                    px: 1,
+                    py: 0.5,
+                    cursor: 'pointer',
+                    '&:hover': {
+                      backgroundColor: '#009974',
+                    },
                   }}
                 >
                   {item.earn}
@@ -385,6 +644,94 @@ Your rewards  </Typography>
             </Box>
           ))}
         </Stack>
+
+
+          {/* Kart: Total Balance ve Buton */}
+   <Box  m={-1} display="flex" justifyContent="center" mt={2} width={"105%"}>
+   <Card
+  onClick={() => navigate('/vite-react-router/task')} // Tıklanma olayında yönlendirme
+  sx={{
+    width: '100%',
+    backgroundImage: 'linear-gradient(211deg, #00b894 0%, #f9f9f9 51%)',
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+    borderRadius: 2,
+  }}
+>
+    <CardContent>
+      {/* Total Balance */}
+      <Box p={0} display="flex" flexDirection="column" alignItems="flex-start" mb={-1}>
+
+        <Typography
+          sx={{
+            color: '#00b894',
+            fontWeight: 'bold',
+            fontSize: '1.5rem',
+            textAlign: 'left', // Sola hizalama
+          }}
+        >
+          +$500
+        </Typography>
+        <Typography mt={1}
+          sx={{
+            color: 'black',
+            fontSize: '1rem',
+            textAlign: 'left', // Sola hizalama
+          }}
+        >
+Deposit a total amount of $1,000        </Typography>
+        
+       
+      </Box>
+      <Box  mt={2}>
+
+      <ProgressStepper steps={steps2} activeSteps={activeSteps2} />   
+        {/* Alt Bilgi */}
+        <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
+        <Typography
+          sx={{
+            color: '#909eae',
+            fontWeight: 'bold',
+            fontSize: '0.8rem',
+            textAlign: 'left', // Sola hizalama
+          }}
+        >
+          $0 / $1,000
+        </Typography>
+
+        {/* Sağdaki Kutu */}
+        <Box
+        mt={0}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 0.5, // İkon ve yazı arası boşluk
+            backgroundColor: '#00b894',
+            borderRadius: 3,
+            boxShadow:4,
+           
+            px: 1, // Yatay iç boşluk
+            py: 0.5, // Dikey iç boşluk
+          }}
+        >
+        
+          <Typography
+            sx={{
+              color: '#fff', // Yazı rengi (beyaz)
+              fontSize: '0.8rem',
+              fontWeight: 'bold',
+            }}
+          >
+            Deposit
+          </Typography>
+        </Box>
+      </Box>  
+      </Box>
+    
+    </CardContent>
+  </Card>
+</Box>
+
+
       </Box>
     </Box>
     </ThemeProvider>

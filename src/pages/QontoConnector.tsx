@@ -8,7 +8,8 @@ interface ProgressStepperProps {
 }
 
 const ProgressStepper: React.FC<ProgressStepperProps> = ({ steps, activeSteps }) => {
-  const progress = ((activeSteps.length / steps.length) * 100).toFixed(0); // Calculate percentage
+  // Eğer activeSteps boşsa ve ilerleme olmamalıysa yüzdeyi sıfır olarak ayarlıyoruz.
+  const progress = steps.length === 0 ? 0 : ((activeSteps.length / steps.length) * 100).toFixed(0);
 
   return (
     <Box sx={{ width: '100%', textAlign: 'center', mt: 4 }}>
@@ -21,10 +22,21 @@ const ProgressStepper: React.FC<ProgressStepperProps> = ({ steps, activeSteps })
           borderRadius: 5,
           mb: 1,
           '& .MuiLinearProgress-bar': {
-            backgroundColor: '#00b894',
+            backgroundColor: Number(progress) === 0 ? '#e0e0e0' : '#00b894',
           },
         }}
       />
+    
+      {/* Progress Percentage (Optional) */}
+      <Typography
+        sx={{
+          fontSize: 12,
+          color: Number(progress) === 0 ? '#bdbdbd' : '#00b894',
+          mt: 1,
+        }}
+      >
+        {Number(progress) === 0 ? 'No progress yet' : `${progress}% Completed`}
+      </Typography>
     
       {/* Step Labels with Dividers */}
       <Box
