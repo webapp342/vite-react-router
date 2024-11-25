@@ -63,12 +63,12 @@ const SavingAccount: React.FC<SavingAccountProps> = ({ data }) => {
           alignItems= "center"
           display="flex">
 
-<PersonOutlinedIcon  sx={{ fontSize: '2rem', color: 'black'  }} />
+<PersonOutlinedIcon  sx={{ fontSize: '1.6rem', color: 'black'  }} />
 
 
             <Typography   
             sx={{
-              fontSize: '1.5rem',
+              fontSize: '1.3rem',
               fontWeight: 'bold',
               
               background: 'linear-gradient(90deg, #031340, #08AEEA)',
@@ -81,7 +81,7 @@ const SavingAccount: React.FC<SavingAccountProps> = ({ data }) => {
 
   
 
-           <AdminPanelSettingsOutlinedIcon    sx={{ fontSize: '2rem', color: 'black' }} />
+           <AdminPanelSettingsOutlinedIcon    sx={{ fontSize: '1.6rem', color: 'black' }} />
 
       
 

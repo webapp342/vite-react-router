@@ -58,12 +58,12 @@ const TradingViewWidgetVertical: React.FC = () => {
           alignItems= "center"
           display="flex">
 
-<PersonOutlinedIcon  sx={{ fontSize: '2rem', color: 'black'  }} />
+<PersonOutlinedIcon  sx={{ fontSize: '1.6rem', color: 'black'  }} />
 
 
             <Typography   
             sx={{
-              fontSize: '1.5rem',
+              fontSize: '1.3rem',
               fontWeight: 'bold',
               fontFamily: 'Montserrat, sans-serif',
 
@@ -76,7 +76,7 @@ const TradingViewWidgetVertical: React.FC = () => {
 
   
 
-           <AdminPanelSettingsOutlinedIcon    sx={{ fontSize: '2rem', color: 'black' }} />
+           <AdminPanelSettingsOutlinedIcon    sx={{ fontSize: '1.6rem', color: 'black' }} />
 
       
 

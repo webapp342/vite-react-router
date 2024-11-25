@@ -98,7 +98,7 @@ const Calculator: React.FC = () => {
       <Typography
   textAlign="center"
   color={'black'}
-  variant="h5"
+  variant="h6"
   gutterBottom
 >
   Put your{' '}
@@ -111,7 +111,25 @@ const Calculator: React.FC = () => {
   >
     liquidity
   </span>{' '}
-  at work
+  at work 
+</Typography>
+<Typography
+  textAlign="center"
+  color={'black'}
+  variant="h6"
+  gutterBottom
+>
+& Make {' '}
+  <span
+    style={{
+      background: 'linear-gradient(90deg, #031340, #08AEEA)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+    }}
+  >
+    Passive
+  </span>{' '}
+  Income
 </Typography>
 
 
