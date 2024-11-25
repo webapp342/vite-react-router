@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom"; // react-router-dom kullanarak y
 import money from '../extras/money.png';
 import ProgressStepper from '../QontoConnector';
 import VerifiedIcon from '@mui/icons-material/Verified';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
 
 
 
@@ -86,7 +88,11 @@ const data = [
 ];
 const TopInvestors: React.FC = () => {
   const navigate = useNavigate(); // useNavigate hook'u
-
+  const theme = createTheme({
+    typography: {
+      fontFamily: "Montserrat, sans-serif",
+    },
+  });
   const handleGoBack = () => {
     navigate("/vite-react-router/"); // Geri butonuna tıklandığında bu path'e yönlendir
   };
@@ -106,6 +112,8 @@ const TopInvestors: React.FC = () => {
   const activeSteps = [0,1, 2, 3]; // Only these steps will be active
 
   return (
+    <ThemeProvider theme={theme}>
+
     <Box
       sx={{
         padding: 2,
@@ -137,11 +145,11 @@ const TopInvestors: React.FC = () => {
       <Box textAlign="center" mb={2}>
         
           {/* Kart Alanı */}
-          <Box m={-1} mt={4} display="flex" justifyContent="center">
+          <Box m={-1} mt={2} display="flex" justifyContent="center">
           <Card
             sx={{
               borderRadius: 3,
-              backgroundColor: '#1e2a3a',
+              backgroundColor: '#f9f9f9',
               display: 'flex',
               padding: 1,
               width: "100%",
@@ -169,7 +177,7 @@ Your rewards  </Typography>
   <Typography
     mt={1}
     sx={{
-      color: 'white',
+      color: 'black',
       fontWeight: 'bold',
       fontSize: '1.2rem',
     }}
@@ -201,7 +209,7 @@ Your rewards  </Typography>
           onClick={() => navigate('/vite-react-router/task')} // Tıklanma olayında yönlendirme
     sx={{
       width: '100%',
-      backgroundColor: '#2c3e50',
+      backgroundColor: '#f9f9f9',
       boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
       borderRadius: 2,
     }}
@@ -212,7 +220,7 @@ Your rewards  </Typography>
 
         <Typography
           sx={{
-            color: 'white',
+            color: 'black',
             fontWeight: 'bold',
             fontSize: '1.2rem',
             textAlign: 'left', // Sola hizalama
@@ -222,7 +230,7 @@ Your rewards  </Typography>
         </Typography>
         <Typography
           sx={{
-            color: 'white',
+            color: 'black',
             fontWeight: 'bold',
             fontSize: '1.2rem',
             textAlign: 'left', // Sola hizalama
@@ -379,6 +387,8 @@ Your rewards  </Typography>
         </Stack>
       </Box>
     </Box>
+    </ThemeProvider>
+
   );
 };
 
